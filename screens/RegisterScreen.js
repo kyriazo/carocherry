@@ -13,17 +13,13 @@ export default class RegisterScreen extends React.Component {
 
     handleSignUp = () => {
 
-        if (this.state.name === "") {
-            this.setState({errorMessage: 'Full name is required'})
-            return;
-        }
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(userCredentials => {
             })
             .catch(error => {
-                
+                console.log(error.code);
                 switch (error.code) {
                     case 'auth/invalid-email':
                         this.setState({ errorMessage: 'Please enter a valid email.' });
