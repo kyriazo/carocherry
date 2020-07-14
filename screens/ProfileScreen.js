@@ -5,16 +5,6 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as firebase from "firebase";
-import { YellowBox } from 'react-native';
-import _ from 'lodash';
-
-YellowBox.ignoreWarnings(['Setting a timer']);
-const _console = _.clone(console);
-console.warn = message => {
-  if (message.indexOf('Setting a timer') <= -1) {
-    _console.warn(message);
-  }
-};
 
 export default class ProfileScreen extends React.Component {
 
@@ -23,7 +13,7 @@ export default class ProfileScreen extends React.Component {
         this.state = {
             name: '',
             lastName: '',
-            image: '../assets/default-user.jpg',
+            image: 'default',
             birthYear: null,
             miniBio: '',
         };
@@ -52,14 +42,30 @@ export default class ProfileScreen extends React.Component {
     databaseHandler = () => {
         const { currentUser } = firebase.auth();
         firebase.database().ref(`/users/${currentUser.uid}`)
-        .set(this.state);
+            .set(this.state);
+    }
+    fetchHandler = () => {
+        const { currentUser } = firebase.auth();
+        firebase.database().ref(`/users/${currentUser.uid}`)
+            .on('value', (snapshot) => {
+                snapshot.
+                return;
+            });
+    }
+    uploadImage = async (uri) => {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const { currentUser } = firebase.auth();
+        var ref = firebase.storage().ref().child("image/" + currentUser.uid);
+        return ref.put(blob);
     }
 
     render() {
+     
         return (
             <ScrollView>
-            <View style={{ flex: 1 }}>
-               
+                <View style={{ flex: 1 }}>
+
                     <View style={styles.upperView}>
 
                         <TouchableOpacity onPress={this._pickImage}>
@@ -73,44 +79,48 @@ export default class ProfileScreen extends React.Component {
                             </View>
                         </TouchableOpacity>
                     </View>
-            
 
-                <View style={styles.lowerView}>
 
-                    <ProfileInput value={this.state.name} title='First Name' inputType='default' onUpdate={this.nameHandler} />
-                    <ProfileInput value={this.state.lastName} title='Last Name' inputType='default' onUpdate={this.lastNameHandler} />
-                    <ProfileInput value={this.state.birthYear} title='Year of birth' inputType='numeric' onUpdate={this.bYearHandler} />
-                    <ProfileInput value={this.state.miniBio} title='Mini bio' inputType='default' onUpdate={this.miniBioHandler} />
+                    <View style={styles.lowerView}>
 
-                    <View style={{ padding: 30 }}>
-                        <TouchableOpacity style={styles.button} onPress={this.databaseHandler}>
-                            <Text style={{ color: "#FFF", fontWeight: "500" }}>Save Profile</Text>
-                        </TouchableOpacity>
+                        <ProfileInput value={this.state.name} title='First Name' inputType='default' onUpdate={this.nameHandler} />
+                        <ProfileInput value={this.state.lastName} title='Last Name' inputType='default' onUpdate={this.lastNameHandler} />
+                        <ProfileInput value={this.state.birthYear} title='Year of birth' inputType='numeric' onUpdate={this.bYearHandler} />
+                        <ProfileInput value={this.state.miniBio} title='Mini bio' inputType='default' onUpdate={this.miniBioHandler} />
+
+                        <View style={{ padding: 30 }}>
+                            <TouchableOpacity style={styles.button} onPress={this.databaseHandler}>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Save Profile</Text>
+                            </TouchableOpacity>
+                        </View>
+                          
                     </View>
 
                 </View>
-
-            </View>
             </ScrollView>
         );
     }
 
-    componentDidMount() {
+    async componentDidMount()  {
         this.getPermissionAsync();
         const { currentUser } = firebase.auth();
-            var state;
-            firebase.database()
-                    .ref((`/users/${currentUser.uid}`))
-                    .once('value')
-                    .then( (snapshot) => {
-              state = snapshot.val()
-              this.setState({
-                name: state.name,
-                lastName: state.lastName,
-                birthYear: state.birthYear,
-                miniBio: state.miniBio
-              })
-            })  
+        const ref = firebase.storage().ref("image/" + currentUser.uid);
+        const url = await ref.getDownloadURL();
+        var state;
+        firebase.database()
+            .ref((`/users/${currentUser.uid}`))
+            .once('value')
+            .then((snapshot) => {
+                state = snapshot.val()
+                this.setState({
+                    name: state.name,
+                    lastName: state.lastName,
+                    birthYear: state.birthYear,
+                    miniBio: state.miniBio,
+                    image: url
+                })
+
+            })
     }
 
     getPermissionAsync = async () => {
@@ -133,8 +143,7 @@ export default class ProfileScreen extends React.Component {
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
             }
-
-            console.log(result);
+            this.uploadImage(result.uri)
         } catch (E) {
             console.log(E);
         }

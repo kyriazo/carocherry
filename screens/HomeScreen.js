@@ -6,13 +6,23 @@ export default class HomeScreen extends React.Component {
 
     state = {
         email: "",
-        displayName: "",
+        name: "",
     };
 
     componentDidMount() {
-        const { email, displayName } = firebase.auth().currentUser;
-   
-        this.setState({ email, displayName});
+        const { email, name } = firebase.auth().currentUser;
+
+        const { currentUser } = firebase.auth();
+        var state;
+        firebase.database()
+            .ref((`/users/${currentUser.uid}`))
+            .once('value')
+            .then((snapshot) => {
+                state = snapshot.val()
+                this.setState({
+                    name: state.name,
+                })
+            })
     }
 
     signOutUser = () => {
@@ -20,20 +30,22 @@ export default class HomeScreen extends React.Component {
     }
 
     render() {
-      
+        console.ignoredYellowBox = [
+            'Setting a timer'
+        ]
         return (
 
             <View style={styles.container}>
-                <Text>Hi {this.state.email}</Text>
+                <Text>Hi {this.state.name}</Text>
                 <TouchableOpacity style={{ marginTop: 32 }} onPress={this.signOutUser}>
                     <Text>Logout</Text>
                 </TouchableOpacity>
 
-             
+
                 <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("Account")}>
-                        <Text style={{ color: "#FFF", fontWeight: "500" }}>Account</Text>
+                    <Text style={{ color: "#FFF", fontWeight: "500" }}>Account</Text>
                 </TouchableOpacity>
-              
+
             </View>
 
 
