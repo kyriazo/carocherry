@@ -173,12 +173,6 @@ const styles = StyleSheet.create({
         borderRadius: 120,
         alignSelf: 'center',
     },
-    textTitles: {
-        padding: 10,
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#7D0036'
-    },
     button: {
         marginHorizontal: 30,
         backgroundColor: "#E9446A",
