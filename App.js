@@ -7,6 +7,8 @@ import LoadingScreen from './screens/LoadingScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginSreen';
 import RegisterScreen from './screens/RegisterScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import AccountScreen from './screens/AccountScreen';
 import * as firebase from "firebase";
 
  // Your web app's Firebase configuration
@@ -22,10 +24,12 @@ import * as firebase from "firebase";
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+//firebase.analytics();
 
 const AppStack = createStackNavigator({
-  Home: HomeScreen
+  Home: HomeScreen,
+  Profile: ProfileScreen,
+  Account: AccountScreen,
 });
 
 const AuthStack = createStackNavigator({
