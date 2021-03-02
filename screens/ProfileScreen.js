@@ -14,7 +14,7 @@ export default class ProfileScreen extends React.Component {
             name: '',
             lastName: '',
             image: 'default',
-            birthYear: null,
+            birthYear: '',
             miniBio: '',
         };
     }
