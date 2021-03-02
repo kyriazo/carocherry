@@ -5,6 +5,7 @@ import ProfileScreen from './ProfileScreen';
 import CarScreen from './CarScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileInput from "../components/ProfileInput";
+import HomeScreen from "./HomeScreen";
 
 
 function HomeTabScreen({ navigation }) {
@@ -15,15 +16,13 @@ function HomeTabScreen({ navigation }) {
 
 function SettingsScreen({ navigation }) {
   return (
-    
      <CarScreen />
-  
   );
 }
 
 const Tab = createBottomTabNavigator();
 
-export default function AccountScreen() {
+export default function NavigationScreen() {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -44,6 +43,7 @@ export default function AccountScreen() {
           },
         })}
       >
+          <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Profile" component={HomeTabScreen} />
         <Tab.Screen name="Cars" component={SettingsScreen} />
       </Tab.Navigator>
