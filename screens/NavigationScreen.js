@@ -43,7 +43,7 @@ export default function NavigationScreen() {
           },
         })}
       >
-          <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Profile" component={HomeTabScreen} />
         <Tab.Screen name="Cars" component={SettingsScreen} />
       </Tab.Navigator>
