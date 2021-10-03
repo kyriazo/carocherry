@@ -19,83 +19,46 @@ import { FlatList, TapGestureHandler } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons'; 
 
 
-export default class ProfileScreen extends React.Component {
+export default class FindScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      make: "",
-      model: "",
-      color: "",
-      cars: [],
-      show: false,
+      rides:[]
     };
+    
   }
 
-  showModal = () => {
-    this.setState({ show: true });
-  };
-
-  hideModal = () => {
-    const { currentUser } = firebase.auth();
-    firebase.database().ref(`/users/${currentUser.uid}/cars`).push({
-      make: this.state.make,
-      model: this.state.model,
-      color: this.state.color,
-    });
-    this.setState({ show: false });
-  };
 
   consoleLog = () => {
     console.log(this.state);
   };
 
-  carDelete = (uid) => {
-    const { currentUser } = firebase.auth();
-    firebase.database().ref(`/users/${currentUser.uid}/cars/${uid}`).remove();
-  };
+
 
   render() {
     return (
       <View>
-        <Modal visible={this.state.show} animationType="slide">
-          <View>
-            <ProfileInput
-              title="Make"
-              inputType="default"
-              onUpdate={(make) => this.setState({ make })}
-            />
-            <ProfileInput
-              title="Model"
-              inputType="default"
-              onUpdate={(model) => this.setState({ model })}
-            />
-            <ProfileInput
-              title="Color"
-              inputType="default"
-              onUpdate={(color) => this.setState({ color })}
-            />
-            <TouchableOpacity style={styles.button} onPress={this.hideModal}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>Save</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
-        <TouchableOpacity style={styles.button} onPress={this.showModal}>
-          <Text style={{ color: "#FFF", fontWeight: "500" }}>Add a car</Text>
+ 
+        <TouchableOpacity style={styles.button} onPress={this.consoleLog}>
+          <Text style={{ color: "#FFF", fontWeight: "500" }}>Log</Text>
         </TouchableOpacity>
-    
+        
+
         <FlatList
-          data={this.state.cars}
+        
+          data={this.state.rides}
           renderItem={({ item }) => {
             return (
               <View style={styles.upperView}>
                 <Text style={styles.textTitles}>
-                  {item.make} {item.model} {item.color}
+                    {item.uid}
                 </Text>
                 <View  style={styles.textTitles}>
                   <TouchableOpacity
+                   
                     onPress={() => this.carDelete(item.uid)}
                   >
-                    <AntDesign name="delete" size={24} color="black" />
+                    <AntDesign name="doubleright" size={24} color="black" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -113,15 +76,16 @@ export default class ProfileScreen extends React.Component {
     var state;
     firebase
       .database()
-      .ref(`/users/${currentUser.uid}/cars`)
+      .ref(`/rides`)
       .once("value")
       .then((snapshot) => {
         state = snapshot.val();
-        const cars = _.map(state, (val, uid) => {
-          return { ...val, uid };
+        const rides = _.map(state, (val, key) => {
+          return { ...val, key};
         });
         this.setState({
-          cars: cars,
+          rides: rides,
+          key: key
         });
       });
   }
@@ -133,15 +97,16 @@ export default class ProfileScreen extends React.Component {
     var state;
     firebase
       .database()
-      .ref(`/users/${currentUser.uid}/cars`)
+      .ref(`/rides`)
       .once("value")
       .then((snapshot) => {
         state = snapshot.val();
-        const cars = _.map(state, (val, uid) => {
-          return { ...val, uid };
+        const rides = _.map(state, (val, key) => {
+          return { ...val, key};
         });
         this.setState({
-          cars: cars,
+          rides: rides,
+          key: key
         });
       });
   }

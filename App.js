@@ -8,6 +8,10 @@ import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginSreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import OfferScreen from './screens/OfferScreen';
+import RouteScreen from './screens/RouteScreen';
+import ConfirmScreen from './screens/ConfirmScreen';
+import FindScreen from './screens/FindScreen';
 import * as firebase from "firebase";
 import NavigationScreen from "./screens/NavigationScreen";
 
@@ -27,7 +31,11 @@ firebase.initializeApp(firebaseConfig);
 //firebase.analytics();
 
 const AppStack = createStackNavigator({
-    Navigation: NavigationScreen,
+  Navigation: NavigationScreen,
+  Route: RouteScreen,
+  Confirm: ConfirmScreen,
+  Find: FindScreen,
+  Offer: OfferScreen,
   Home: HomeScreen,
   Profile: ProfileScreen,
 });

@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfileScreen from './ProfileScreen';
 import CarScreen from './CarScreen';
+import OfferScreen from './OfferScreen';
+import FindScreen from './FindScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileInput from "../components/ProfileInput";
 import HomeScreen from "./HomeScreen";
@@ -19,10 +21,9 @@ function SettingsScreen({ navigation }) {
      <CarScreen />
   );
 }
-
 const Tab = createBottomTabNavigator();
 
-export default function NavigationScreen() {
+export default function NavigationScreen( {navigation}) {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -46,6 +47,8 @@ export default function NavigationScreen() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Profile" component={HomeTabScreen} />
         <Tab.Screen name="Cars" component={SettingsScreen} />
+        <Tab.Screen name="Offer" children={()=><OfferScreen navigation={navigation}/>}  />
+        <Tab.Screen name="Find" component={FindScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
