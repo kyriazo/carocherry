@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import PlaceRender from "../components/PlaceRender";
 //import Geolocation from 'react-native-community/geolocation';
 //navigator.geolocation = require('@react-native-community/geolocation');
 
@@ -46,8 +47,23 @@ consoleInfo = () => {
       <SafeAreaView>
         <View style={styles.container}>
           <GooglePlacesAutocomplete
+            suppressDefaultStyles
             styles={{
               textInput: styles.TextInput,
+              container: {
+                position: 'absolute',
+                top: 0,
+                left: 10,
+                right: 10,
+              },
+              listView: {
+                position: 'absolute',
+                top: 105,
+              },
+              separator: {
+                backgroundColor: 'grey',
+                height: 1
+              }
             }}
             placeholder='Where from?'
             onPress={(data, details = null) => {
@@ -60,10 +76,26 @@ consoleInfo = () => {
             key: 'AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0',
             language: 'en',
           }}
+          renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
         />
           <GooglePlacesAutocomplete
+            suppressDefaultStyles
             styles={{
               textInput: styles.TextInput,
+              container: {
+                position: 'absolute',
+                top: 50,
+                left: 10,
+                right: 10,
+              },
+              listView: {
+                position: 'absolute',
+                top: 105,
+              },
+              separator: {
+                backgroundColor: 'grey',
+                height: 1
+              }
             }}
             placeholder='Where to?'
             onPress={(data, details = null) => {
@@ -76,6 +108,7 @@ consoleInfo = () => {
             key: 'AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0',
             language: 'en',
           }}
+          renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
         />
         <TouchableOpacity style={styles.button} onPress={() => this.consoleInfo()}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>log</Text>
@@ -98,6 +131,8 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   button: {
+    position: 'absolute',
+    bottom: 50,
     marginHorizontal: 30,
     backgroundColor: "#E9446A",
     borderRadius: 4,

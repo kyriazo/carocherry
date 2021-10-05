@@ -10,14 +10,12 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import ProfileInput from "../components/ProfileInput";
-import * as ImagePicker from "expo-image-picker";
+import ProfileRender from "../components/ProfileRender";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
 import { FlatList, TapGestureHandler } from "react-native-gesture-handler";
-import { AntDesign } from '@expo/vector-icons'; 
-
+ 
 
 export default class FindScreen extends React.Component {
   constructor() {
@@ -28,13 +26,10 @@ export default class FindScreen extends React.Component {
     
   }
 
-
   consoleLog = () => {
     console.log(this.state);
   };
-
-
-
+  
   render() {
     return (
       <View>
@@ -49,18 +44,10 @@ export default class FindScreen extends React.Component {
           data={this.state.rides}
           renderItem={({ item }) => {
             return (
-              <View style={styles.upperView}>
-                <Text style={styles.textTitles}>
-                    {item.uid}
-                </Text>
-                <View  style={styles.textTitles}>
-                  <TouchableOpacity
-                   
-                    onPress={() => this.carDelete(item.uid)}
-                  >
-                    <AntDesign name="doubleright" size={24} color="black" />
-                  </TouchableOpacity>
-                </View>
+              <View>
+               
+               <ProfileRender value={item} />
+                    
               </View>
             );
           }}
@@ -80,12 +67,11 @@ export default class FindScreen extends React.Component {
       .once("value")
       .then((snapshot) => {
         state = snapshot.val();
-        const rides = _.map(state, (val, key) => {
-          return { ...val, key};
+        const rides = _.map(state, (val, ruid) => {
+          return { ...val, ruid};
         });
         this.setState({
           rides: rides,
-          key: key
         });
       });
   }
@@ -93,7 +79,6 @@ export default class FindScreen extends React.Component {
   async componentDidMount() {
     this.getPermissionAsync();
     const { currentUser } = firebase.auth();
-    const ref = firebase.storage().ref("image/" + currentUser.uid);
     var state;
     firebase
       .database()
@@ -101,12 +86,11 @@ export default class FindScreen extends React.Component {
       .once("value")
       .then((snapshot) => {
         state = snapshot.val();
-        const rides = _.map(state, (val, key) => {
-          return { ...val, key};
+        const rides = _.map(state, (val, ruid) => {
+          return { ...val, ruid};
         });
         this.setState({
           rides: rides,
-          key: key
         });
       });
   }
@@ -121,6 +105,7 @@ export default class FindScreen extends React.Component {
   };
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -130,8 +115,7 @@ const styles = StyleSheet.create({
   upperView: {
     flexDirection: "row",
     flex: 1,
-    height: 100,
-    width: 100,
+    fontSize: 5
   },
   button: {
     marginHorizontal: 30,
@@ -143,7 +127,7 @@ const styles = StyleSheet.create({
   },
   textTitles: {
     padding: 10,
-    fontSize: 18,
+    fontSize: 5,
     fontWeight: "bold",
     color: "#7D0036",
   },

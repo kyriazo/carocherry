@@ -1,26 +1,13 @@
 import _ from "lodash";
 import React from "react";
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
-  TextInput,
-  Modal,
-  ScrollView,
-  Image,
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Button,
 } from "react-native";
-import { withNavigation } from 'react-navigation';
-import ProfileInput from "../components/ProfileInput";
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
-import * as ImagePicker from "expo-image-picker";
-import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
-import * as firebase from "firebase";
-import { FlatList, TapGestureHandler } from "react-native-gesture-handler";
-import { AntDesign } from '@expo/vector-icons'; 
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapViewDirections from 'react-native-maps-directions';
 //import Geolocation from '@react-native-community/geolocation';
@@ -32,7 +19,9 @@ export default class RouteScreen extends React.Component {
     super(props);
     this.state = {
        origin: { latitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lat, longitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lng},
+       originName: this.props.navigation.state.params.state.originPlace.value.data.description,
        destination: { latitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lat, longitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lng},
+       destinationName: this.props.navigation.state.params.state.destinationPlace.value.data.description,
     };
 }
 

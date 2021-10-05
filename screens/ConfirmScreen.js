@@ -13,20 +13,24 @@ export default class ConfirmScreen extends React.Component {
         this.state = {
             destination: { latitude: this.props.navigation.state.params.state.destination.latitude, longitude: this.props.navigation.state.params.state.destination.longitude},
             origin: { latitude: this.props.navigation.state.params.state.origin.latitude, longitude: this.props.navigation.state.params.state.origin.longitude},
+            uid: ''
         };
     }
 
     consoleInfo = () => {
     
-        console.log(this.state);
+        console.log(this.props.navigation.state.params.state.destinationName);
         //console.log(this.props.navigation.state.params.state.destinationPlace.value.details);
     }
 
     uploadRoute = () => {
         const { currentUser } = firebase.auth();
-        firebase.database().ref(`/rides/${currentUser.uid}`).push({
+        firebase.database().ref(`/rides/`).push({
         destination: this.state.destination,
+        destinationName: this.props.navigation.state.params.state.destinationName,
         origin: this.state.origin,
+        originName: this.props.navigation.state.params.state.originName,
+        uid: currentUser.uid
     });
     }
 
