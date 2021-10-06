@@ -48,7 +48,7 @@ export default function NavigationScreen( {navigation}) {
         <Tab.Screen name="Profile" component={HomeTabScreen} />
         <Tab.Screen name="Cars" component={SettingsScreen} />
         <Tab.Screen name="Offer" children={()=><OfferScreen navigation={navigation}/>}  />
-        <Tab.Screen name="Find" component={FindScreen} />
+        <Tab.Screen name="Find" children={()=><FindScreen navigation={navigation}/>}  />
       </Tab.Navigator>
     </NavigationContainer>
   );

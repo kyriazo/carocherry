@@ -19,10 +19,13 @@ const ProfileRender = (props) => {
                 .then((snapshot) => {
                 state = snapshot.val();
                 setRenderInfo(state);
-                console.log(state);
+                console.log(props.value.destination);
+          
+         
+
             });
               }}>
-            <Text style={styles.textTitles}>This is a ride from {props.value.originName} to {props.value.destionationName} from user with name {renderInfo.name}</Text>
+            <Text style={styles.textTitles}>{props.value.originName} to {props.value.destinationName} from user with name {renderInfo.name}</Text>
 
             </TouchableOpacity>
 

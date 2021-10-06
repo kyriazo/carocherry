@@ -9,6 +9,7 @@ import OfferScreen from './screens/OfferScreen';
 import RouteScreen from './screens/RouteScreen';
 import ConfirmScreen from './screens/ConfirmScreen';
 import FindScreen from './screens/FindScreen';
+import ResultsScreen from './screens/ResultsScreen';
 import * as firebase from "firebase";
 import NavigationScreen from "./screens/NavigationScreen";
 
@@ -35,6 +36,7 @@ const AppStack = createStackNavigator({
   Offer: OfferScreen,
   Home: HomeScreen,
   Profile: ProfileScreen,
+  Results: ResultsScreen
 });
 
 const AuthStack = createStackNavigator({

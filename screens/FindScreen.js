@@ -1,123 +1,135 @@
 import _ from "lodash";
 import React from "react";
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
-  Modal,
-  ScrollView,
-  Image,
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  Button,
 } from "react-native";
-import ProfileRender from "../components/ProfileRender";
-import Constants from "expo-constants";
-import * as Permissions from "expo-permissions";
-import * as firebase from "firebase";
-import { FlatList, TapGestureHandler } from "react-native-gesture-handler";
- 
+import { SafeAreaView } from "react-native-safe-area-context";
+import PlaceRender from "../components/PlaceRender";
 
 export default class FindScreen extends React.Component {
-  constructor() {
-    super();
+
+  constructor(props) {
+    super(props);
     this.state = {
-      rides:[]
+        originPlace: '',
+        destinationPlace: '',
     };
-    
-  }
+}
 
-  consoleLog = () => {
+fromTextHandler = (fromText) => {
+  this.setState({
+      fromText: fromText
+  });
+}
+
+destinationTextHandler = (destinationText) => {
+  this.setState({
+      destinationText: destinationText
+  });
+}
+
+consoleInfo = () => {
+    console.log(this.props);
     console.log(this.state);
-  };
-  
-  render() {
-    return (
-      <View>
- 
-        <TouchableOpacity style={styles.button} onPress={this.consoleLog}>
-          <Text style={{ color: "#FFF", fontWeight: "500" }}>Log</Text>
-        </TouchableOpacity>
-        
-
-        <FlatList
-        
-          data={this.state.rides}
-          renderItem={({ item }) => {
-            return (
-              <View>
-               
-               <ProfileRender value={item} />
-                    
-              </View>
-            );
-          }}
-        />
-      </View>
-    );
-  }
-
-  async componentDidUpdate() {
-    this.getPermissionAsync();
-    const { currentUser } = firebase.auth();
-    const ref = firebase.storage().ref("image/" + currentUser.uid);
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
-      });
-  }
-
-  async componentDidMount() {
-    this.getPermissionAsync();
-    const { currentUser } = firebase.auth();
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
-      });
-  }
-
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-  };
 }
 
 
+  render() {
+    return (
+
+      <SafeAreaView>
+        <View style={styles.container}>
+          <GooglePlacesAutocomplete
+            suppressDefaultStyles
+            styles={{
+              textInput: styles.TextInput,
+              container: {
+                position: 'absolute',
+                top: 0,
+                left: 10,
+                right: 10,
+              },
+              listView: {
+                position: 'absolute',
+                top: 105,
+              },
+              separator: {
+                backgroundColor: 'grey',
+                height: 1
+              }
+            }}
+            placeholder='Where from?'
+            onPress={(data, details = null) => {
+              this.setState({
+              originPlace: { value: {data, details}}
+            });   
+          }}
+      fetchDetails
+            query={{
+            key: 'AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0',
+            language: 'en',
+          }}
+          renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
+        />
+          <GooglePlacesAutocomplete
+            suppressDefaultStyles
+            styles={{
+              textInput: styles.TextInput,
+              container: {
+                position: 'absolute',
+                top: 50,
+                left: 10,
+                right: 10,
+              },
+              listView: {
+                position: 'absolute',
+                top: 105,
+              },
+              separator: {
+                backgroundColor: 'grey',
+                height: 1
+              }
+            }}
+            placeholder='Where to?'
+            onPress={(data, details = null) => {
+              this.setState({
+              destinationPlace: { value: {data, details}}
+            });   
+          }}
+      fetchDetails
+            query={{
+            key: 'AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0',
+            language: 'en',
+          }}
+          renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
+        />
+        <TouchableOpacity style={styles.button} onPress={() => this.consoleInfo()}>
+              <Text style={{ color: "#FFF", fontWeight: "500" }}>log</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("Results", { state: this.state })}>
+              <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
+        </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    )
+  }
+
+}
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  upperView: {
-    flexDirection: "row",
-    flex: 1,
-    fontSize: 5
+    padding: 10,
+    backgroundColor: '#eee',
+    height: '100%'
   },
   button: {
+    position: 'absolute',
+    bottom: 50,
     marginHorizontal: 30,
     backgroundColor: "#E9446A",
     borderRadius: 4,
@@ -125,10 +137,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  textTitles: {
+  textInput: {
     padding: 10,
-    fontSize: 5,
-    fontWeight: "bold",
-    color: "#7D0036",
-  },
+    backgroundColor: '#eee',
+    marginVertical: 5,
+  }
 });
