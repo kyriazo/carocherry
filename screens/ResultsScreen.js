@@ -40,9 +40,8 @@ export default class ResultsScreen extends React.Component {
   render() {
     return (   
    
-        
         <View> 
-        <Text>Matched results</Text>
+        <Text style={styles.textTitles}>Matched results</Text>
         <FlatList
         
           data={this.state.rides}
@@ -148,8 +147,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textTitles: {
+    textAlign: 'center',
     padding: 10,
-    fontSize: 5,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#7D0036",
   },
