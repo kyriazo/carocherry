@@ -13,13 +13,14 @@ export default class ConfirmScreen extends React.Component {
         this.state = {
             destination: { latitude: this.props.navigation.state.params.state.destination.latitude, longitude: this.props.navigation.state.params.state.destination.longitude},
             origin: { latitude: this.props.navigation.state.params.state.origin.latitude, longitude: this.props.navigation.state.params.state.origin.longitude},
-            uid: ''
+            uid: '',
         };
     }
 
     consoleInfo = () => {
     
-        console.log(this.props.navigation.state.params.state.destinationName);
+        console.log(this.props.navigation.state.params.state.date);
+        //console.log(this.props);
         //console.log(this.props.navigation.state.params.state.destinationPlace.value.details);
     }
 
@@ -30,7 +31,8 @@ export default class ConfirmScreen extends React.Component {
         destinationName: this.props.navigation.state.params.state.destinationName,
         origin: this.state.origin,
         originName: this.props.navigation.state.params.state.originName,
-        uid: currentUser.uid
+        uid: currentUser.uid,
+        date: this.props.navigation.state.params.state.date.toISOString(),
     });
     }
 
@@ -49,7 +51,7 @@ export default class ConfirmScreen extends React.Component {
                    
                          <TouchableOpacity style={styles.button} onPress={() => this.consoleInfo()}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>LOG</Text>
-        </TouchableOpacity>
+                        </TouchableOpacity>
                 </View>
             </ScrollView>
         );

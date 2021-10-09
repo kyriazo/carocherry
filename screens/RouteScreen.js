@@ -22,6 +22,7 @@ export default class RouteScreen extends React.Component {
        originName: this.props.navigation.state.params.state.originPlace.value.data.description,
        destination: { latitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lat, longitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lng},
        destinationName: this.props.navigation.state.params.state.destinationPlace.value.data.description,
+       date: this.props.navigation.state.params.state.date
     };
 }
 

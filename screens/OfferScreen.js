@@ -2,6 +2,7 @@ import _ from "lodash";
 import React from "react";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
+  Button,
   View,
   Text,
   StyleSheet,
@@ -9,8 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PlaceRender from "../components/PlaceRender";
-//import Geolocation from 'react-native-community/geolocation';
-//navigator.geolocation = require('@react-native-community/geolocation');
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 export default class OfferScreen extends React.Component {
@@ -20,8 +20,36 @@ export default class OfferScreen extends React.Component {
     this.state = {
         originPlace: '',
         destinationPlace: '',
+        date: new Date(),
+        mode: 'date',
+        show: false
     };
 }
+
+onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  this.setState({
+    show: Platform.OS === 'ios',
+    date: currentDate
+});
+};
+
+showMode = (currentMode) => {
+  this.setState({
+    show: true
+});
+this.setState({
+  mode: currentMode
+});
+};
+
+showDatepicker = () => {
+  this.showMode('date');
+};
+
+showTimepicker = () => {
+  this.showMode('time');
+};
 
 fromTextHandler = (fromText) => {
   this.setState({
@@ -34,12 +62,6 @@ destinationTextHandler = (destinationText) => {
       destinationText: destinationText
   });
 }
-
-consoleInfo = () => {
-    console.log(this.props);
-    console.log(this.state);
-}
-
 
   render() {
     return (
@@ -110,15 +132,34 @@ consoleInfo = () => {
           }}
           renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
         />
-        <TouchableOpacity style={styles.button} onPress={() => this.consoleInfo()}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>log</Text>
-        </TouchableOpacity>
-
+          <View style={styles.dateContainer}>
+          <View>
+      <View>
+        <Button onPress={this.showDatepicker} title="Show date picker!" />
+      </View>
+      <View>
+        <Button onPress={this.showTimepicker} title="Show time picker!" />
+      </View>
+      {this.state.show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={this.state.date}
+          mode={this.state.mode}
+          is24Hour={true}
+          display="default"
+          onChange={this.onChange}
+        />
+      )}
+    </View>   
+         </View>
         <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("Route", { state: this.state })}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
         </TouchableOpacity>
         </View>
+   
       </SafeAreaView>
+
+         
     )
   }
 
@@ -129,6 +170,10 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#eee',
     height: '100%'
+  },
+  dateContainer: {
+    position: 'absolute',
+    top: 100
   },
   button: {
     position: 'absolute',

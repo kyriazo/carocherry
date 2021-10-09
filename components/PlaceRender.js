@@ -1,10 +1,9 @@
 import React from 'react';
 import { TextInput, View, Text, StyleSheet } from 'react-native';
 import { Foundation } from '@expo/vector-icons'; 
-import * as firebase from "firebase";
+
 
 const PlaceRender = ({ data }) => {
-    console.log(data.description);
     return (
         <View style={styles.row}>
             <View style={styles.iconContainer}>
@@ -31,5 +30,5 @@ const styles = StyleSheet.create({
 
   });
 
-export default PlaceRender
+export default PlaceRender;
 
