@@ -12,7 +12,8 @@ import FindScreen from './screens/FindScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import * as firebase from "firebase";
 import NavigationScreen from "./screens/NavigationScreen";
-import { LogBox } from 'react-native';
+import { LogBox,View } from 'react-native';
+
 
 LogBox.ignoreLogs(['Setting a timer']);
 
@@ -28,7 +29,11 @@ LogBox.ignoreLogs(['Setting a timer']);
   measurementId: "G-ZZ40LJYWE7"
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}else {
+  firebase.app(); // if already initialized, use that one
+}
 //firebase.analytics();
 
 const AppStack = createStackNavigator({
