@@ -12,6 +12,9 @@ import FindScreen from './screens/FindScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import * as firebase from "firebase";
 import NavigationScreen from "./screens/NavigationScreen";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
  // Your web app's Firebase configuration
  var firebaseConfig = {
