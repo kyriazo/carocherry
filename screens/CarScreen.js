@@ -83,8 +83,11 @@ export default class ProfileScreen extends React.Component {
           <Text style={{ color: "#FFF", fontWeight: "500" }}>Add a car</Text>
         </TouchableOpacity>
     
+        
         <FlatList
           data={this.state.cars}
+          keyExtractor={(item, index) => item.key}
+          key={(item, index) => item.key}
           renderItem={({ item }) => {
             return (
               <View style={styles.upperView}>
