@@ -1,6 +1,8 @@
 import React from "react";
-import {View, Text, StyleSheet, TextInput, TouchableOpacity} from "react-native";
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from "react-native";
 import * as firebase from "firebase";
+import { color } from "react-native-reanimated";
+import { StatusBar } from "react-native";
 
 export default class LoginScreen extends React.Component {
 
@@ -10,6 +12,8 @@ export default class LoginScreen extends React.Component {
         errorMessage: ""
     }
 
+    
+
     handleLogin = () => {
         const {email,password} = this.state
 
@@ -17,10 +21,15 @@ export default class LoginScreen extends React.Component {
     }
 
     render() {
+        StatusBar.setHidden(true)
+
         return (
             <View style={styles.container}>
+                <Image style={styles.logo}
+                    source={require('../assets/logo_trans.png')} 
+                />
                 <Text style={styles.greeting}>
-                    {"Hello again.\nWelcome back."}    
+                    {"Welcome to Carocherry.\nLog in or Sign up and find or share your ride at the blink of an eye."}    
                 </Text>
 
             <View style={styles.errorMessage}>
@@ -28,33 +37,35 @@ export default class LoginScreen extends React.Component {
             </View>
 
             <View style={styles.form}>
-                <View>
-                    <Text style={styles.inputTitle}>Email Address</Text>
+                <View style={styles.email}>
+                    {/* <Text style={styles.inputTitle}>Email Address</Text> */}
                     <TextInput 
                         style={styles.input}
                         autoCapitalize="none"
+                        placeholder="Email address"
                         onChangeText={email => this.setState({ email })}
                         value={this.state.email}
                     ></TextInput>
                 </View>
 
-                <View style={{marginTop: 32}}>
-                    <Text style={styles.inputTitle}>Password</Text>
+                <View style={styles.password}>
+                    {/* <Text style={styles.inputTitle}>Password</Text> */}
                     <TextInput 
                         style={styles.input} 
                         secureTextEntry 
                         autoCapitalize="none"
+                        placeholder="Password"
                         onChangeText={password => this.setState({ password })}
                         vale={this.state.password}
                     ></TextInput>
                 </View>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
-                <Text style={{ color: "#FFF", fontWeight: "500"}}>Sign in</Text>
+            <TouchableOpacity style={styles.login} onPress={this.handleLogin}>
+                <Text style={{ color: "#FFF", fontWeight: "500", fontSize: 20}}>Log in</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{ alignSelf: "center", marginTop: 32}}
+            <TouchableOpacity style={styles.register}
             onPress={() => this.props.navigation.navigate("Register")}>
                 <Text style={{ color: "#414959", fontSize: 13}}>
                     New to Carocherry? <Text style={{ fontWeight: "500", color: "#E9446A"}}>Sign Up</Text>
@@ -68,15 +79,27 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+        backgroundColor: '#f3e1d6',
+        color: '#dd5b45',
+        justifyContent: 'center'
     },
     greeting: {
-        marginTop: 32,
+        marginTop: 20,
         fontSize: 18,
         fontWeight: "400",
-        textAlign: "center"
+        textAlign: "center",
+        color: '#dd5b45',
+        maxWidth: '70%',
+        alignSelf: 'center',
+        marginBottom: 30
+    },
+    logo: {
+        width: 450,
+        height: 100,
+        alignSelf: 'center'
     },
     errorMessage: {
-        height: 72,
+        maxHeight: 72,
         alignItems: "center",
         justifyContent: "center",
         marginHorizontal: 30
@@ -88,28 +111,41 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     form: {
-        marginBottom: 48,
-        marginHorizontal: 30,
+        marginBottom: 15,
+        maxWidth: '80%',
+        alignSelf: 'center',
+        width: '100%'
     },
     inputTitle: {
-        color: "#8A8F9E",
-        fontSize: 10,
+        color: "white",
+        fontSize: 16,
         textTransform: "uppercase"
     },
     input: {
         borderBottomColor: "#8A8F9E",
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        height: 48,
+        // borderBottomWidth: StyleSheet.hairlineWidth,
+        height: 50,
         fontSize: 15,
-        color: "#161F3D"
+        color: "white",
+        borderRadius: 10,
+        marginTop: 15,
+        backgroundColor: 'white',
+        paddingLeft: 15
     },
-    button: {
-        marginHorizontal: 30,
+    login: {
         backgroundColor: "#E9446A",
         borderRadius: 4,
-        height: 52,
+        height: 50,
+        alignSelf: 'center',
+        width: '100%',
+        maxWidth: '80%',
+        justifyContent: 'center',
         alignItems: "center",
-        justifyContent: "center",
+        borderRadius: 30
 
+    },
+    register: {
+        alignSelf: "center",
+        marginTop: 32
     }
 })
