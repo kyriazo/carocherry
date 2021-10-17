@@ -15,6 +15,7 @@ import NavigationScreen from "./screens/NavigationScreen";
 import { LogBox,View } from 'react-native';
 
 
+
 LogBox.ignoreLogs(['Setting a timer']);
 
  // Your web app's Firebase configuration
@@ -48,7 +49,12 @@ const AppStack = createStackNavigator({
 });
 
 const AuthStack = createStackNavigator({
-  Login: LoginScreen,
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
   Register: RegisterScreen
 })
 
