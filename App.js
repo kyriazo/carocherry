@@ -13,6 +13,9 @@ import ResultsScreen from './screens/ResultsScreen';
 import * as firebase from "firebase";
 import NavigationScreen from "./screens/NavigationScreen";
 import { LogBox,View } from 'react-native';
+import React from 'react';
+import { useFonts, Lobster_400Regular } from '@expo-google-fonts/lobster';
+import AppLoading from 'expo-app-loading';
 
 
 
@@ -58,7 +61,7 @@ const AuthStack = createStackNavigator({
   Register: RegisterScreen
 })
 
-export default createAppContainer(
+const RootApp = createAppContainer(
   createSwitchNavigator(
     {
       Loading: LoadingScreen,
@@ -70,6 +73,50 @@ export default createAppContainer(
     }
   )
 )
+
+export default function App() {
+
+  let [fontsLoaded] = useFonts({
+    Lobster_400Regular,
+  });
+
+
+    // render() {
+    if (!fontsLoaded) {
+      return <AppLoading />;
+    }
+    // from the custom App we return the component we assigned to RootApp.
+    return <RootApp />;
+  // }
+}
+
+// export default class App extends Component {
+//   state = {
+//     loaded: false
+//   };
+//   // create a helper function to load the font 
+//   _loadFontsAsync = async () => {
+//   // loadAsync returns true | error
+//     let isLoaded = await Font.loadAsync({
+//       // add as many fonts as you want here .... 
+//       Montserrat: require("./assets/fonts/Lobster-Regular.ttf")
+//     });
+//     this.setState({ loaded: isLoaded });
+//   };
+
+// // call _loadFontsAsync 
+//   componentDidMount() {
+//     this._loadFontsAsync();
+//   }
+
+//   render() {
+//     if (!this.state.loaded) {
+//       return <AppLoading />;
+//     }
+//     // from the custom App we return the component we assigned to RootApp.
+//     return <RootApp />;
+//   }
+// }
 
 // export default function App() {
 //   return (
