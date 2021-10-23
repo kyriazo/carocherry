@@ -62,12 +62,12 @@ export default class LoginScreen extends React.Component {
             </View>
 
             <TouchableOpacity style={styles.login} onPress={this.handleLogin}>
-                <Text style={{ color: "#FFF", fontWeight: "500", fontSize: 20}}>Log in</Text>
+                <Text style={{ color: "#FFF", fontWeight: "500", fontSize: 20,fontFamily: 'Lobster_400Regular'}}>Log in</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.register}
             onPress={() => this.props.navigation.navigate("Register")}>
-                <Text style={{ color: "#414959", fontSize: 13}}>
+                <Text style={{ color: "#414959", fontSize: 13, fontFamily: 'Lobster_400Regular'}}>
                     New to Carocherry? <Text style={{ fontWeight: "500", color: "#E9446A"}}>Sign Up</Text>
                     </Text>
             </TouchableOpacity>
@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
         color: '#dd5b45',
         maxWidth: '70%',
         alignSelf: 'center',
-        marginBottom: 30
+        marginBottom: 30,
+        fontFamily: 'Lobster_400Regular'
     },
     logo: {
         width: 450,
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
         // borderBottomWidth: StyleSheet.hairlineWidth,
         height: 50,
         fontSize: 15,
-        color: "white",
+        color: "black",
         borderRadius: 10,
         marginTop: 15,
         backgroundColor: 'white',
@@ -141,11 +142,13 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
         justifyContent: 'center',
         alignItems: "center",
-        borderRadius: 30
+        borderRadius: 30,
+        fontFamily: 'Lobster_400Regular'
 
     },
     register: {
         alignSelf: "center",
-        marginTop: 32
+        marginTop: 32,
+        
     }
 })
