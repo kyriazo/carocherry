@@ -63,6 +63,7 @@ consoleInfo = () => {
         
        
   <MapViewDirections
+    lineDashPattern={[0]}
     origin={this.state.origin}
     destination={this.state.destination}
     apikey={'AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0'}
