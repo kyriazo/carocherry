@@ -80,14 +80,10 @@ export default function App() {
     Lobster_400Regular,
   });
 
-
-    // render() {
     if (!fontsLoaded) {
       return <AppLoading />;
     }
-    // from the custom App we return the component we assigned to RootApp.
     return <RootApp />;
-  // }
 }
 
 // export default class App extends Component {
