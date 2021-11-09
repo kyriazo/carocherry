@@ -16,6 +16,10 @@ export default class ProfileScreen extends React.Component {
             image: 'default',
             birthYear: '',
             miniBio: '',
+            plate: '',
+            make: '',
+            model: '',
+            color: ''
         };
     }
 
@@ -37,6 +41,26 @@ export default class ProfileScreen extends React.Component {
     miniBioHandler = (bio) => {
         this.setState({
             miniBio: bio
+        });
+    }
+    plateHandler = (plt) => {
+        this.setState({
+            plate: plt
+        });
+    }
+    modelHandler = (mdl) => {
+        this.setState({
+            model: mdl
+        });
+    }
+    makeHandler = (mk) => {
+        this.setState({
+            make: mk
+        });
+    }
+    colorHandler = (clr) => {
+        this.setState({
+            color: clr
         });
     }
     databaseHandler = () => {
@@ -64,38 +88,41 @@ export default class ProfileScreen extends React.Component {
      
         return (
             <ScrollView>
-                <View style={{ flex: 1 }}>
+                <View style={ styles.container }>
 
                     <View style={styles.upperView}>
-
                         <TouchableOpacity onPress={this._pickImage}>
                             <View style={{
-                                height: 120,
-                                width: 120,
-                                borderRadius: 120,
-                                backgroundColor: 'white'
+                                height: 80,
+                                width: 80,
+                                borderRadius: 80,
+                                // backgroundColor: 'white',
                             }}>
-                                <Image source={{ uri: this.state.image }} style={styles.circle} />
+                                <Image style={styles.image} source={{ uri: this.state.image }} style={styles.circle} />
                             </View>
                         </TouchableOpacity>
+                        <Text style={styles.fullName} >{this.state.name} {this.state.lastName}</Text>
                     </View>
 
 
                     <View style={styles.lowerView}>
 
-                        <ProfileInput value={this.state.name} title='First Name' inputType='default' onUpdate={this.nameHandler} />
-                        <ProfileInput value={this.state.lastName} title='Last Name' inputType='default' onUpdate={this.lastNameHandler} />
-                        <ProfileInput value={this.state.birthYear} title='Year of birth' inputType='numeric' onUpdate={this.bYearHandler} />
-                        <ProfileInput value={this.state.miniBio} title='Mini bio' inputType='default' onUpdate={this.miniBioHandler} />
-
+                        <Text style={styles.sectionLabel}>Profile</Text>
+                        <ProfileInput style={styles.sectionInput} value={this.state.name} title='First Name' inputType='default' onUpdate={this.nameHandler} />
+                        <ProfileInput style={styles.sectionInput} value={this.state.lastName} title='Last Name' inputType='default' onUpdate={this.lastNameHandler} />
+                        <ProfileInput style={styles.sectionInput} value={this.state.birthYear} title='Year of birth' inputType='numeric' onUpdate={this.bYearHandler} />
+                        <ProfileInput style={styles.sectionInput} value={this.state.miniBio} title='Mini bio' inputType='default' onUpdate={this.miniBioHandler} />
+                        <Text style={styles.sectionLabel}>Vehicle</Text>
+                        <ProfileInput style={styles.sectionInput} value={this.state.plate} title='Plate' inputType='default' onUpdate={this.plateHandler} />
+                        <ProfileInput style={styles.sectionInput} value={this.state.make} title='Make' inputType='default' onUpdate={this.makeHandler} />
+                        <ProfileInput style={styles.sectionInput} value={this.state.model} title='Model' inputType='default' onUpdate={this.modelHandler} />
+                        <ProfileInput style={styles.sectionInput} value={this.state.color} title='Color' inputType='default' onUpdate={this.colorHandler} />
                         <View style={{ padding: 30 }}>
                             <TouchableOpacity style={styles.button} onPress={this.databaseHandler}>
                                 <Text style={{ color: "#FFF", fontWeight: "500" }}>Save Profile</Text>
                             </TouchableOpacity>
-                        </View>
-                          
+                        </View>   
                     </View>
-
                 </View>
             </ScrollView>
         );
@@ -117,7 +144,12 @@ export default class ProfileScreen extends React.Component {
                     lastName: state.lastName,
                     birthYear: state.birthYear,
                     miniBio: state.miniBio,
-                    image: url
+                    image: url,
+                    plate: state.plate,
+                    make: state.make,
+                    model: state.model,
+                    color: state.color
+
                 })
 
             })
@@ -154,23 +186,25 @@ export default class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
+        backgroundColor: '#f3e1d6'
     },
     upperView: {
         flexDirection: 'row',
-        backgroundColor: "#E9446A",
+        // backgroundColor: "#E9446A",
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        // backgroundColor: 'white',
+        width: '90%',
+        alignSelf: 'center',
+        marginTop: 10
     },
     lowerView: {
         flex: 3,
     },
     circle: {
-        height: 120,
-        width: 120,
-        borderRadius: 120,
+        height: 80,
+        width: 80,
+        borderRadius: 80,
         alignSelf: 'center',
     },
     button: {
@@ -181,10 +215,25 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    textTitles: {
-        padding: 10,
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#7D0036'
+    sectionLabel: {
+        fontSize: 24,
+        paddingTop: 10,
+        fontWeight: "bold",
+        paddingBottom: 5,
+        // paddingLeft: 10
+        marginLeft: 15
     },
+    inputLabel: {
+        paddingLeft: 10,
+    },
+    image: {
+        width: 30,
+        height: 30
+    },
+    fullName: {
+        marginLeft: 10,
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: "#dd5b45"
+    }
 })
