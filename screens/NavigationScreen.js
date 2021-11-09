@@ -30,8 +30,10 @@ export default function NavigationScreen( {navigation}) {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color, size }) => {
             const icons = {
-              Cars: 'car',
+              Home: 'home',
               Profile: 'account',
+              Offer: 'car-hatchback',
+              Find: 'magnify'
             };
 
             return (
@@ -46,7 +48,7 @@ export default function NavigationScreen( {navigation}) {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Profile" component={HomeTabScreen} />
-        <Tab.Screen name="Cars" component={SettingsScreen} />
+        {/* <Tab.Screen name="Cars" component={SettingsScreen} /> */}
         <Tab.Screen name="Offer" children={()=><OfferScreen navigation={navigation}/>}  />
         <Tab.Screen name="Find" children={()=><FindScreen navigation={navigation}/>}  />
       </Tab.Navigator>
