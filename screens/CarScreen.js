@@ -37,7 +37,7 @@ export default class ProfileScreen extends React.Component {
 
   hideModal = () => {
     const { currentUser } = firebase.auth();
-    firebase.database().ref(`/users/${currentUser.uid}/cars`).push({
+    firebase.database().ref(`/users/${currentUser.uid}/cars`).child('main').set({
       make: this.state.make,
       model: this.state.model,
       color: this.state.color,
@@ -112,14 +112,11 @@ export default class ProfileScreen extends React.Component {
   async componentDidUpdate() {
     this.getPermissionAsync();
     const { currentUser } = firebase.auth();
-    const ref = firebase.storage().ref("image/" + currentUser.uid);
     var state;
-    firebase
-      .database()
-      .ref(`/users/${currentUser.uid}/cars`)
-      .once("value")
+    var ref = firebase.database().ref(`/users/${currentUser.uid}/cars`)
+    ref.once("value")
       .then((snapshot) => {
-        state = snapshot.val();
+        state = snapshot.val()
         const cars = _.map(state, (val, uid) => {
           return { ...val, uid };
         });
@@ -132,14 +129,12 @@ export default class ProfileScreen extends React.Component {
   async componentDidMount() {
     this.getPermissionAsync();
     const { currentUser } = firebase.auth();
-    const ref = firebase.storage().ref("image/" + currentUser.uid);
     var state;
-    firebase
-      .database()
-      .ref(`/users/${currentUser.uid}/cars`)
-      .once("value")
+    var ref = firebase.database().ref(`/users/${currentUser.uid}/cars`)
+    //TODO:GIATI AUTI I MALAKIA TREXEI POLLES FORES
+    ref.once("value")
       .then((snapshot) => {
-        state = snapshot.val();
+        state = snapshot.val()
         const cars = _.map(state, (val, uid) => {
           return { ...val, uid };
         });
