@@ -17,6 +17,8 @@ export default class FindScreen extends React.Component {
     this.state = {
         originPlace: '',
         destinationPlace: '',
+        orignStatus: '',
+        destinationStatus: ''
     };
 }
 
@@ -63,6 +65,9 @@ consoleInfo = () => {
               }
             }}
             placeholder='Where from?'
+            textInputProps={{
+              onChangeText: (text) => { this.setState({originStatus: text}) }
+             }}
             onPress={(data, details = null) => {
               this.setState({
               originPlace: { value: {data, details}}
@@ -95,6 +100,9 @@ consoleInfo = () => {
               }
             }}
             placeholder='Where to?'
+            textInputProps={{
+              onChangeText: (text) => { this.setState({destinationStatus: text}) }
+             }}
             onPress={(data, details = null) => {
               this.setState({
               destinationPlace: { value: {data, details}}
@@ -107,11 +115,13 @@ consoleInfo = () => {
           }}
           renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
         />
-        <TouchableOpacity style={styles.button} onPress={() => this.consoleInfo()}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>log</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("Results", { state: this.state })}>
+  
+        <TouchableOpacity style={styles.button} onPress={() => {
+                 if (this.state.originStatus == '' || this.state.destinationStatus == '')                
+                 return
+                 else
+                 this.props.navigation.navigate("Results", { state: this.state })
+          }}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
         </TouchableOpacity>
         </View>

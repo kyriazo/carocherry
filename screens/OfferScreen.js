@@ -22,7 +22,9 @@ export default class OfferScreen extends React.Component {
         destinationPlace: '',
         date: new Date(),
         mode: 'date',
-        show: false
+        show: false,
+        originStatus: '',
+        destinationStatus: ''
     };
 }
 
@@ -88,6 +90,9 @@ destinationTextHandler = (destinationText) => {
               }
             }}
             placeholder='Where from?'
+            textInputProps={{
+              onChangeText: (text) => { this.setState({originStatus: text}) }
+             }}
             onPress={(data, details = null) => {
               this.setState({
               originPlace: { value: {data, details}}
@@ -120,6 +125,9 @@ destinationTextHandler = (destinationText) => {
               }
             }}
             placeholder='Where to?'
+            textInputProps={{
+              onChangeText: (text) => { this.setState({destinationStatus: text}) }
+             }}
             onPress={(data, details = null) => {
               this.setState({
               destinationPlace: { value: {data, details}}
@@ -152,7 +160,12 @@ destinationTextHandler = (destinationText) => {
       )}
     </View>   
          </View>
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("Route", { state: this.state })}>
+        <TouchableOpacity style={styles.button} onPress={() => {
+                 if (this.state.originStatus == '' || this.state.destinationStatus == '')                
+                 return
+                 else
+                 this.props.navigation.navigate("Route", { state: this.state })
+          }}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
         </TouchableOpacity>
         </View>
