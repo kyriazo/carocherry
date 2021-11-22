@@ -1,10 +1,11 @@
 import React from "react";
-import { ScrollView, Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, Picker, Image, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ProfileInput from "../components/ProfileInput";
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as firebase from "firebase";
+
 
 export default class ConfirmScreen extends React.Component {
 
@@ -19,11 +20,11 @@ export default class ConfirmScreen extends React.Component {
 
     consoleInfo = () => {
     
-        console.log(this.props.navigation.state.params.state.date);
+        console.log(this.props.navigation.state.params.state);
         //console.log(this.props);
         //console.log(this.props.navigation.state.params.state.destinationPlace.value.details);
     }
-
+ 
     uploadRoute = () => {
         const { currentUser } = firebase.auth();
         firebase.database().ref(`/rides/`).push({
@@ -33,6 +34,11 @@ export default class ConfirmScreen extends React.Component {
         originName: this.props.navigation.state.params.state.originName,
         uid: currentUser.uid,
         date: this.props.navigation.state.params.state.date.toISOString(),
+        isOffer: this.props.navigation.state.params.state.isOffer,
+        petsAllow: this.props.navigation.state.params.state.petsAllow,
+        musicAllow: this.props.navigation.state.params.state.musicAllow,
+        smokingAllow: this.props.navigation.state.params.state.smokingAllow,
+        seats: this.props.navigation.state.params.state.seats
     });
     }
 
@@ -41,17 +47,14 @@ export default class ConfirmScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={{ flex: 1 }}>
-
-                
-                    
-
-                         <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
+        
+        <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
                                 <Text style={{ color: "#FFF", fontWeight: "500" }}>Offer Ride</Text>
-                            </TouchableOpacity>
-                   
-                         <TouchableOpacity style={styles.button} onPress={() => this.consoleInfo()}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>LOG</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> 
+
+                        <TouchableOpacity style={styles.button} onPress={this.consoleInfo}>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>LOG</Text>
+                        </TouchableOpacity> 
                 </View>
             </ScrollView>
         );

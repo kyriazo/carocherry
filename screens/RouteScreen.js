@@ -22,7 +22,12 @@ export default class RouteScreen extends React.Component {
        originName: this.props.navigation.state.params.state.originPlace.value.data.description,
        destination: { latitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lat, longitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lng},
        destinationName: this.props.navigation.state.params.state.destinationPlace.value.data.description,
-       date: this.props.navigation.state.params.state.date
+       date: this.props.navigation.state.params.state.date,
+       isOffer: this.props.navigation.state.params.state.isOffer,
+       petsAllow: this.props.navigation.state.params.state.petsAllow,
+       musicAllow: this.props.navigation.state.params.state.musicAllow,
+       smokingAllow: this.props.navigation.state.params.state.smokingAllow,
+       seats: this.props.navigation.state.params.state.seats
     };
 }
 
@@ -36,10 +41,8 @@ export default class RouteScreen extends React.Component {
   }
  
 
-consoleInfo = () => {
-    
-    console.log(this.props);
-    //console.log(this.props.navigation.state.params.state.destinationPlace.value.details);
+consoleInfo = () => {  
+    console.log(this.state);
 }
 
 
@@ -71,12 +74,10 @@ consoleInfo = () => {
     strokeColor="black"
   />
 
-      </MapView>   
-        
+      </MapView>      
         <TouchableOpacity style={styles.button} onPress={() => this.consoleInfo()}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>LOG</Text>
+              <Text style={{ color: "#FFF", fontWeight: "500" }}>log</Text>
         </TouchableOpacity>
-        
         <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("Confirm", { state: this.state })}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
         </TouchableOpacity>
