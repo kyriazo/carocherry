@@ -29,9 +29,9 @@ export default class OfferScreen extends React.Component {
     super(props);
     this.state = {
         originPlace: '',
-        originName: '',
+        originName: 'Where from?',
         destinationPlace: '',
-        destinationName: '',
+        destinationName: 'Where to?',
         date: new Date(),
         mode: 'date',
         show: false,
@@ -112,20 +112,12 @@ togglePets = () => {
 }
 
   render() {
-    return (
-     
+    return ( 
       <View>
-        <Text style={{   fontSize: 24,
-        paddingTop: 0,
-        fontWeight: "bold",
-        paddingBottom: 5,
-        backgroundColor: '#f3e1d6',
-        // paddingLeft: 10
-       }}>Ride Details</Text>
-       
+      
         <View style={styles.container}>
         <TouchableOpacity onPress={this.showFromModal}>
-        <Text>From {this.state.originName}</Text>
+        <Text style={styles.textInput}>{this.state.originName}</Text>
         </TouchableOpacity>
         <Modal visible={this.state.fromModal} animationType="slide">
           <GooglePlacesAutocomplete
@@ -171,7 +163,7 @@ togglePets = () => {
         />
        </Modal>
        <TouchableOpacity onPress={this.showToModal}>
-        <Text>To {this.state.destinationName}</Text>
+       <Text style={styles.textInput}>{this.state.destinationName}</Text>
         </TouchableOpacity>
         <Modal visible={this.state.toModal} animationType="slide">
           <GooglePlacesAutocomplete
@@ -244,14 +236,8 @@ togglePets = () => {
          </View>
         
          <View style={styles.prefContainer}>
-         <Text style={{   fontSize: 24,
-        paddingTop: 0,
-        fontWeight: "bold",
-        paddingBottom: 5,
-        backgroundColor: '#f3e1d6',
-        // paddingLeft: 10
-       }}>Ride Information</Text>
-           <Text>Are you offering or requesting?</Text>
+      
+            <Text style={styles.textTitles}>Are you offering or requesting?</Text>
            <View style={{ flexDirection: 'row' }}>
            <RadioButton
               value="first"
@@ -271,7 +257,7 @@ togglePets = () => {
            <Text>Requesting</Text>
           </View>
           
-            <Text>How many seats?</Text>
+            <Text style={styles.textTitles}>How many seats?</Text>
            
 
             <CounterInput
@@ -290,7 +276,9 @@ togglePets = () => {
               this.setState({ seats: counter})
              }}
             />
-           <Text>Is smoking allowed?</Text>
+          <Text style={styles.textTitles}>Is smoking allowed?</Text>
+           <View style={styles.switchStyle}>
+           <Text>Smoking is fine</Text>
            <Switch
               trackColor={{ false: "#767577", true: "#81b0ff" }}
               thumbColor={this.state.smokingAllow ? "#f5dd4b" : "#f4f3f4"}
@@ -298,7 +286,12 @@ togglePets = () => {
               onValueChange={this.toggleSmoking}
               value={this.state.smokingAllow}
             />
-           <Text>Music?</Text>
+            <Text>No smoking please</Text>
+           </View>
+           
+           <Text style={styles.textTitles}>Music?</Text>
+           <View style={styles.switchStyle}>
+           <Text>I like music</Text>
            <Switch
               trackColor={{ false: "#767577", true: "#81b0ff" }}
               thumbColor={this.state.musicAllow ? "#f5dd4b" : "#f4f3f4"}
@@ -306,9 +299,11 @@ togglePets = () => {
               onValueChange={this.toggleMusic}
               value={this.state.musicAllow}
             />
-
-           <Text>Are pets welcome?</Text>
-          
+            <Text>I prefer silence</Text>
+            </View>
+           <Text style={styles.textTitles}>Are pets welcome?</Text>
+           <View style={styles.switchStyle}>
+             <Text>Pets are welcome</Text>
            <Switch
               trackColor={{ false: "#767577", true: "#81b0ff" }}
               thumbColor={this.state.petsAllow ? "#f5dd4b" : "#f4f3f4"}
@@ -316,6 +311,8 @@ togglePets = () => {
               onValueChange={this.togglePets}
               value={this.state.petsAllow}
             />
+             <Text>No pets</Text>
+            </View>
            </View>
            
            <View style={{ flexDirection: 'row' }}>
@@ -347,19 +344,16 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   dateContainer: {
-    padding: 15,
+    padding: 0,
     flexDirection: 'row',
-    position: 'absolute',
-    top: 100
   },
   prefContainer: {
-    position: 'absolute',
-    top: 180
+    
   },
   button: {
-    position: 'absolute',
-    bottom: 50,
-    marginHorizontal: 30,
+    //bottom: 50,
+    width: 100,
+    //marginHorizontal: 30,
     backgroundColor: "#E9446A",
     borderRadius: 4,
     height: 52,
@@ -370,8 +364,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#E9446A",
   },
   textInput: {
+    borderRadius: 20,
     padding: 10,
     backgroundColor: '#eee',
     marginVertical: 5,
-  }
+  },
+  textTitles: {
+    padding: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#7D0036'
+},
+  switchStyle:{
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 });
