@@ -14,6 +14,14 @@ export default class ConfirmScreen extends React.Component {
         this.state = {
             destination: { latitude: this.props.navigation.state.params.state.destination.latitude, longitude: this.props.navigation.state.params.state.destination.longitude},
             origin: { latitude: this.props.navigation.state.params.state.origin.latitude, longitude: this.props.navigation.state.params.state.origin.longitude},
+            originName: this.props.navigation.state.params.state.originName,
+            destinationName: this.props.navigation.state.params.state.destinationName,
+            date: this.props.navigation.state.params.state.date.toString(),
+            isOffer: this.props.navigation.state.params.state.isOffer,
+            petsAllow: this.props.navigation.state.params.state.petsAllow,
+            musicAllow: this.props.navigation.state.params.state.musicAllow,
+            smokingAllow: this.props.navigation.state.params.state.smokingAllow,
+            seats: this.props.navigation.state.params.state.seats,
             uid: '',
         };
     }
@@ -29,17 +37,18 @@ export default class ConfirmScreen extends React.Component {
         const { currentUser } = firebase.auth();
         firebase.database().ref(`/rides/`).push({
         destination: this.state.destination,
-        destinationName: this.props.navigation.state.params.state.destinationName,
+        destinationName: this.state.destinationName,
         origin: this.state.origin,
-        originName: this.props.navigation.state.params.state.originName,
+        originName: this.state.originName,
         uid: currentUser.uid,
-        date: this.props.navigation.state.params.state.date.toISOString(),
-        isOffer: this.props.navigation.state.params.state.isOffer,
-        petsAllow: this.props.navigation.state.params.state.petsAllow,
-        musicAllow: this.props.navigation.state.params.state.musicAllow,
-        smokingAllow: this.props.navigation.state.params.state.smokingAllow,
-        seats: this.props.navigation.state.params.state.seats
+        date: this.state.date,
+        isOffer: this.state.isOffer,
+        petsAllow: this.state.petsAllow,
+        musicAllow: this.state.musicAllow,
+        smokingAllow: this.state.smokingAllow,
+        seats: this.state.seats,
     });
+        //this.props.navigation.navigate("Home")
     }
 
     render() {
@@ -47,13 +56,18 @@ export default class ConfirmScreen extends React.Component {
         return (
             <ScrollView>
                 <View style={{ flex: 1 }}>
-        
-        <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
-                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Offer Ride</Text>
-                        </TouchableOpacity> 
 
-                        <TouchableOpacity style={styles.button} onPress={this.consoleInfo}>
-                                <Text style={{ color: "#FFF", fontWeight: "500" }}>LOG</Text>
+                        <Text>Confirm your preferences</Text>
+                        <Text>From {this.state.originName}</Text>
+                        <Text>To {this.state.destinationName}</Text>
+                        <Text>{this.state.date}</Text>
+                        <Text>Is it an offer = {this.state.isOffer}</Text>
+                        <Text>Seats available: {this.state.seats}</Text>
+                        <Text>Smoking allowed = {this.state.smokingAllow.toString()}</Text>
+                        <Text>Music allowed = {this.state.musicAllow.toString()}</Text>
+                        <Text>Pets allowed = {this.state.petsAllow.toString()}</Text>
+                        <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Offer Ride</Text>
                         </TouchableOpacity> 
                 </View>
             </ScrollView>
