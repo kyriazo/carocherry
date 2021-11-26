@@ -64,7 +64,7 @@ onChange = (event, selectedDate) => {
 });
 };
 
-showModal = (currentMode) => {
+showMode = (currentMode) => {
   this.setState({
     show: true
 });
@@ -232,12 +232,12 @@ togglePets = () => {
           onChange={this.onChange}
         />
       )} 
-        <Text>{this.state.date.toString()}</Text>
+        <Text>{this.state.date.toUTCString()}</Text>
          </View>
         
          <View style={styles.prefContainer}>
       
-            <Text style={styles.textTitles}>Are you offering or requesting?</Text>
+          <Text style={styles.textTitles}>Are you offering or requesting?</Text>
            <View style={{ flexDirection: 'row' }}>
            <RadioButton
               value="first"
