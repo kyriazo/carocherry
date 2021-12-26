@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 
-const ProfileRender = (props) => {
+const MyRidesRender = (props) => {
     
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
@@ -44,12 +44,7 @@ const ProfileRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                sendRequest();
-              }}>
-                    <Text>Request </Text>
-            </TouchableOpacity>
+        
             </View>
             <View style={styles.imageContainer}>
             <TouchableOpacity onPress={() => setModal(true)}>
@@ -159,4 +154,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ProfileRender;
+export default MyRidesRender;

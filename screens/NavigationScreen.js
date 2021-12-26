@@ -8,6 +8,7 @@ import FindScreen from './FindScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileInput from "../components/ProfileInput";
 import HomeScreen from "./HomeScreen";
+import MyRidesScreen from "./MyRidesScreen"
 
 
 function HomeTabScreen({ navigation }) {
@@ -48,7 +49,7 @@ export default function NavigationScreen( {navigation}) {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Profile" component={HomeTabScreen} />
-        {/* <Tab.Screen name="Cars" component={SettingsScreen} /> */}
+        <Tab.Screen name="My Rides" children={()=><MyRidesScreen navigation={navigation}/>}  />
         <Tab.Screen name="Offer" children={()=><OfferScreen navigation={navigation}/>}  />
         <Tab.Screen name="Find" children={()=><FindScreen navigation={navigation}/>}  />
       </Tab.Navigator>

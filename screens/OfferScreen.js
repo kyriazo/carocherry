@@ -208,19 +208,22 @@ togglePets = () => {
           renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
         />
         </Modal>
+       
           <View style={styles.dateContainer}>
+          <Text style={styles.textInput}>{this.state.date.toUTCString()}</Text>
+
           <View>
-        <TouchableOpacity style={styles.dateButton}onPress={this.showDatepicker} title="Date">
-          <Text>Date</Text>
-        </TouchableOpacity> 
+        <TouchableOpacity style={styles.dateButton} onPress={this.showDatepicker} title="Date">
         <Ionicons name="time-outline" size={24} color="black" />
+        </TouchableOpacity> 
+        
       </View>
       <View>
      
-      <TouchableOpacity style={styles.dateButton}onPress={this.showTimepicker} title="Date">
-          <Text>Time</Text>
-      </TouchableOpacity> 
+      <TouchableOpacity style={styles.dateButton} onPress={this.showTimepicker} title="Date">
       <Fontisto name="date" size={24} color="black" />
+      </TouchableOpacity> 
+    
       </View>
       {this.state.show && (
         <DateTimePicker
@@ -232,7 +235,7 @@ togglePets = () => {
           onChange={this.onChange}
         />
       )} 
-        <Text>{this.state.date.toUTCString()}</Text>
+   
          </View>
         
          <View style={styles.prefContainer}>
@@ -258,30 +261,13 @@ togglePets = () => {
           </View>
           
             <Text style={styles.textTitles}>How many seats?</Text>
-           
-
-            <CounterInput
-              horizontal = 'true'
-              onIncreasePress ={() => {
-              const counter = this.state.seats + 1;
-              this.setState({ seats: counter})
-             }}
-             onDecreasePress = {() => {
-              const counter = this.state.seats - 1;
-              if (counter < 0) {
-                console.log('stop')
-                return 0;
-              }
-              else
-              this.setState({ seats: counter})
-             }}
-            />
+            <Text> ΕΔΩ ΒΑΛΕ COUNTER </Text>
           <Text style={styles.textTitles}>Is smoking allowed?</Text>
            <View style={styles.switchStyle}>
            <Text>Smoking is fine</Text>
            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={this.state.smokingAllow ? "#f5dd4b" : "#f4f3f4"}
+              trackColor={{ false: "#00ff00", true:  "#ff0000" }}
+              thumbColor={this.state.smokingAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.toggleSmoking}
               value={this.state.smokingAllow}
@@ -293,8 +279,8 @@ togglePets = () => {
            <View style={styles.switchStyle}>
            <Text>I like music</Text>
            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={this.state.musicAllow ? "#f5dd4b" : "#f4f3f4"}
+              trackColor={{ false: "#00ff00", true:  "#ff0000" }}
+              thumbColor={this.state.musicAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.toggleMusic}
               value={this.state.musicAllow}
@@ -305,13 +291,13 @@ togglePets = () => {
            <View style={styles.switchStyle}>
              <Text>Pets are welcome</Text>
            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={this.state.petsAllow ? "#f5dd4b" : "#f4f3f4"}
+              trackColor={{ false: "#00ff00", true: "#ff0000" }}
+              thumbColor={this.state.petsAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.togglePets}
               value={this.state.petsAllow}
             />
-             <Text>No pets</Text>
+             <Text>No pets please</Text>
             </View>
            </View>
            
@@ -357,11 +343,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#E9446A",
     borderRadius: 4,
     height: 52,
+    marginLeft: 140,
     alignItems: "center",
     justifyContent: "center",
   },
   dateButton: {
-    backgroundColor: "#E9446A",
+    marginLeft: 15,
+    padding: 10,
+    //backgroundColor: "#E9446A",
   },
   textInput: {
     borderRadius: 20,

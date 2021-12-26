@@ -75,9 +75,6 @@ consoleInfo = () => {
   />
 
       </MapView>      
-        <TouchableOpacity style={styles.button} onPress={() => this.consoleInfo()}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>log</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("Confirm", { state: this.state })}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
         </TouchableOpacity>
