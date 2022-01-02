@@ -41,7 +41,7 @@ export default class OfferScreen extends React.Component {
         destinationStatus: '',
         checked: 'first',
         isOffer: 'true',
-        seats: null,
+        seats: 0,
         smokingAllow: false,
         musicAllow: false,
         petsAllow: false
@@ -63,6 +63,11 @@ onChange = (event, selectedDate) => {
     date: currentDate
 });
 };
+
+setSeats = (value) => {
+  this.setState({seats: value})
+  console.log(this.state.seats);
+}
 
 showMode = (currentMode) => {
   this.setState({
@@ -261,7 +266,15 @@ togglePets = () => {
           </View>
           
             <Text style={styles.textTitles}>How many seats?</Text>
-            <Text> ΕΔΩ ΒΑΛΕ COUNTER </Text>
+            <Picker
+              selectedValue={this.state.seats}
+              onValueChange={(itemValue, itemIndex) => this.setState({seats: itemValue})}
+            >
+               <Picker.Item label="Choose seats" value="0"></Picker.Item>
+               <Picker.Item label="1" value="1"></Picker.Item>
+               <Picker.Item label="2" value="2"></Picker.Item>
+               <Picker.Item label="3" value="3"></Picker.Item>
+            </Picker>
           <Text style={styles.textTitles}>Is smoking allowed?</Text>
            <View style={styles.switchStyle}>
            <Text>Smoking is fine</Text>
@@ -305,10 +318,17 @@ togglePets = () => {
           
         </View>
         <TouchableOpacity style={styles.button} onPress={() => {
-                 if (this.state.originStatus == '' || this.state.destinationStatus == '')                
-                 return
+                if (this.state.originStatus == '' || this.state.destinationStatus == ''){
+                  alert("Please specify your route");
+                  return
+                  }
+                if (this.state.seats == 0) {
+                 alert("Please specify available seats");
+                 return 
+                 }
                  else
                  this.props.navigation.navigate("Route", { state: this.state })
+                 
           }}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
         </TouchableOpacity>
