@@ -17,7 +17,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import PlaceRender from "../components/PlaceRender";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { RadioButton } from 'react-native-paper';
+import { FAB, RadioButton } from 'react-native-paper';
 import { Fontisto } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons'; 
 import { CurrentRenderContext } from "@react-navigation/native";
@@ -44,7 +44,8 @@ export default class OfferScreen extends React.Component {
         seats: 0,
         smokingAllow: false,
         musicAllow: false,
-        petsAllow: false
+        petsAllow: false,
+        luggageAllow: false,
     };
 }
 
@@ -116,10 +117,20 @@ togglePets = () => {
   })
 }
 
+toggleLuggage = () => {
+  this.setState({
+    luggageAllow: !this.state.luggageAllow
+  })
+}
+
   render() {
     return ( 
-      <View>
-      
+      <ScrollView 
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps='always' 
+      listViewDisplayed={false}
+      >
+      <View style={{flex:1}}> 
         <View style={styles.container}>
         <TouchableOpacity onPress={this.showFromModal}>
         <Text style={styles.textInput}>{this.state.originName}</Text>
@@ -313,6 +324,19 @@ togglePets = () => {
              <Text>No pets please</Text>
             </View>
            </View>
+
+           <Text style={styles.textTitles}>Room for luggage?</Text>
+           <View style={styles.switchStyle}>
+           <Text>No room for luggage</Text>
+           <Switch
+              trackColor={{ false: "#00ff00", true:  "#ff0000" }}
+              thumbColor={this.state.luggageAllow ? "#f4f3f4" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={this.toggleLuggage}
+              value={this.state.luggageAllow}
+            />
+            <Text>There is enough room</Text>
+            </View>
            
            <View style={{ flexDirection: 'row' }}>
           
@@ -331,12 +355,16 @@ togglePets = () => {
                  
           }}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
-        </TouchableOpacity>
-       
-        </View>
-      </View>
-     
 
+              
+        </TouchableOpacity>
+     
+        </View>
+
+       
+      </View>
+      </ScrollView>
+      
          
     )
   }
