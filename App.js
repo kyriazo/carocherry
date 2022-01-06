@@ -1,6 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import {createAppContainer, createSwitchNavigator} from "react-navigation";
 import {createStackNavigator} from 'react-navigation-stack';
 import LoadingScreen from './screens/LoadingScreen';
@@ -8,8 +5,21 @@ import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginSreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import OfferScreen from './screens/OfferScreen';
+import RouteScreen from './screens/RouteScreen';
+import ConfirmScreen from './screens/ConfirmScreen';
+import FindScreen from './screens/FindScreen';
+import ResultsScreen from './screens/ResultsScreen';
 import * as firebase from "firebase";
 import NavigationScreen from "./screens/NavigationScreen";
+import { LogBox,View } from 'react-native';
+import React from 'react';
+import { useFonts, Lobster_400Regular } from '@expo-google-fonts/lobster';
+import AppLoading from 'expo-app-loading';
+
+
+
+LogBox.ignoreLogs(['Setting a timer']);
 
  // Your web app's Firebase configuration
  var firebaseConfig = {
@@ -23,21 +33,35 @@ import NavigationScreen from "./screens/NavigationScreen";
   measurementId: "G-ZZ40LJYWE7"
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}else {
+  firebase.app(); // if already initialized, use that one
+}
 //firebase.analytics();
 
 const AppStack = createStackNavigator({
-    Navigation: NavigationScreen,
+  Navigation: NavigationScreen,
+  Route: RouteScreen,
+  Confirm: ConfirmScreen,
+  Find: FindScreen,
+  Offer: OfferScreen,
   Home: HomeScreen,
   Profile: ProfileScreen,
+  Results: ResultsScreen
 });
 
 const AuthStack = createStackNavigator({
-  Login: LoginScreen,
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+      headerShown: false
+    }
+  },
   Register: RegisterScreen
 })
 
-export default createAppContainer(
+const RootApp = createAppContainer(
   createSwitchNavigator(
     {
       Loading: LoadingScreen,
@@ -49,6 +73,46 @@ export default createAppContainer(
     }
   )
 )
+
+export default function App() {
+
+  let [fontsLoaded] = useFonts({
+    Lobster_400Regular,
+  });
+
+    if (!fontsLoaded) {
+      return <AppLoading />;
+    }
+    return <RootApp />;
+}
+
+// export default class App extends Component {
+//   state = {
+//     loaded: false
+//   };
+//   // create a helper function to load the font 
+//   _loadFontsAsync = async () => {
+//   // loadAsync returns true | error
+//     let isLoaded = await Font.loadAsync({
+//       // add as many fonts as you want here .... 
+//       Montserrat: require("./assets/fonts/Lobster-Regular.ttf")
+//     });
+//     this.setState({ loaded: isLoaded });
+//   };
+
+// // call _loadFontsAsync 
+//   componentDidMount() {
+//     this._loadFontsAsync();
+//   }
+
+//   render() {
+//     if (!this.state.loaded) {
+//       return <AppLoading />;
+//     }
+//     // from the custom App we return the component we assigned to RootApp.
+//     return <RootApp />;
+//   }
+// }
 
 // export default function App() {
 //   return (
