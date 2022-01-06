@@ -1,11 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import * as firebase from "firebase";
+import { ExecutionEnvironment } from "expo-constants";
 
 export default class RegisterScreen extends React.Component {
 
     state = {
-        name: "",
+        firstName: "",
+        lastName: "",
         email: "",
         password: "",
         errorMessage: ""
@@ -13,10 +15,29 @@ export default class RegisterScreen extends React.Component {
 
     handleSignUp = () => {
 
+        
+
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(userCredentials => {
+                const url = 'gs://carocherry-61146.appspot.com/image/default.jpg'
+                const profileDetails = {
+                    name: this.state.firstName,
+                    lastName: this.state.lastName,
+                    image: url,
+                    birthYear: '',
+                    miniBio: '',
+                    plate: '',
+                    make: '',
+                    model: '',
+                    color: ''
+                };
+                console.log(userCredentials.user.uid)
+                console.log(profileDetails)
+                firebase.database().ref(`/users/${userCredentials.user.uid}`)
+                .set(profileDetails);
+                
             })
             .catch(error => {
                 console.log(error.code);
@@ -34,7 +55,6 @@ export default class RegisterScreen extends React.Component {
                         this.setState({ errorMessage: error.message });
                         break;
                 }
-
             });
 
     }
@@ -53,12 +73,22 @@ export default class RegisterScreen extends React.Component {
 
                 <View style={styles.form}>
                     <View style={{ marginTop: 32 }}>
-                        <Text style={styles.inputTitle}>Full Name</Text>
+                        <Text style={styles.inputTitle}>First Name</Text>
                         <TextInput
                             style={styles.input}
                             autoCapitalize="none"
-                            onChangeText={name => this.setState({ name })}
-                            value={this.state.name}
+                            onChangeText={firstName => this.setState({ firstName })}
+                            value={this.state.firstName}
+                        ></TextInput>
+                    </View>
+
+                    <View style={{ marginTop: 32 }}>
+                        <Text style={styles.inputTitle}>Last Name</Text>
+                        <TextInput
+                            style={styles.input}
+                            autoCapitalize="none"
+                            onChangeText={lastName => this.setState({ lastName })}
+                            value={this.state.lastName}
                         ></TextInput>
                     </View>
 

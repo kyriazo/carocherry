@@ -85,7 +85,7 @@ export default class ProfileScreen extends React.Component {
     }
 
     render() {
-     
+        console.log(this.state.image)
         return (
             <ScrollView>
                 <View style={ styles.container }>
@@ -131,8 +131,43 @@ export default class ProfileScreen extends React.Component {
     async componentDidMount()  {
         this.getPermissionAsync();
         const { currentUser } = firebase.auth();
-        const ref = firebase.storage().ref("image/" + currentUser.uid);
-        const url = await ref.getDownloadURL();
+        // const ref = firebase.storage().ref("image/" + currentUser.uid);
+        // firebase.storage().
+        // ref(`image/${currentUser.uid}`)
+        // .once('value', function(snapshot) {
+        //     console.log(snapshot)
+        //     if (snapshot.exists()) {
+        //     console.log('exist');
+        //     const url = ref.getDownloadURL();
+        //     }else{
+        //     console.log('not exist');
+        //     const image_default = firebase.database().ref((`/users/${currentUser.uid}`))
+        //     .once('value')
+        //         .then((snapshot) => {
+        //             userState = snapshot.val()
+        //             const url = userState.image
+
+        //         });
+        //     }
+        // });
+        var storageRef = await  firebase.storage().ref(`image/${currentUser.uid}`).getDownloadURL().then((onResolve) => {
+            console.log('resolved')
+
+        }, (onReject)=> {
+            console.log('not resolved')
+            firebase.database().ref((`/users/${currentUser.uid}`))
+                .once('value').then((snapshot) => {
+                        var userState = snapshot.val()
+                        const url = userState.image
+                        this.setState({
+                            image: 'https://www.e-sepia.gr/sites/default/files/team/image/2019-11/Kiriazo.png'
+                        })
+
+    
+                    });
+        });
+
+
         var state;
         firebase.database()
             .ref((`/users/${currentUser.uid}`))
@@ -144,7 +179,6 @@ export default class ProfileScreen extends React.Component {
                     lastName: state.lastName,
                     birthYear: state.birthYear,
                     miniBio: state.miniBio,
-                    image: url,
                     plate: state.plate,
                     make: state.make,
                     model: state.model,
