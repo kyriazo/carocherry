@@ -41,15 +41,62 @@ if (!firebase.apps.length) {
 //firebase.analytics();
 
 const AppStack = createStackNavigator({
-  Navigation: NavigationScreen,
-  Route: RouteScreen,
-  Confirm: ConfirmScreen,
-  Find: FindScreen,
-  Offer: OfferScreen,
-  Home: HomeScreen,
-  Profile: ProfileScreen,
-  Results: ResultsScreen
-});
+  Navigation: {
+    screen: NavigationScreen,
+    navigationOptions: {
+    }
+  },
+  Route: {
+    screen: RouteScreen,
+    navigationOptions: {
+      // headerShown: false
+      headerTitle: 'TestTitle'
+    }
+    },
+  Confirm: {
+    screen: ConfirmScreen,
+    navigationOptions: {
+      // headerShown: false
+      headerTitle: 'TestTitle'
+      
+    }
+    },
+  Find: {
+    screen: FindScreen,
+    navigationOptions: {
+      // headerShown: false
+      headerTitle: 'TestTitle'
+    }
+    },
+  Offer: {
+    screen: OfferScreen,
+    navigationOptions: {
+      // headerShown: false
+      headerTitle: 'TestTitle'
+    }
+    },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      // headerShown: false
+      headerTitle: 'TestTitle',
+      headerShown: true
+    }
+    },
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+      // headerShown: false
+      headerTitle: 'TestTitle'
+    }
+    },
+  Results: {
+    screen: ResultsScreen,
+    navigationOptions: {
+      // headerShown: false
+      headerTitle: 'TestTitle'
+    }
+}})
 
 const AuthStack = createStackNavigator({
   Login: {
