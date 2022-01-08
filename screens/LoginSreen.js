@@ -21,7 +21,7 @@ export default class LoginScreen extends React.Component {
     }
 
     render() {
-        StatusBar.setHidden(true)
+
 
         return (
             <View style={styles.container}>
