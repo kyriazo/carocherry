@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React from "react";
 import {
+  ScrollView,
   View,
   Text,
   StyleSheet,
@@ -11,6 +12,7 @@ import * as Permissions from "expo-permissions";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapViewDirections from 'react-native-maps-directions';
 //import Geolocation from '@react-native-community/geolocation';
+import * as firebase from "firebase";
 
 
 export default class RouteScreen extends React.Component {
@@ -22,7 +24,7 @@ export default class RouteScreen extends React.Component {
        originName: this.props.navigation.state.params.state.originPlace.value.data.description,
        destination: { latitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lat, longitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lng},
        destinationName: this.props.navigation.state.params.state.destinationPlace.value.data.description,
-       date: this.props.navigation.state.params.state.date,
+       date: this.props.navigation.state.params.state.date.toString(),
        isOffer: this.props.navigation.state.params.state.isOffer,
        petsAllow: this.props.navigation.state.params.state.petsAllow,
        musicAllow: this.props.navigation.state.params.state.musicAllow,
@@ -45,14 +47,34 @@ consoleInfo = () => {
     console.log(this.state);
 }
 
+uploadRoute = () => {
+        const { currentUser } = firebase.auth();
+        firebase.database().ref(`/rides/`).push({
+        destination: this.state.destination,
+        destinationName: this.state.destinationName,
+        origin: this.state.origin,
+        originName: this.state.originName,
+        uid: currentUser.uid,
+        date: this.state.date,
+        isOffer: this.state.isOffer,
+        petsAllow: this.state.petsAllow,
+        musicAllow: this.state.musicAllow,
+        smokingAllow: this.state.smokingAllow,
+        seats: this.state.seats,
+    });
+        //this.props.navigation.navigate("Home")
+    }
 
   render() {
     return (
-
+   <ScrollView 
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps='always' 
+      listViewDisplayed={false}
+      >
       <SafeAreaView>
         <View style={styles.container}>
-
-
+        <View style={styles.mapContainer}>
         <MapView
         provider={PROVIDER_GOOGLE}
         style = {{ flex: 1}}
@@ -62,9 +84,7 @@ consoleInfo = () => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }}
-      >
-        
-       
+      >      
   <MapViewDirections
     lineDashPattern={[0]}
     origin={this.state.origin}
@@ -73,13 +93,28 @@ consoleInfo = () => {
     strokeWidth={5}
     strokeColor="black"
   />
-
       </MapView>      
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate("Confirm", { state: this.state })}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
-        </TouchableOpacity>
+      
+        </View>
+
+ <View style={{ flex: 1 }}>
+
+                        <Text>Confirm your preferences</Text>
+                        <Text>From {this.state.originName}</Text>
+                        <Text>To {this.state.destinationName}</Text>
+                        <Text>{this.state.date}</Text>
+                        <Text>Is it an offer = {this.state.isOffer}</Text>
+                        <Text>Seats available: {this.state.seats}</Text>
+                        <Text>Smoking allowed = {this.state.smokingAllow.toString()}</Text>
+                        <Text>Music allowed = {this.state.musicAllow.toString()}</Text>
+                        <Text>Pets allowed = {this.state.petsAllow.toString()}</Text>
+                        <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Offer Ride</Text>
+                        </TouchableOpacity> 
+                </View>
         </View>
       </SafeAreaView>
+      </ScrollView>
     )
   }
 
@@ -89,7 +124,13 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     backgroundColor: '#eee',
-    height: '100%'
+  },
+  mapContainer: {
+    //height: 50,
+    padding: 0,
+    justifyContent: 'center',
+    alignContent: 'center',
+    height: '50%'
   },
   button: {
     marginHorizontal: 30,
