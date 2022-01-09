@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 
 const ProfileRender = (props) => {
-    
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
     const [array, setArray] = useState([]);
+
+  useEffect(() => {
     var state;
-    var state2;
     firebase
     .database()
     .ref(`/users/${props.value.uid}`)
@@ -16,25 +16,9 @@ const ProfileRender = (props) => {
     .then((snapshot) => {
     state = snapshot.val();
     setRenderInfo(state)
-    //console.log(props);
+    console.log(props);
     });
-
-    const sendRequest = () => {
-       console.log(props);
-       const { currentUser } = firebase.auth();
-       firebase.database().ref(`/users/${currentUser.uid}/outgoing`).push({
-         ruid: props.value.ruid,
-         uid: props.value.uid,
-         isAccepted: false
-       });
-       firebase.database().ref(`/users/${props.value.uid}/incoming`).push({
-        ruid: props.value.ruid,
-        uid: currentUser.uid,
-        isReviewed: false
-      });
-    }
-
-
+  }, []);
 
     return (
        <View style={styles.container}>
@@ -44,12 +28,6 @@ const ProfileRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                sendRequest();
-              }}>
-                    <Text>Request </Text>
-            </TouchableOpacity>
             </View>
             <View style={styles.imageContainer}>
             <TouchableOpacity onPress={() => setModal(true)}>
@@ -82,8 +60,8 @@ const ProfileRender = (props) => {
                         <Text style={styles.textTitles}>{renderInfo.name}</Text>
                         <Text style={styles.textTitles}>{renderInfo.lastName}</Text>
                         <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
-                        <Text style={styles.textTitles}>Likes:</Text>
-       
+                        <Text style={styles.textTitles}>{props.value.isOffer}</Text>
+                        <Text style={styles.textTitles}>Ride Preferences:</Text>
                     </View>
 
                 </View>
@@ -97,6 +75,9 @@ const ProfileRender = (props) => {
         </View> 
         
     );
+
+
+
 };
 
 const styles = StyleSheet.create({

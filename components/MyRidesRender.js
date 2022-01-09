@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,  useEffect} from 'react';
 import { ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 
@@ -7,8 +7,9 @@ const MyRidesRender = (props) => {
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
     const [array, setArray] = useState([]);
+
+  useEffect(() => {
     var state;
-    var state2;
     firebase
     .database()
     .ref(`/users/${props.value.uid}`)
@@ -16,8 +17,9 @@ const MyRidesRender = (props) => {
     .then((snapshot) => {
     state = snapshot.val();
     setRenderInfo(state)
-    //console.log(props);
+    console.log(props);
     });
+  }, []);
 
     const sendRequest = () => {
        console.log(props);
@@ -33,8 +35,6 @@ const MyRidesRender = (props) => {
         isReviewed: false
       });
     }
-
-
 
     return (
        <View style={styles.container}>
@@ -77,8 +77,7 @@ const MyRidesRender = (props) => {
                         <Text style={styles.textTitles}>{renderInfo.name}</Text>
                         <Text style={styles.textTitles}>{renderInfo.lastName}</Text>
                         <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
-                        <Text style={styles.textTitles}>Likes:</Text>
-       
+                        <Text style={styles.textTitles}>Ride Preferences:</Text>
                     </View>
 
                 </View>
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
     resultsContainer: {
         width: 100,
         flexDirection: "column",
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
     },
     imageContainer: {
         position: 'absolute',
@@ -151,6 +150,7 @@ const styles = StyleSheet.create({
     },
     lowerView: {
         flex: 3,
+        backgroundColor: '#f3e1d6'
     },
 })
 
