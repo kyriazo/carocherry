@@ -24,6 +24,10 @@ export default class MyRidesScreen extends React.Component {
         count: 0
     };
     
+toggleLuggage = (ruid) => {
+    console.log(ruid);
+}
+
   }
   render() {
     return (   
@@ -34,12 +38,20 @@ export default class MyRidesScreen extends React.Component {
         
           data={this.state.rides}
           renderItem={({ item }) => {
-            console.log('is this running');
+
             const { currentUser } = firebase.auth();
             if (currentUser.uid == item.uid)
             return (
               <View>
                  <MyRidesRender value={item} />
+                  <TouchableOpacity
+                    onPress={() => {
+                    firebase.database().ref(`/rides/${item.ruid}`).remove();
+                    }
+                    }
+                  >
+                   <Text style={styles.deleteText}>Delete this Ride</Text>
+                  </TouchableOpacity>
               </View>
             );
           }}
@@ -51,6 +63,27 @@ export default class MyRidesScreen extends React.Component {
     );
   }
   
+
+  async componentDidUpdate() {
+    this.getPermissionAsync();
+    const { currentUser } = firebase.auth();
+    var state;
+    firebase
+      .database()
+      .ref(`/rides`)
+      .once("value")
+      .then((snapshot) => {
+        state = snapshot.val();
+        const rides = _.map(state, (val, ruid) => {
+          return { ...val, ruid};
+        });
+        this.setState({
+          rides: rides,
+        });
+      });
+  }
+
+
   async componentDidMount() {
     this.getPermissionAsync();
     const { currentUser } = firebase.auth();
@@ -109,4 +142,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#7D0036",
   },
+  deleteText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#7D0036",
+  }
 });
