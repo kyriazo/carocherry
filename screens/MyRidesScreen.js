@@ -34,7 +34,7 @@ export default class MyRidesScreen extends React.Component {
         
           data={this.state.rides}
           renderItem={({ item }) => {
-
+            console.log('is this running');
             const { currentUser } = firebase.auth();
             if (currentUser.uid == item.uid)
             return (
@@ -50,27 +50,7 @@ export default class MyRidesScreen extends React.Component {
  
     );
   }
-
-  async componentDidUpdate() {
-    this.getPermissionAsync();
-    const { currentUser } = firebase.auth();
-    const ref = firebase.storage().ref("image/" + currentUser.uid);
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
-      });
-  }
-
+  
   async componentDidMount() {
     this.getPermissionAsync();
     const { currentUser } = firebase.auth();
