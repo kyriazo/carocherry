@@ -6,6 +6,11 @@ const ProfileRender = (props) => {
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
     const [array, setArray] = useState([]);
+    const [smoke, setSmoke] = useState('');
+    const [pets, setPets] = useState('');
+    const [music, setMusic] = useState('');
+    const [luggage, setLuggage] = useState('');
+
 
   useEffect(() => {
     var state;
@@ -18,6 +23,22 @@ const ProfileRender = (props) => {
     setRenderInfo(state)
     console.log(props);
     });
+    if (props.value.smokeAllow)
+        setSmoke('Smoking is allowed.')
+    else    
+        setSmoke('Smoking is not allowed.')
+    if (props.value.petsAllow)
+        setPets('Pets are fine.')
+    else    
+        setPets('No pets please.')
+    if (props.value.musicAllow)
+        setMusic('I like music.')
+    else    
+        setMusic('I prefer silence.')
+    if (props.value.luggageAllow)
+        setLuggage('There is enough room for luggage.')
+    else    
+        setLuggage('There is no room for luggage.')
   }, []);
 
     return (
@@ -62,6 +83,10 @@ const ProfileRender = (props) => {
                         <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
                         <Text style={styles.textTitles}>{props.value.isOffer}</Text>
                         <Text style={styles.textTitles}>Ride Preferences:</Text>
+                        <Text style={styles.textTitles}>{smoke}</Text>
+                        <Text style={styles.textTitles}>{pets}</Text>
+                        <Text style={styles.textTitles}>{music}</Text>
+                        <Text style={styles.textTitles}>{luggage}</Text>
                     </View>
 
                 </View>
