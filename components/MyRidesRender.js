@@ -1,16 +1,20 @@
 import React, {useState,  useEffect} from 'react';
-import { ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
+import { FlatList, ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
+import _ from "lodash";
 
 const MyRidesRender = (props) => {
     
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
-    const [array, setArray] = useState([]);
+    const [requestsModal, setRequestsModal] = useState(false);
+    const [originalSeats, setOriginalSeats] = useState(props.value.seats);
+    const [seats, setSeats] = useState(props.value.seats);
     const [smoke, setSmoke] = useState('');
     const [pets, setPets] = useState('');
     const [music, setMusic] = useState('');
     const [luggage, setLuggage] = useState('');
+    const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     var state;
@@ -21,8 +25,19 @@ const MyRidesRender = (props) => {
     .then((snapshot) => {
     state = snapshot.val();
     setRenderInfo(state)
-    console.log(props);
     });
+    firebase
+    .database()
+    .ref(`/rides/${props.value.ruid}/requests`)
+      .once("value")
+      .then((snapshot) => {
+        state = snapshot.val();
+        const requests = _.map(state, (val, ruid) => {
+          return { ...val, ruid};
+        });
+        setRequests(requests);
+      });
+
     if (props.value.smokeAllow)
         setSmoke('Smoking is allowed.')
     else    
@@ -41,21 +56,6 @@ const MyRidesRender = (props) => {
         setLuggage('There is no room for luggage.')
   }, []);
 
-    const sendRequest = () => {
-       console.log(props);
-       const { currentUser } = firebase.auth();
-       firebase.database().ref(`/users/${currentUser.uid}/outgoing`).push({
-         ruid: props.value.ruid,
-         uid: props.value.uid,
-         isAccepted: false
-       });
-       firebase.database().ref(`/users/${props.value.uid}/incoming`).push({
-        ruid: props.value.ruid,
-        uid: currentUser.uid,
-        isReviewed: false
-      });
-    }
-
     return (
        <View style={styles.container}>
            <View style={styles.resultsContainer}>
@@ -64,7 +64,9 @@ const MyRidesRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
-        
+            <TouchableOpacity onPress={() => setRequestsModal(true)}>
+            <Text>Review requests</Text>
+            </TouchableOpacity>
             </View>
             <View style={styles.imageContainer}>
             <TouchableOpacity onPress={() => setModal(true)}>
@@ -111,6 +113,48 @@ const MyRidesRender = (props) => {
             </TouchableOpacity>
           </View>
 
+        </Modal>
+        <Modal visible={requestsModal} animationType="slide">
+         
+            <Text>List of incoming requests</Text>
+           
+            <FlatList
+                data={requests}
+                renderItem={({ item }) => {
+                if (item.rideId == props.value.ruid)
+                return ( 
+                
+                <View style={styles.requestBox}>
+            
+                <Text>Request from {item.name} with uid {item.uid}</Text>
+                <Text>Status: {item.isAccepted.toString()}</Text>
+                
+                 <TouchableOpacity
+                    onPress={() => {
+                    firebase.database().ref(`/rides/${item.rideId}/requests/${item.ruid}`).update({isAccepted: true});
+                    item.isAccepted = true;
+         
+                    }}
+                  >
+                <Text>Accept</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => { 
+                    firebase.database().ref(`/rides/${item.rideId}/requests/${item.ruid}`).update({isAccepted: false}); 
+                    item.isAccepted = false; 
+                    }}
+                  >
+                <Text>Reject</Text>
+                </TouchableOpacity>
+              
+                </View>
+                );
+          }}
+        />
+            
+             <TouchableOpacity style={styles.button} onPress={() => setRequestsModal(false)}>
+              <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
+            </TouchableOpacity>
         </Modal>
         </View> 
         
@@ -176,6 +220,15 @@ const styles = StyleSheet.create({
         flex: 3,
         backgroundColor: '#f3e1d6'
     },
+    requestContainer: {
+        flexDirection: 'row',
+    },
+    requestBox: {
+        borderColor: '#E9446A',
+        borderRadius: 1,
+        borderWidth: 1,
+        margin: 10
+    }
 })
 
 export default MyRidesRender;

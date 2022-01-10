@@ -3,6 +3,7 @@ import React from "react";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
 FlatList,
+ScrollView,
   View,
   Text,
   StyleSheet,
@@ -10,6 +11,7 @@ FlatList,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MyRidesRender from "../components/MyRidesRender";
+import RequestRender from "../components/RequestRender";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
@@ -19,21 +21,16 @@ export default class MyRidesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        //destination: { latitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.latitude, longitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.longitude},
-        //origin: { latitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.location.latitude, longitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.location.longitude},
-        count: 0
+      myRideId: ''
     };
     
-toggleLuggage = (ruid) => {
-    console.log(ruid);
-}
 
   }
   render() {
     return (   
-   
+        <ScrollView>
         <View> 
-        <Text style={styles.textTitles}>Matched results</Text>
+        <Text style={styles.textTitles}>My Offers</Text>
         <FlatList
         
           data={this.state.rides}
@@ -56,8 +53,36 @@ toggleLuggage = (ruid) => {
             );
           }}
         />
-      </View>
 
+<Text style={styles.textTitles}>My Requests</Text>
+<FlatList
+        
+        data={this.state.rides}
+        renderItem={({ item }) => {
+          const { currentUser } = firebase.auth(); 
+          var answers = item.requests;  
+          if (item.requests == null)
+          return
+          const result = Object.values(answers);
+          
+        const rideId = result.map((data) => data.rideId);
+        const userId = result.map((data) => data.uid);
+        const status = result.map((data) => data.isAccepted);
+         // console.log(userId)
+          for (var i=0; i < rideId.length; i++)
+          if (rideId[i] == item.ruid)
+          for (var j=0; j < userId.length; j++)
+          if (userId[j] == currentUser.uid)
+          return (
+            <View>
+               <RequestRender value={item} />
+            </View>
+            
+          );
+        }}
+      />
+      </View>
+      </ScrollView>
     
  
     );

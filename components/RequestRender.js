@@ -1,20 +1,23 @@
-import React, {useState, useEffect} from 'react';
-import { ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
+import React, {useState,  useEffect} from 'react';
+import { FlatList, ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 import _ from "lodash";
 
-const ProfileRender = (props) => {
+const RequestRender = (props) => {
+    
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
+    const [requestsModal, setRequestsModal] = useState(false);
     const [array, setArray] = useState([]);
     const [smoke, setSmoke] = useState('');
     const [pets, setPets] = useState('');
     const [music, setMusic] = useState('');
     const [luggage, setLuggage] = useState('');
-    const [name, setName] = useState('');
     const [requests, setRequests] = useState([]);
-    const [buttonStatus, setButtonStatus] = useState(false);
-
+    const [status, setStatus] = useState();
+    const [statusMessage, setStatusMessage] = useState('pending');
+ 
+  
   useEffect(() => {
     var state;
     firebase
@@ -24,28 +27,19 @@ const ProfileRender = (props) => {
     .then((snapshot) => {
     state = snapshot.val();
     setRenderInfo(state)
-    console.log(props);
     });
+    firebase
+    .database()
+    .ref(`/rides/${props.value.ruid}/requests`)
+      .once("value")
+      .then((snapshot) => {
+        state = snapshot.val();
+        const requests = _.map(state, (val, ruid) => {
+          return { ...val, ruid};
+        });
+        setRequests(requests);
+      });
 
-    const { currentUser } = firebase.auth();
-    firebase.database()
-            .ref((`/users/${currentUser.uid}`))
-            .once('value')
-            .then((snapshot) => {
-                state = snapshot.val()
-                setName(state.name);
-            });
-            firebase
-             .database()
-             .ref(`/rides/${props.value.ruid}/requests`)
-             .once("value")
-             .then((snapshot) => {
-             state = snapshot.val();
-             const requests = _.map(state, (val, ruid) => {
-               return { ...val, ruid};
-             });
-             setRequests(requests);
-           });  
     if (props.value.smokeAllow)
         setSmoke('Smoking is allowed.')
     else    
@@ -64,24 +58,6 @@ const ProfileRender = (props) => {
         setLuggage('There is no room for luggage.')
   }, []);
 
-     const sendRequest = () => {
-         setButtonStatus(true)
-        console.log(requests);
-    const { currentUser } = firebase.auth();
-    const userID = requests.map((data) => data.uid)
-      for (var i=0; i < userID.length; i++)
-      if (userID[i] == currentUser.uid){
-          alert('Request already sent');
-          return
-      }
-       firebase.database().ref(`/rides/${props.value.ruid}/requests`).push({
-         rideId: props.value.ruid,
-         uid: currentUser.uid,
-         isAccepted: false,
-         name: name
-       });
-    }
-
     return (
        <View style={styles.container}>
            <View style={styles.resultsContainer}>
@@ -90,10 +66,9 @@ const ProfileRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
-            <TouchableOpacity disabled={buttonStatus} onPress={sendRequest}>
-            <Text>Request</Text>
+            <TouchableOpacity onPress={() => {}}>
+            <Text>Check status</Text>
             </TouchableOpacity>
-            <Text>Seats available: {props.value.seats}</Text>
             </View>
             <View style={styles.imageContainer}>
             <TouchableOpacity onPress={() => setModal(true)}>
@@ -126,7 +101,6 @@ const ProfileRender = (props) => {
                         <Text style={styles.textTitles}>{renderInfo.name}</Text>
                         <Text style={styles.textTitles}>{renderInfo.lastName}</Text>
                         <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
-                        <Text style={styles.textTitles}>{props.value.isOffer}</Text>
                         <Text style={styles.textTitles}>Ride Preferences:</Text>
                         <Text style={styles.textTitles}>{smoke}</Text>
                         <Text style={styles.textTitles}>{pets}</Text>
@@ -142,12 +116,55 @@ const ProfileRender = (props) => {
           </View>
 
         </Modal>
+        <Modal visible={requestsModal} animationType="slide">
+            <TouchableOpacity onPress={() => console.log('this.userId')}>
+            <Text>List of incoming requests</Text>
+            </TouchableOpacity>
+            <FlatList
+                data={requests}
+                renderItem={({ item }) => {
+                if (item.rideId == props.value.ruid)
+                return ( 
+                
+                <View>
+                <TouchableOpacity>
+               
+                <Text>Request from {item.name} with uid {item.uid}</Text>
+                <Text>Status: {item.isAccepted.toString()}</Text>
+                </TouchableOpacity>
+
+                 <TouchableOpacity
+                    onPress={() => {
+                    console.log(props.value.seats);
+                    firebase.database().ref(`/rides/${item.rideId}/requests/${item.ruid}`).update({isAccepted: true});
+                    firebase.database().ref(`/rides/${item.rideId}/`).update({isAccepted: true});
+                    item.isAccepted = true;
+                    }}
+                  >
+                <Text>Accept</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                    console.log(item);     
+                    firebase.database().ref(`/rides/${item.rideId}/requests/${item.ruid}`).update({isAccepted: false}); 
+                    item.isAccepted = false;
+                    }}
+                  >
+                <Text>Reject</Text>
+                </TouchableOpacity>
+              
+                </View>
+                );
+          }}
+        />
+            
+             <TouchableOpacity style={styles.button} onPress={() => setRequestsModal(false)}>
+              <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
+            </TouchableOpacity>
+        </Modal>
         </View> 
         
     );
-
-
-
 };
 
 const styles = StyleSheet.create({
@@ -162,7 +179,7 @@ const styles = StyleSheet.create({
     resultsContainer: {
         width: 100,
         flexDirection: "column",
-        alignSelf: 'flex-start'
+        alignSelf: 'flex-start',
     },
     imageContainer: {
         position: 'absolute',
@@ -207,7 +224,11 @@ const styles = StyleSheet.create({
     },
     lowerView: {
         flex: 3,
+        backgroundColor: '#f3e1d6'
     },
+    requestContainer: {
+        flexDirection: 'row',
+    }
 })
 
-export default ProfileRender;
+export default RequestRender;
