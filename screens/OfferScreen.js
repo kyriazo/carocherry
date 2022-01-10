@@ -42,10 +42,10 @@ export default class OfferScreen extends React.Component {
         checked: 'first',
         isOffer: 'true',
         seats: 0,
-        smokingAllow: false,
-        musicAllow: false,
-        petsAllow: false,
-        luggageAllow: false,
+        smokingAllow: true,
+        musicAllow: true,
+        petsAllow: true,
+        luggageAllow: true,
     };
 }
 
@@ -288,55 +288,56 @@ toggleLuggage = () => {
             </Picker>
           <Text style={styles.textTitles}>Is smoking allowed?</Text>
            <View style={styles.switchStyle}>
-           <Text>Smoking is fine</Text>
+           <Text>No smoking please</Text>
            <Switch
-              trackColor={{ false: "#00ff00", true:  "#ff0000" }}
+              trackColor={{ false: "#ff0000", true:  "#00ff00" }}
               thumbColor={this.state.smokingAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.toggleSmoking}
               value={this.state.smokingAllow}
             />
-            <Text>No smoking please</Text>
+            <Text>Smoking is fine</Text>
            </View>
            
            <Text style={styles.textTitles}>Music?</Text>
            <View style={styles.switchStyle}>
-           <Text>I like music</Text>
+           <Text>I prefer silence</Text>
            <Switch
-              trackColor={{ false: "#00ff00", true:  "#ff0000" }}
+              trackColor={{ false: "#ff0000", true:  "#00ff00" }}
               thumbColor={this.state.musicAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.toggleMusic}
               value={this.state.musicAllow}
             />
-            <Text>I prefer silence</Text>
+            <Text>I like music</Text>
             </View>
            <Text style={styles.textTitles}>Are pets welcome?</Text>
            <View style={styles.switchStyle}>
-             <Text>Pets are welcome</Text>
+             <Text>No pets please</Text>
            <Switch
-              trackColor={{ false: "#00ff00", true: "#ff0000" }}
+              trackColor={{ false: "#ff0000", true:  "#00ff00" }}
               thumbColor={this.state.petsAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.togglePets}
               value={this.state.petsAllow}
             />
-             <Text>No pets please</Text>
+             <Text>Pets welcome</Text>
             </View>
-           </View>
-
-           <Text style={styles.textTitles}>Room for luggage?</Text>
+           
+            <Text style={styles.textTitles}>Room for luggage?</Text>
            <View style={styles.switchStyle}>
-           <Text>No room for luggage</Text>
+             <Text>No room for luggage</Text>
            <Switch
-              trackColor={{ false: "#00ff00", true:  "#ff0000" }}
-              thumbColor={this.state.luggageAllow ? "#f4f3f4" : "#f4f3f4"}
+              trackColor={{ false: "#ff0000", true:  "#00ff00" }}
+              thumbColor={this.state.petsAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.toggleLuggage}
               value={this.state.luggageAllow}
             />
-            <Text>There is enough room</Text>
-            </View>
+             <Text>There is enough room</Text>
+            </View> 
+           
+           </View>
            
            <View style={{ flexDirection: 'row' }}>
           
