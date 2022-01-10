@@ -7,7 +7,6 @@ import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import OfferScreen from './screens/OfferScreen';
 import RouteScreen from './screens/RouteScreen';
-import ConfirmScreen from './screens/ConfirmScreen';
 import FindScreen from './screens/FindScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import * as firebase from "firebase";
@@ -51,14 +50,6 @@ const AppStack = createStackNavigator({
     navigationOptions: {
       // headerShown: false
       headerTitle: 'TestTitle'
-    }
-    },
-  Confirm: {
-    screen: ConfirmScreen,
-    navigationOptions: {
-      // headerShown: false
-      headerTitle: 'TestTitle'
-      
     }
     },
   Find: {
