@@ -2,6 +2,7 @@ import React, {useState,  useEffect} from 'react';
 import { FlatList, ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 import _ from "lodash";
+import { cos } from 'react-native-reanimated';
 
 const MyRidesRender = (props) => {
     
@@ -15,6 +16,8 @@ const MyRidesRender = (props) => {
     const [music, setMusic] = useState('');
     const [luggage, setLuggage] = useState('');
     const [requests, setRequests] = useState([]);
+    const [status, setStatus] = useState();
+    const [statusMessage, setStatusMessage] = useState('');
 
   useEffect(() => {
     var state;
@@ -127,13 +130,25 @@ const MyRidesRender = (props) => {
                 <View style={styles.requestBox}>
             
                 <Text>Request from {item.name} with uid {item.uid}</Text>
-                <Text>Status: {item.isAccepted.toString()}</Text>
-                
+                <TouchableOpacity onPress={() => {
+                     var state;
+                     firebase
+                     .database()
+                     .ref(`/rides/${props.value.ruid}/requests/${item.ruid}`)
+                       .once("value")
+                       .then((snapshot) => {
+                         state = snapshot.val();
+                         setStatus(state)
+                         alert(state.isAccepted)
+                       }         
+                       );
+                }}>
+                <Text>Check status</Text>
+                </TouchableOpacity>
                  <TouchableOpacity
                     onPress={() => {
                     firebase.database().ref(`/rides/${item.rideId}/requests/${item.ruid}`).update({isAccepted: true});
-                    item.isAccepted = true;
-         
+                   
                     }}
                   >
                 <Text>Accept</Text>
@@ -141,7 +156,7 @@ const MyRidesRender = (props) => {
                 <TouchableOpacity
                     onPress={() => { 
                     firebase.database().ref(`/rides/${item.rideId}/requests/${item.ruid}`).update({isAccepted: false}); 
-                    item.isAccepted = false; 
+                    
                     }}
                   >
                 <Text>Reject</Text>
