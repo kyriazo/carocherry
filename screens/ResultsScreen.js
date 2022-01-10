@@ -24,18 +24,9 @@ export default class ResultsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        //destination: { latitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.latitude, longitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.longitude},
-        //origin: { latitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.location.latitude, longitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.location.longitude},
-        count: 0
     };
     
   }
-
-  consoleInfo = () => {
-   console.log(this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lat);
-   console.log(this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lng);
-
-}
 
   render() {
     return (   
@@ -46,7 +37,8 @@ export default class ResultsScreen extends React.Component {
         
           data={this.state.rides}
           renderItem={({ item }) => {
-            const lat1 = this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lat;
+              const { currentUser } = firebase.auth();
+              const lat1 = this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lat;
               const lat2 = item.origin.latitude;
               const lon1 = this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lng;
               const lon2 = item.origin.longitude;
@@ -61,6 +53,7 @@ export default class ResultsScreen extends React.Component {
                         Math.sin(Δλ/2) * Math.sin(Δλ/2);
               const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
               const d = R * c; // in metres
+              if (currentUser.uid != item.uid)
               if (d < 1000)  
             return (
             
