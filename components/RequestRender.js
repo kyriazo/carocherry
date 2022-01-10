@@ -66,7 +66,23 @@ const RequestRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => {
+                const { currentUser } = firebase.auth(); 
+                var answers = requests;  
+                if (requests == null)
+                return
+                const result = Object.values(answers);   
+                const rideId = result.map((data) => data.rideId);
+                const userId = result.map((data) => data.uid);
+                const isAccepted = result.map((data) => data.isAccepted);
+                for (var i=0; i < userId.length; i++)
+                if (userId[i] == currentUser.uid){
+                    if (isAccepted[i])
+                    alert("You're accepted")
+                    else
+                    alert("You're not accepted")
+                }
+                }}>
             <Text>Check status</Text>
             </TouchableOpacity>
             </View>
@@ -154,7 +170,7 @@ const RequestRender = (props) => {
                 </TouchableOpacity>
               
                 </View>
-                );
+                );        
           }}
         />
             
