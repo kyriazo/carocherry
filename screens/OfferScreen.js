@@ -228,18 +228,20 @@ toggleLuggage = () => {
           <View style={styles.dateContainer}>
           <Text style={styles.textInput}>{this.state.date.toUTCString()}</Text>
 
-          <View>
-        <TouchableOpacity style={styles.dateButton} onPress={this.showDatepicker} title="Date">
-        <Ionicons name="time-outline" size={24} color="black" />
-        </TouchableOpacity> 
         
-      </View>
       <View>
      
       <TouchableOpacity style={styles.dateButton} onPress={this.showTimepicker} title="Date">
       <Fontisto name="date" size={24} color="black" />
       </TouchableOpacity> 
     
+      </View>
+
+      <View>
+        <TouchableOpacity style={styles.dateButton} onPress={this.showDatepicker} title="Date">
+        <Ionicons name="time-outline" size={24} color="black" />
+        </TouchableOpacity> 
+        
       </View>
       {this.state.show && (
         <DateTimePicker
