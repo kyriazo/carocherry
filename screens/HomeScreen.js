@@ -74,7 +74,7 @@ export default class HomeScreen extends React.Component {
 
              <View> 
         <Text style={styles.textTitles}>Latest Rides</Text>
-        <FlatList  
+        <FlatList
           data={this.state.rides}
           extraData={this.state.rides}
           renderItem={({ item }) => {
@@ -95,6 +95,41 @@ export default class HomeScreen extends React.Component {
 
         );
     }
+
+  //   async componentDidUpdate() {
+  //     this.getPermissionAsync();
+  //     //console.log('hi')
+  //      const { currentUser } = firebase.auth();
+  //          var state;
+  //          firebase
+  //    .database()
+  //    .ref(`/rides`)
+  //    .once("value")
+  //    .then((snapshot) => {
+  //      state = snapshot.val();
+  //      const rides = _.map(state, (val, ruid) => {
+  //        return { ...val, ruid};
+  //      });
+  //      const reverseRides = rides.reverse()
+  //      const myArray = reverseRides.filter(function ( obj ) {
+  //          return obj.uid == currentUser.uid;
+  //      });
+  //      const slicedArray = myArray.slice(0, 5);
+  //      this.setState({
+  //        rides: slicedArray,
+  //      });
+  //    });
+  //  }
+
+  //  getPermissionAsync = async () => {
+  //   if (Constants.platform.ios) {
+  //     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  //     if (status !== "granted") {
+  //       alert("Sorry, we need camera roll permissions to make this work!");
+  //     }
+  //   }
+  // };
+
 
 }
 const styles = StyleSheet.create({

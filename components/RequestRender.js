@@ -2,6 +2,8 @@ import React, {useState,  useEffect} from 'react';
 import { FlatList, ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 import _ from "lodash";
+import { FontAwesome } from '@expo/vector-icons'; 
+
 
 const RequestRender = (props) => {
     
@@ -58,6 +60,25 @@ const RequestRender = (props) => {
         setLuggage('There is no room for luggage.')
   }, []);
 
+
+    useEffect(()=>{
+        const { currentUser } = firebase.auth(); 
+        var answers = requests;  
+        if (requests == null)
+        return
+        const result = Object.values(answers);   
+        const rideId = result.map((data) => data.rideId);
+        const userId = result.map((data) => data.uid);
+        const isAccepted = result.map((data) => data.isAccepted);
+        for (var i=0; i < userId.length; i++)
+        if (userId[i] == currentUser.uid){
+            if (isAccepted[i]){
+                setStatusMessage("Accepted.")
+        }else
+                setStatusMessage("Not Accepted.")     
+        }
+    });
+
     return (
        <View style={styles.container}>
            <View style={styles.resultsContainer}>
@@ -66,25 +87,23 @@ const RequestRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
-            <TouchableOpacity onPress={() => {
-                const { currentUser } = firebase.auth(); 
-                var answers = requests;  
-                if (requests == null)
-                return
-                const result = Object.values(answers);   
-                const rideId = result.map((data) => data.rideId);
-                const userId = result.map((data) => data.uid);
-                const isAccepted = result.map((data) => data.isAccepted);
-                for (var i=0; i < userId.length; i++)
-                if (userId[i] == currentUser.uid){
-                    if (isAccepted[i])
-                    alert("You're accepted")
-                    else
-                    alert("You're not accepted")
-                }
-                }}>
-            <Text>Check status</Text>
-            </TouchableOpacity>
+            <Text>Status is: {statusMessage}</Text>
+            <TouchableOpacity onPress={()=>{
+            var state;
+            firebase
+            .database()
+            .ref(`/rides/${props.value.ruid}/requests`)
+            .once("value")
+            .then((snapshot) => {
+            state = snapshot.val();
+            const requests = _.map(state, (val, ruid) => {
+              return { ...val, ruid};
+            });
+            setRequests(requests);
+          });
+            }}>
+            <FontAwesome name="refresh" size={24} color="black" /> 
+            </TouchableOpacity>    
             </View>
             <View style={styles.imageContainer}>
             <TouchableOpacity onPress={() => setModal(true)}>
@@ -132,52 +151,7 @@ const RequestRender = (props) => {
           </View>
 
         </Modal>
-        <Modal visible={requestsModal} animationType="slide">
-            <TouchableOpacity onPress={() => console.log('this.userId')}>
-            <Text>List of incoming requests</Text>
-            </TouchableOpacity>
-            <FlatList
-                data={requests}
-                renderItem={({ item }) => {
-                if (item.rideId == props.value.ruid)
-                return ( 
-                
-                <View>
-                <TouchableOpacity>
-               
-                <Text>Request from {item.name} with uid {item.uid}</Text>
-                <Text>Status: {item.isAccepted.toString()}</Text>
-                </TouchableOpacity>
 
-                 <TouchableOpacity
-                    onPress={() => {
-                    console.log(props.value.seats);
-                    firebase.database().ref(`/rides/${item.rideId}/requests/${item.ruid}`).update({isAccepted: true});
-                    firebase.database().ref(`/rides/${item.rideId}/`).update({isAccepted: true});
-                    item.isAccepted = true;
-                    }}
-                  >
-                <Text>Accept</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => {
-                    console.log(item);     
-                    firebase.database().ref(`/rides/${item.rideId}/requests/${item.ruid}`).update({isAccepted: false}); 
-                    item.isAccepted = false;
-                    }}
-                  >
-                <Text>Reject</Text>
-                </TouchableOpacity>
-              
-                </View>
-                );        
-          }}
-        />
-            
-             <TouchableOpacity style={styles.button} onPress={() => setRequestsModal(false)}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
-            </TouchableOpacity>
-        </Modal>
         </View> 
         
     );

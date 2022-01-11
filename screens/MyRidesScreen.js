@@ -28,11 +28,13 @@ export default class MyRidesScreen extends React.Component {
   }
   render() {
     return (   
-        <ScrollView>
+        <ScrollView
+        keyboardShouldPersistTaps='never'
+        >
         <View> 
         <Text style={styles.textTitles}>My Offers</Text>
         <FlatList
-        
+          keyboardShouldPersistTaps='never'
           data={this.state.rides}
           renderItem={({ item }) => {
 
@@ -56,18 +58,16 @@ export default class MyRidesScreen extends React.Component {
 
 <Text style={styles.textTitles}>My Requests</Text>
 <FlatList
-        
+        keyboardShouldPersistTaps='never'
         data={this.state.rides}
         renderItem={({ item }) => {
           const { currentUser } = firebase.auth(); 
           var answers = item.requests;  
           if (item.requests == null)
           return
-          const result = Object.values(answers);
-          
-        const rideId = result.map((data) => data.rideId);
-        const userId = result.map((data) => data.uid);
-        const status = result.map((data) => data.isAccepted);
+          const result = Object.values(answers);   
+          const rideId = result.map((data) => data.rideId);
+          const userId = result.map((data) => data.uid);
          // console.log(userId)
           for (var i=0; i < rideId.length; i++)
           if (rideId[i] == item.ruid)
@@ -111,7 +111,6 @@ export default class MyRidesScreen extends React.Component {
 
   async componentDidMount() {
     this.getPermissionAsync();
-    const { currentUser } = firebase.auth();
     var state;
     firebase
       .database()
