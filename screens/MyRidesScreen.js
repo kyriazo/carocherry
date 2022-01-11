@@ -1,6 +1,5 @@
 import _ from "lodash";
 import React from "react";
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
 FlatList,
 ScrollView,
@@ -9,7 +8,6 @@ ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import MyRidesRender from "../components/MyRidesRender";
 import RequestRender from "../components/RequestRender";
 import Constants from "expo-constants";
@@ -29,12 +27,10 @@ export default class MyRidesScreen extends React.Component {
   render() {
     return (   
         <ScrollView
-        keyboardShouldPersistTaps='never'
         >
         <View> 
         <Text style={styles.textTitles}>My Offers</Text>
         <FlatList
-          keyboardShouldPersistTaps='never'
           data={this.state.rides}
           renderItem={({ item }) => {
 
@@ -58,7 +54,6 @@ export default class MyRidesScreen extends React.Component {
 
 <Text style={styles.textTitles}>My Requests</Text>
 <FlatList
-        keyboardShouldPersistTaps='never'
         data={this.state.rides}
         renderItem={({ item }) => {
           const { currentUser } = firebase.auth(); 
@@ -68,7 +63,6 @@ export default class MyRidesScreen extends React.Component {
           const result = Object.values(answers);   
           const rideId = result.map((data) => data.rideId);
           const userId = result.map((data) => data.uid);
-         // console.log(userId)
           for (var i=0; i < rideId.length; i++)
           if (rideId[i] == item.ruid)
           for (var j=0; j < userId.length; j++)
@@ -91,7 +85,6 @@ export default class MyRidesScreen extends React.Component {
 
   async componentDidUpdate() {
     this.getPermissionAsync();
-    const { currentUser } = firebase.auth();
     var state;
     firebase
       .database()

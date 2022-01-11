@@ -63,6 +63,7 @@ uploadRoute = () => {
         smokingAllow: this.state.smokingAllow,
         luggageAllow: this.state.luggageAllow,
         seats: this.state.seats,
+        seatLimit: this.state.seats,
     });
         //this.props.navigation.navigate("Home")
     }

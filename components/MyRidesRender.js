@@ -17,7 +17,7 @@ const MyRidesRender = (props) => {
     const [music, setMusic] = useState('');
     const [luggage, setLuggage] = useState('');
     const [requests, setRequests] = useState([]);
-    const [status, setStatus] = useState();
+    
 
   useEffect(() => {
     var state;
@@ -59,6 +59,19 @@ const MyRidesRender = (props) => {
         setLuggage('There is no room for luggage.')
   }, []);
 
+  useEffect(() => { 
+        var state;
+        firebase
+        .database()
+        .ref(`/rides/${props.value.ruid}`)
+          .once("value")
+          .then((snapshot) => {
+            state = snapshot.val();
+            setSeats(state.seats);
+          });
+  });
+
+
     return (
        <View style={styles.container}>
            <View style={styles.resultsContainer}>
@@ -68,7 +81,7 @@ const MyRidesRender = (props) => {
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
             <TouchableOpacity onPress={() => setRequestsModal(true)}>
-            <Text>Review requests</Text>
+            <Text style={{fontWeight: 'bold'}}>Review requests</Text>
             </TouchableOpacity>
             </View>
             <View style={styles.imageContainer}>
@@ -120,6 +133,7 @@ const MyRidesRender = (props) => {
         <Modal visible={requestsModal} animationType="slide">
          
             <Text>List of incoming requests</Text>
+            <Text>Seats left: {seats}</Text>
            
             <FlatList
                 data={requests}
