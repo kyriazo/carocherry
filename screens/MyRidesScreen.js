@@ -21,19 +21,18 @@ export default class MyRidesScreen extends React.Component {
     this.state = {
       myRideId: ''
     };
-    
 
   }
   render() {
     return (   
-        <ScrollView
-        >
+        <ScrollView>
         <View> 
-        <Text style={styles.textTitles}>My Offers</Text>
+        <Text style={styles.textTitles}>My Rides</Text>
         <FlatList
           data={this.state.rides}
+          keyExtractor={(item, index) => item.ruid}
+          key={(item, index) => item.ruid}
           renderItem={({ item }) => {
-
             const { currentUser } = firebase.auth();
             if (currentUser.uid == item.uid)
             return (
@@ -46,15 +45,19 @@ export default class MyRidesScreen extends React.Component {
                     }
                   >
                    <Text style={styles.deleteText}>Delete this Ride</Text>
+                   <Text style={styles.deleteText}>{item.rideId}</Text>
                   </TouchableOpacity>
               </View>
             );
           }}
+           
         />
 
 <Text style={styles.textTitles}>My Requests</Text>
 <FlatList
         data={this.state.rides}
+        keyExtractor={(item, index) => item.ruid}
+        // key={(item, index) => item.ruid}
         renderItem={({ item }) => {
           const { currentUser } = firebase.auth(); 
           var answers = item.requests;  
@@ -70,15 +73,14 @@ export default class MyRidesScreen extends React.Component {
           return (
             <View>
                <RequestRender value={item} />
+              
             </View>
-            
+           
           );
         }}
       />
       </View>
-      </ScrollView>
-    
- 
+      </ScrollView>      
     );
   }
   

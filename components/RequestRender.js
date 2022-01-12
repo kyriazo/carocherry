@@ -16,11 +16,12 @@ const RequestRender = (props) => {
     const [music, setMusic] = useState('');
     const [luggage, setLuggage] = useState('');
     const [requests, setRequests] = useState([]);
-    const [status, setStatus] = useState();
+    const [isOffer, setIsOffer] = useState('');
     const [statusMessage, setStatusMessage] = useState('pending');
  
   
   useEffect(() => {
+    let isMounted = true;               // note mutable flag
     var state;
     firebase
     .database()
@@ -58,6 +59,11 @@ const RequestRender = (props) => {
         setLuggage('There is enough room for luggage.')
     else    
         setLuggage('There is no room for luggage.')
+    if (props.value.isOffer)
+        setIsOffer('Offering')
+    else    
+        setIsOffer('Requesting')
+        return () => { isMounted = false }; // cleanup toggles value, if unmounted
   }, []);
 
 
@@ -88,6 +94,7 @@ const RequestRender = (props) => {
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
             <Text>Status is: {statusMessage}</Text>
+            <Text>{isOffer}</Text>
             <TouchableOpacity onPress={()=>{
             var state;
             firebase
@@ -133,9 +140,9 @@ const RequestRender = (props) => {
 
                     <View style={styles.lowerView}>
 
-                        <Text style={styles.textTitles}>{renderInfo.name}</Text>
-                        <Text style={styles.textTitles}>{renderInfo.lastName}</Text>
+                        <Text style={styles.textTitles}>{renderInfo.name} {renderInfo.lastName}</Text>
                         <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
+                        <Text style={styles.textTitles}>{renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
                         <Text style={styles.textTitles}>Ride Preferences:</Text>
                         <Text style={styles.textTitles}>{smoke}</Text>
                         <Text style={styles.textTitles}>{pets}</Text>

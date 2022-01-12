@@ -6,16 +6,17 @@ import _ from "lodash";
 const ProfileRender = (props) => {
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
-    const [array, setArray] = useState([]);
     const [smoke, setSmoke] = useState('');
     const [pets, setPets] = useState('');
     const [music, setMusic] = useState('');
     const [luggage, setLuggage] = useState('');
     const [name, setName] = useState('');
     const [requests, setRequests] = useState([]);
+    const [isOffer, setIsOffer] = useState('');
     const [buttonStatus, setButtonStatus] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;               // note mutable flag
     var state;
     firebase
     .database()
@@ -24,7 +25,6 @@ const ProfileRender = (props) => {
     .then((snapshot) => {
     state = snapshot.val();
     setRenderInfo(state)
-    console.log(props);
     });
 
     const { currentUser } = firebase.auth();
@@ -60,13 +60,17 @@ const ProfileRender = (props) => {
         setMusic('I prefer silence.')
     if (props.value.luggageAllow)
         setLuggage('There is enough room for luggage.')
-    else    
+    else 
         setLuggage('There is no room for luggage.')
+    if (props.value.isOffer)
+        setIsOffer('Offering')
+    else    
+        setIsOffer('Requesting')   
+    return () => { isMounted = false };
   }, []);
 
      const sendRequest = () => {
          setButtonStatus(true)
-        console.log(requests);
     const { currentUser } = firebase.auth();
     const userID = requests.map((data) => data.uid)
       for (var i=0; i < userID.length; i++)
@@ -90,8 +94,9 @@ const ProfileRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
+            <Text>{isOffer}</Text>
             <TouchableOpacity disabled={buttonStatus} onPress={sendRequest}>
-            <Text>Request</Text>
+            <Text style={{fontWeight: 'bold'}}>Request</Text>
             </TouchableOpacity>
             <Text>Seats available: {props.value.seats}</Text>
             </View>
@@ -123,10 +128,9 @@ const ProfileRender = (props) => {
 
                     <View style={styles.lowerView}>
 
-                        <Text style={styles.textTitles}>{renderInfo.name}</Text>
-                        <Text style={styles.textTitles}>{renderInfo.lastName}</Text>
+                    <Text style={styles.textTitles}>{renderInfo.name} {renderInfo.lastName}</Text>
                         <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
-                        <Text style={styles.textTitles}>{props.value.isOffer}</Text>
+                        <Text style={styles.textTitles}>{renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
                         <Text style={styles.textTitles}>Ride Preferences:</Text>
                         <Text style={styles.textTitles}>{smoke}</Text>
                         <Text style={styles.textTitles}>{pets}</Text>

@@ -10,10 +10,13 @@ const ReviewRender = (props) => {
     const [buttonStatus, setButtonStatus] = useState(true);
 
     useEffect(()=>{  
+              let isMounted = true;               // note mutable flag
               if (isAccepted){  
               setStatusMessage('Accepted');
-              }else 
+              }else{
               setStatusMessage('Not Accepted');
+              }
+              return () => { isMounted = false }; // cleanup toggles value, if unmounted
     },[isAccepted]);
 
     useEffect(()=>{

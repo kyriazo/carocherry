@@ -34,8 +34,8 @@ export default class ResultsScreen extends React.Component {
         <View> 
         <Text style={styles.textTitles}>Matched results</Text>
         <FlatList
-        
           data={this.state.rides}
+          keyExtractor={(item, index) => item.ruid}
           renderItem={({ item }) => {
               const { currentUser } = firebase.auth();
               const lat1 = this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lat;

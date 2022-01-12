@@ -9,7 +9,6 @@ ScrollView,
   TouchableOpacity,
 } from "react-native";
 import MyRidesRender from "../components/MyRidesRender";
-import RequestRender from "../components/RequestRender";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
@@ -35,8 +34,9 @@ export default class HomeScreen extends React.Component {
         <Text style={styles.textTitles}>Latest Rides</Text>
         <FlatList
           data={this.state.rides}
+          keyExtractor={(item, index) => item.ruid}
+          key={(item, index) => item.ruid}
           renderItem={({ item }) => {
-
             const { currentUser } = firebase.auth();
             if (currentUser.uid == item.uid)
             return (
@@ -56,7 +56,6 @@ export default class HomeScreen extends React.Component {
 
      async componentDidUpdate() {
       this.getPermissionAsync();
-      //console.log('hi')
        const { currentUser } = firebase.auth();
            var state;
            firebase

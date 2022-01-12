@@ -17,9 +17,11 @@ const MyRidesRender = (props) => {
     const [music, setMusic] = useState('');
     const [luggage, setLuggage] = useState('');
     const [requests, setRequests] = useState([]);
+    const [isOffer, setIsOffer] = useState('');
     
 
   useEffect(() => {
+    let isMounted = true;               // note mutable flag
     var state;
     firebase
     .database()
@@ -57,6 +59,11 @@ const MyRidesRender = (props) => {
         setLuggage('There is enough room for luggage.')
     else    
         setLuggage('There is no room for luggage.')
+    if (props.value.isOffer)
+        setIsOffer('Offering')
+    else    
+        setIsOffer('Requesting')
+        return () => { isMounted = false }; // cleanup
   }, []);
 
   useEffect(() => { 
@@ -80,6 +87,7 @@ const MyRidesRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
+            <Text>{isOffer}</Text>
             <TouchableOpacity onPress={() => setRequestsModal(true)}>
             <Text style={{fontWeight: 'bold'}}>Review requests</Text>
             </TouchableOpacity>
@@ -112,9 +120,9 @@ const MyRidesRender = (props) => {
 
                     <View style={styles.lowerView}>
 
-                        <Text style={styles.textTitles}>{renderInfo.name}</Text>
-                        <Text style={styles.textTitles}>{renderInfo.lastName}</Text>
+                    <Text style={styles.textTitles}>{renderInfo.name} {renderInfo.lastName}</Text>
                         <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
+                        <Text style={styles.textTitles}>{renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
                         <Text style={styles.textTitles}>Ride Preferences:</Text>
                         <Text style={styles.textTitles}>{smoke}</Text>
                         <Text style={styles.textTitles}>{pets}</Text>
@@ -151,6 +159,8 @@ const MyRidesRender = (props) => {
             
             <FlatList
                 data={requests}
+                keyExtractor={(item, index) => item.ruid}
+                key={(item, index) => item.ruid}
                 renderItem={({ item }) => {
                 if (item.rideId == props.value.ruid)
                 return (      
