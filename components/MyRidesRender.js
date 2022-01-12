@@ -4,13 +4,13 @@ import * as firebase from "firebase";
 import _ from "lodash";
 import { cos } from 'react-native-reanimated';
 import ReviewRender from './ReviewRender';
+import { FontAwesome } from '@expo/vector-icons'; 
 
 const MyRidesRender = (props) => {
     
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
     const [requestsModal, setRequestsModal] = useState(false);
-    const [originalSeats, setOriginalSeats] = useState(props.value.seats);
     const [seats, setSeats] = useState(props.value.seats);
     const [smoke, setSmoke] = useState('');
     const [pets, setPets] = useState('');
@@ -131,10 +131,24 @@ const MyRidesRender = (props) => {
 
         </Modal>
         <Modal visible={requestsModal} animationType="slide">
-         
+         <TouchableOpacity onPress={() => {
+                 firebase
+                 .database()
+                 .ref(`/rides/${props.value.ruid}/requests`)
+                   .once("value")
+                   .then((snapshot) => {
+                     state = snapshot.val();
+                     const requests = _.map(state, (val, ruid) => {
+                       return { ...val, ruid};
+                     });
+                     setRequests(requests);
+                   });  
+         }}>
+             <FontAwesome name="refresh" size={24} color="black" /> 
+             </TouchableOpacity>        
             <Text>List of incoming requests</Text>
             <Text>Seats left: {seats}</Text>
-           
+            
             <FlatList
                 data={requests}
                 renderItem={({ item }) => {

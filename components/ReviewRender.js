@@ -25,7 +25,6 @@ const ReviewRender = (props) => {
         state = snapshot.val();
         setIsAccepted(state.isAccepted);
       })
-     console.log(isAccepted);
   });
 
    
