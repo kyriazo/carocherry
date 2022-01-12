@@ -24,7 +24,12 @@
       "favicon": "./assets/favicon.png"
     },
     "android": {
-      "package": "com.carocherry.carocherry"
+      "package": "com.carocherry.carocherry",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0"
+        }
+      }
     }
   }
 }
