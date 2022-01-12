@@ -3,6 +3,7 @@ import React from "react";
 import {
 FlatList,
 ScrollView,
+  Alert,
   View,
   Text,
   StyleSheet,
@@ -40,12 +41,24 @@ export default class MyRidesScreen extends React.Component {
                  <MyRidesRender value={item} />
                   <TouchableOpacity
                     onPress={() => {
-                    firebase.database().ref(`/rides/${item.ruid}`).remove();
+                      Alert.alert(
+                        "Warning",
+                        "Are you sure you want to delete this ride?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => 
+                            {firebase.database().ref(`/rides/${item.ruid}`).remove();}
+                        }
+                        ]
+                      );
                     }
                     }
                   >
                    <Text style={styles.deleteText}>Delete this Ride</Text>
-                   <Text style={styles.deleteText}>{item.rideId}</Text>
                   </TouchableOpacity>
               </View>
             );
