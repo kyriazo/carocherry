@@ -139,7 +139,9 @@ const MyRidesRender = (props) => {
 
         </Modal>
         <Modal visible={requestsModal} animationType="slide">
-         <TouchableOpacity onPress={() => {
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> 
+            <Text style={{fontWeight: 'bold'}}>List of incoming requests:</Text>
+            <TouchableOpacity onPress={() => {
                  firebase
                  .database()
                  .ref(`/rides/${props.value.ruid}/requests`)
@@ -151,10 +153,11 @@ const MyRidesRender = (props) => {
                      });
                      setRequests(requests);
                    });  
-         }}>
-             <FontAwesome name="refresh" size={24} color="black" /> 
-             </TouchableOpacity>        
-            <Text>List of incoming requests</Text>
+            }}>      
+             <FontAwesome style={{marginRight: 10}} name="refresh" size={30} color="black" /> 
+             </TouchableOpacity> 
+            
+            </View>
             <Text>Seats left: {seats}</Text>
             
             <FlatList

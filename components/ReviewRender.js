@@ -34,15 +34,16 @@ const ReviewRender = (props) => {
 
     return(
         <View>
-        <Text>Status: {statusMessage}</Text>
-        <TouchableOpacity
+        <Text style={{fontWeight: 'bold'}}>Status: {statusMessage}</Text>
+                <View style={styles.choicesContainer}>
+                <TouchableOpacity
                     onPress={() => {
                         setStatus(true);
                         setStatusMessage('Accepted');
                         setButtonStatus(false);
                     }}
                   >
-                <Text>Accept</Text>
+                <Text style={{padding: 5, fontWeight: 'bold', color: 'green'}}>Accept</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => { 
@@ -51,8 +52,9 @@ const ReviewRender = (props) => {
                         setButtonStatus(false);
                     }}
                   >
-                <Text>Reject</Text>
+                <Text style={{padding: 5, fontWeight: 'bold', color: 'red'}}>Reject</Text>
                 </TouchableOpacity>
+                </View>
               
                 <TouchableOpacity activeOpacity={buttonStatus ? 1 : 0.2} disabled={buttonStatus} style={styles.saveButton} onPress={()=> {
                     if (status){
@@ -112,6 +114,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
       },
+    choicesContainer:{
+      flexDirection: 'row',
+      alignItems: "center",
+      justifyContent: "center"
+    }
 })
 
 export default ReviewRender;
