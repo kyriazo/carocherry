@@ -85,7 +85,6 @@ export default class ProfileScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state.image)
         return (
             <ScrollView>
                 <View style={ styles.container }>
@@ -131,36 +130,21 @@ export default class ProfileScreen extends React.Component {
     async componentDidMount()  {
         this.getPermissionAsync();
         const { currentUser } = firebase.auth();
-        // const ref = firebase.storage().ref("image/" + currentUser.uid);
-        // firebase.storage().
-        // ref(`image/${currentUser.uid}`)
-        // .once('value', function(snapshot) {
-        //     console.log(snapshot)
-        //     if (snapshot.exists()) {
-        //     console.log('exist');
-        //     const url = ref.getDownloadURL();
-        //     }else{
-        //     console.log('not exist');
-        //     const image_default = firebase.database().ref((`/users/${currentUser.uid}`))
-        //     .once('value')
-        //         .then((snapshot) => {
-        //             userState = snapshot.val()
-        //             const url = userState.image
 
-        //         });
-        //     }
-        // });
-        var storageRef = await  firebase.storage().ref(`image/${currentUser.uid}`).getDownloadURL().then((onResolve) => {
-            console.log('resolved')
-
-        }, (onReject)=> {
-            console.log('not resolved')
+        //This code block, checks if the current user has selected a profile picture. This happens by checking in storage if there is an image
+        //with the current user's uid.If there is, the url is loaded into the state variable, else the default profile placeholder is retrieved
+        //and used instead.
+        var storageRef = await  firebase.storage().ref(`image/${currentUser.uid}`).getDownloadURL().then((url) => {
+            this.setState({
+                image:url
+            })
+        }, (no_url)=> {
             firebase.database().ref((`/users/${currentUser.uid}`))
                 .once('value').then((snapshot) => {
                         var userState = snapshot.val()
                         const url = userState.image
                         this.setState({
-                            image: 'https://www.e-sepia.gr/sites/default/files/team/image/2019-11/Kiriazo.png'
+                            image:url
                         })
 
     

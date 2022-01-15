@@ -16,15 +16,17 @@ export default class RegisterScreen extends React.Component {
     handleSignUp = () => {
 
         
-
+        //This firebase call is responsible for creating the user entity, provided it has an email and a password. On successful completion,
+        //we use the default profile picture url and create a user profile entry on the database.
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(userCredentials => {
-                const url = 'gs://carocherry-61146.appspot.com/image/default.jpg'
+                const url = 'https://firebasestorage.googleapis.com/v0/b/carocherry-61146.appspot.com/o/image%2Fdefault.jpg?alt=media&token=26a5a726-c8ab-4938-b247-3af72a507092'
                 const profileDetails = {
                     name: this.state.firstName,
                     lastName: this.state.lastName,
+                    email: this.state.email,
                     image: url,
                     birthYear: '',
                     miniBio: '',
@@ -33,14 +35,12 @@ export default class RegisterScreen extends React.Component {
                     model: '',
                     color: ''
                 };
-                console.log(userCredentials.user.uid)
-                console.log(profileDetails)
                 firebase.database().ref(`/users/${userCredentials.user.uid}`)
                 .set(profileDetails);
                 
             })
             .catch(error => {
-                console.log(error.code);
+                // console.log(error.code);
                 switch (error.code) {
                     case 'auth/invalid-email':
                         this.setState({ errorMessage: 'Please enter a valid email.' });
