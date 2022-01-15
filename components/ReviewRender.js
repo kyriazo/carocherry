@@ -63,8 +63,6 @@ const ReviewRender = (props) => {
                        alert('Already accepted')
                         return 0;
                       }
-
-                    firebase.database().ref(`/rides/${props.value.rideId}/requests/${props.value.ruid}`).update({isAccepted: true});
                     firebase
                     .database()
                     .ref(`/rides/${props.value.rideId}`)
@@ -77,14 +75,14 @@ const ReviewRender = (props) => {
                         return 0;
                         }else
                       firebase.database().ref(`/rides/${props.value.rideId}`).update({seats: state.seats-1})
+                      firebase.database().ref(`/rides/${props.value.rideId}/requests/${props.value.ruid}`).update({isAccepted: true});
                       });
+
                     }else{
                     if (!isAccepted){
                       alert('Already rejected')
                       return 0;
                     }
-
-                    firebase.database().ref(`/rides/${props.value.rideId}/requests/${props.value.ruid}`).update({isAccepted: false}); 
                     firebase
                     .database()
                     .ref(`/rides/${props.value.rideId}`)
@@ -92,9 +90,11 @@ const ReviewRender = (props) => {
                     .then((snapshot) => {
                       state = snapshot.val();
                       if (state.seats >= state.seatLimit){
-                      return 0;
-                      }else
+                        return 0;
+                      }
+                      else
                       firebase.database().ref(`/rides/${props.value.rideId}`).update({seats: state.seats+1})
+                      firebase.database().ref(`/rides/${props.value.rideId}/requests/${props.value.ruid}`).update({isAccepted: false}); 
                       });
                     }
                 }}>

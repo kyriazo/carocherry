@@ -8,6 +8,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const MyRidesRender = (props) => {
     
+    //Initialization of needed variables
     const [renderInfo, setRenderInfo] = useState([]);
     const [modal, setModal] = useState(false);
     const [requestsModal, setRequestsModal] = useState(false);
@@ -19,13 +20,14 @@ const MyRidesRender = (props) => {
     const [requests, setRequests] = useState([]);
     const [isOffer, setIsOffer] = useState('');
     
-
+//UseEffect hook used in same way as ComponentDidMount
   useEffect(() => {
-    let isMounted = true;               // note mutable flag
+    let isMounted = true; // note mutable flag
     var state;
     firebase
     .database()
-    .ref(`/users/${props.value.uid}`)
+    //Fetch user from firebase
+    .ref(`/users/${props.value.uid}`) 
     .once('value')
     .then((snapshot) => {
     state = snapshot.val();
@@ -33,6 +35,7 @@ const MyRidesRender = (props) => {
     });
     firebase
     .database()
+    //Fetch requests from firebase
     .ref(`/rides/${props.value.ruid}/requests`)
       .once("value")
       .then((snapshot) => {
@@ -43,6 +46,7 @@ const MyRidesRender = (props) => {
         setRequests(requests);
       });
 
+    //Set preferences texts 
     if (props.value.smokeAllow)
         setSmoke('Smoking is allowed.')
     else    
@@ -66,6 +70,7 @@ const MyRidesRender = (props) => {
         return () => { isMounted = false }; // cleanup
   }, []);
 
+//Listener to update seats remaining
   useEffect(() => { 
         var state;
         firebase
@@ -141,6 +146,7 @@ const MyRidesRender = (props) => {
         <Modal visible={requestsModal} animationType="slide">
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> 
             <Text style={{fontWeight: 'bold'}}>List of incoming requests:</Text>
+            {/* Button to fetch new requests with call to firebase */}
             <TouchableOpacity onPress={() => {
                  firebase
                  .database()
@@ -169,6 +175,7 @@ const MyRidesRender = (props) => {
                 return (      
                 <View style={styles.requestBox}>
                 <Text>Request from {item.name} with uid {item.uid}</Text>
+                {/* Renders review for each request on separate components */}
                 <ReviewRender value={item}/>
                 </View>
                 );

@@ -17,13 +17,11 @@ import * as firebase from "firebase";
 
 export default class MyRidesScreen extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      myRideId: ''
-    };
+  //Initialization required
+  state = {
+    rideId: ''
+}
 
-  }
   render() {
     return (   
         <ScrollView>
@@ -38,7 +36,9 @@ export default class MyRidesScreen extends React.Component {
             if (currentUser.uid == item.uid)
             return (
               <View>
+                  {/* Renders each ride on a separate component */}
                  <MyRidesRender value={item} />
+                  {/* Deletes ride after alert confirmation */}
                   <TouchableOpacity
                     onPress={() => {
                       Alert.alert(
@@ -70,7 +70,6 @@ export default class MyRidesScreen extends React.Component {
 <FlatList
         data={this.state.rides}
         keyExtractor={(item, index) => item.ruid}
-        // key={(item, index) => item.ruid}
         renderItem={({ item }) => {
           const { currentUser } = firebase.auth(); 
           var answers = item.requests;  

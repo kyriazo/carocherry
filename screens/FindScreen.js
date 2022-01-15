@@ -12,15 +12,6 @@ import PlaceRender from "../components/PlaceRender";
 
 export default class FindScreen extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-        originPlace: '',
-        destinationPlace: '',
-        orignStatus: '',
-        destinationStatus: ''
-    };
-}
 
 fromTextHandler = (fromText) => {
   this.setState({
@@ -34,18 +25,12 @@ destinationTextHandler = (destinationText) => {
   });
 }
 
-consoleInfo = () => {
-    console.log(this.props);
-    console.log(this.state);
-}
-
-
   render() {
     return (
 
       <SafeAreaView>
         <View style={styles.container}>
-          <GooglePlacesAutocomplete
+          <GooglePlacesAutocomplete //Default implementation
             suppressDefaultStyles
             styles={{
               textInput: styles.TextInput,
@@ -78,9 +63,9 @@ consoleInfo = () => {
             key: 'AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0',
             language: 'en',
           }}
-          renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
+          renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />} //Renders each result in a component named PlaceRender
         />
-          <GooglePlacesAutocomplete
+          <GooglePlacesAutocomplete //Default implementation
             suppressDefaultStyles
             styles={{
               textInput: styles.TextInput,
@@ -105,7 +90,7 @@ consoleInfo = () => {
              }}
             onPress={(data, details = null) => {
               this.setState({
-              destinationPlace: { value: {data, details}}
+              destinationPlace: { value: {data, details}} 
             });   
           }}
       fetchDetails
@@ -113,16 +98,17 @@ consoleInfo = () => {
             key: 'AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0',
             language: 'en',
           }}
-          renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
+          renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />} //Renders each result in a component named PlaceRender
         />
   
+         {/* Checks if input fields are empty and navigates to next screen */}
         <TouchableOpacity style={styles.button} onPress={() => {
-                 if (this.state.originStatus == '' || this.state.destinationStatus == '')                
+                 if (this.state.originStatus == '' || this.state.destinationStatus == '')            
                  return
-                 else
+                 else 
                  this.props.navigation.navigate("Results", { state: this.state })
           }}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>
+              <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>  
         </TouchableOpacity>
         </View>
       </SafeAreaView>

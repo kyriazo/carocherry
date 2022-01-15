@@ -49,6 +49,7 @@ export default class OfferScreen extends React.Component {
     };
 }
 
+//Toggles modals on
 showFromModal = () => {
   this.setState({ fromModal: true });
 };
@@ -56,19 +57,6 @@ showFromModal = () => {
 showToModal = () => {
   this.setState({ toModal: true });
 };
-
-onChange = (event, selectedDate) => {
-  const currentDate = selectedDate || date;
-  this.setState({
-    show: Platform.OS === 'ios',
-    date: currentDate
-});
-};
-
-setSeats = (value) => {
-  this.setState({seats: value})
-  console.log(this.state.seats);
-}
 
 showMode = (currentMode) => {
   this.setState({
@@ -86,6 +74,19 @@ showDatepicker = () => {
 showTimepicker = () => {
   this.showMode('time');
 };
+
+//Sets date to state
+onChange = (event, selectedDate) => {
+  const currentDate = selectedDate || date;
+  this.setState({
+    show: Platform.OS === 'ios',
+    date: currentDate
+});
+};
+
+setSeats = (value) => {
+  this.setState({seats: value})
+}
 
 fromTextHandler = (fromText) => {
   this.setState({
@@ -145,8 +146,6 @@ toggleLuggage = () => {
                 top: 0,
                 left: 10,
                 right: 10,
-                //zIndex: 100, // works on ios
-                //elevation: 100 // works on android
               },
               listView: {
                 position: 'absolute',
@@ -188,11 +187,9 @@ toggleLuggage = () => {
               textInput: styles.TextInput,
               container: {
                 position: 'absolute',
-                top: 50,
+                top: 0,
                 left: 10,
                 right: 10,
-                //zIndex: 100, // works on ios
-                //elevation: 100, // works on android
               },
               listView: {
                 position: 'absolute',
