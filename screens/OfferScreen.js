@@ -228,14 +228,14 @@ toggleLuggage = () => {
         
       <View>
      
-      <TouchableOpacity style={styles.dateButton} onPress={this.showTimepicker} title="Date">
+      <TouchableOpacity style={styles.dateButton} onPress={this.showDatepicker} title="Date">
       <Fontisto name="date" size={24} color="black" />
       </TouchableOpacity> 
     
       </View>
 
       <View>
-        <TouchableOpacity style={styles.dateButton} onPress={this.showDatepicker} title="Date">
+        <TouchableOpacity style={styles.dateButton} onPress={this.showTimepicker} title="Date">
         <Ionicons name="time-outline" size={24} color="black" />
         </TouchableOpacity> 
         
