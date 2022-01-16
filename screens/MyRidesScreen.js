@@ -41,7 +41,7 @@ const MyRidesScreen = () => {
 
 //Listener to update
 useEffect(() => {
-  var state
+  var state;
   const connection = firebase.database()
   .ref(`/rides/`)
   .on('value', snapshot => {
@@ -78,7 +78,7 @@ useEffect(() => {
                     onPress={() => {
                       Alert.alert(
                         "Warning",
-                        "Are you sure you want to delete this ride?",
+                        "Are you sure you want to archive this ride?",
                         [
                           {
                             text: "Cancel",
@@ -86,14 +86,17 @@ useEffect(() => {
                             style: "cancel"
                           },
                           { text: "OK", onPress: () => 
-                            {firebase.database().ref(`/rides/${item.ruid}`).remove();}
+                            {
+                              firebase.database().ref(`/archivedRides/${item.ruid}`).set(item);
+                              firebase.database().ref(`/rides/${item.ruid}`).remove();
+                          }
                         }
                         ]
                       );
                     }
                     }
                   >
-                   <Text style={styles.deleteText}>Delete this Ride</Text>
+                   <Text style={styles.deleteText}>Archive this Ride</Text>
                   </TouchableOpacity>
               </View>
             );
@@ -120,7 +123,41 @@ useEffect(() => {
           return (
             <View>
                <RequestRender value={item} />
-              
+               <TouchableOpacity
+                    onPress={() => {
+                      Alert.alert(
+                        "Warning",
+                        "Are you sure you want to delete your request?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => 
+                            {
+                              const requests = _.map(item.requests, (val, ruid) => {
+                                return { ...val, ruid};
+                              });
+                              for (var i=0; i < requests.length; i++){
+                                var id = requests[i].ruid
+                                if (requests[i].isAccepted == null)
+                                  return;
+                                if (requests[i].isAccepted){
+                                  firebase.database().ref(`/rides/${item.ruid}`).update({seats: item.seats+1});
+                                }
+                                if (requests[i].uid == currentUser.uid)
+                                firebase.database().ref(`/rides/${item.ruid}/requests/${requests[i].ruid}`).remove();
+                              }
+                          }
+                        }
+                        ]
+                      );
+                    }
+                    }
+                  >
+                   <Text style={styles.deleteText}>Delete Request</Text>
+                  </TouchableOpacity>
             </View>
            
           );

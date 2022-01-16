@@ -53,7 +53,10 @@ export default class ResultsScreen extends React.Component {
                         Math.sin(Δλ/2) * Math.sin(Δλ/2);
               const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
               const d = R * c; // in metres
-              console.log(d);
+              var d1 = new Date();
+              d1 = Date.parse(d1)
+              var d2 = Date.parse(item.date)
+              //if (d1 < d2)
               if (currentUser.uid != item.uid)
               if (d < 1000)  
             return (

@@ -47,9 +47,26 @@ const HomeScreen = () => {
 
 //Listener to update
 useEffect(() => {
-
+  var answers = rides;  
+  const result = Object.values(answers);   
+  const rideDate = result.map((data) => data.date);
+  const rideId = result.map((data) => data.ruid);
+  for (var i=0; i < rideDate.length; i++){
+    var d1 = new Date();
+    d1 = Date.parse(d1)
+    var d2 = Date.parse(rideDate[i])
+    if (d1 > d2){
+      console.log('this should be archived', rideId[i]);
+      firebase.database()
+      .ref(`/rides/${rideId[i]}`)
+      .on('value', snapshot => {
+      firebase.database().ref(`/archivedRides/${rideId[i]}`).set(snapshot.val());
+      });
+      //firebase.database().ref(`/rides/${rideId[i]}`).remove();
+    }
+  }
   const { currentUser } = firebase.auth(); 
-  var state
+  var state;
   const connection = firebase.database()
   .ref(`/rides/`)
   .on('value', snapshot => {
@@ -67,6 +84,8 @@ useEffect(() => {
     }else
     console.log('Safe')
   });
+
+  
  // return () => firebase.database().ref(`/rides`).off('value', connection);
 }, []);
 
