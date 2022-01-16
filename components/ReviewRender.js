@@ -27,7 +27,8 @@ const ReviewRender = (props) => {
       .on('value', snapshot => {
         state = snapshot.val();
         setIsAccepted(state.isAccepted);
-      })
+        console.log("more spam")
+      });
   });
 
    

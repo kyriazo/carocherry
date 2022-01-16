@@ -1,9 +1,10 @@
 import _ from "lodash";
 import React from "react";
+import {useEffect, useState} from 'react';
 import {
+  Alert,
 FlatList,
 ScrollView,
-  Alert,
   View,
   Text,
   StyleSheet,
@@ -14,21 +15,55 @@ import RequestRender from "../components/RequestRender";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
+import { color, set } from "react-native-reanimated";
 
-export default class MyRidesScreen extends React.Component {
+const MyRidesScreen = () => {
 
-  //Initialization required
-  state = {
-    rideId: ''
-}
+    const [state, setState] = useState({myRideId: ''})
+    const [rides, setRides] = useState([]);
+    const [initialRides, setInitialRides] = useState([]);
+ 
+    //UseEffect hook used in same way as ComponentDidMount
+  useEffect(() => {
+      var state;
+      firebase
+     .database()
+     .ref(`/rides`)
+     .once("value")
+     .then((snapshot) => {
+       state = snapshot.val();
+       const rides = _.map(state, (val, ruid) => {
+         return { ...val, ruid};
+       });
+       setInitialRides(rides)
+     });
+  }, []);
 
-  render() {
-    return (   
-        <ScrollView>
+//Listener to update
+useEffect(() => {
+  var state
+  const connection = firebase.database()
+  .ref(`/rides/`)
+  .on('value', snapshot => {
+    state = snapshot.val();
+    const rides = _.map(state, (val, ruid) => {
+      return { ...val, ruid};
+    });
+    if (rides != initialRides)
+      setRides(rides)
+    else
+    console.log('Safe')
+  });
+  return () => firebase.database().ref(`/rides`).off('value', connection);
+},[]);
+
+    return ( 
+       
+      <ScrollView>
         <View> 
         <Text style={styles.textTitles}>My Rides</Text>
         <FlatList
-          data={this.state.rides}
+          data={rides}
           keyExtractor={(item, index) => item.ruid}
           key={(item, index) => item.ruid}
           renderItem={({ item }) => {
@@ -68,7 +103,7 @@ export default class MyRidesScreen extends React.Component {
 
 <Text style={styles.textTitles}>My Requests</Text>
 <FlatList
-        data={this.state.rides}
+        data={rides}
         keyExtractor={(item, index) => item.ruid}
         renderItem={({ item }) => {
           const { currentUser } = firebase.auth(); 
@@ -93,58 +128,10 @@ export default class MyRidesScreen extends React.Component {
       />
       </View>
       </ScrollView>      
+ 
     );
   }
   
-
-  async componentDidUpdate() {
-    this.getPermissionAsync();
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
-      });
-  }
-
-
-  async componentDidMount() {
-    this.getPermissionAsync();
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
-      });
-  }
-
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-  };
-}
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -181,3 +168,5 @@ const styles = StyleSheet.create({
     color: "#7D0036",
   }
 });
+
+export default MyRidesScreen;

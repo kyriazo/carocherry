@@ -72,16 +72,32 @@ const MyRidesRender = (props) => {
 
 //Listener to update seats remaining
   useEffect(() => { 
-        var state;
-        firebase
-        .database()
-        .ref(`/rides/${props.value.ruid}`)
-          .once("value")
-          .then((snapshot) => {
-            state = snapshot.val();
-            setSeats(state.seats);
-          });
-  });
+    firebase
+    .database()
+    //Fetch requests from firebase
+    .ref(`/rides/${props.value.ruid}/requests`)
+    .on('value', snapshot => {
+        state = snapshot.val();
+        const requests = _.map(state, (val, ruid) => {
+          return { ...val, ruid};
+        });
+        setRequests(requests);
+    }); 
+    var state
+    firebase.database()
+    .ref(`/rides/${props.value.ruid}`)
+    .on('value', snapshot => {
+      state = snapshot.val();
+      if (state == null){
+        return 0;
+      }else{
+        setSeats(state.seats)
+    }
+    });
+
+  // Stop listening for updates when no longer required
+  //return () => database().ref(`/rides/${props.value.ruid}`).off('value', onChildAdd);
+  },[]);
 
 
     return (
@@ -175,7 +191,7 @@ const MyRidesRender = (props) => {
                 return (      
                 <View style={styles.requestBox}>
                 <Text>Request from {item.name} with uid {item.uid}</Text>
-                {/* Renders review for each request on separate components */}
+                {/* Renders review for each request on a separate component */}
                 <ReviewRender value={item}/>
                 </View>
                 );

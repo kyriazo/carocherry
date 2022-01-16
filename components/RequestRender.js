@@ -42,7 +42,6 @@ const RequestRender = (props) => {
         });
         setRequests(requests);
       });
-
     if (props.value.smokeAllow)
         setSmoke('Smoking is allowed.')
     else    
@@ -68,6 +67,7 @@ const RequestRender = (props) => {
 
 
     useEffect(()=>{
+        console.log('spam')
         const { currentUser } = firebase.auth(); 
         var answers = requests;  
         if (requests == null)
