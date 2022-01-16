@@ -223,7 +223,7 @@ toggleLuggage = () => {
         </Modal>
        
           <View style={styles.dateContainer}>
-          <Text style={styles.textInput}>{this.state.date.toUTCString()}</Text>
+          <Text style={styles.textInput}>{this.state.date.toLocaleString()}</Text>
 
         
       <View>

@@ -72,17 +72,6 @@ const MyRidesRender = (props) => {
 
 //Listener to update seats remaining
   useEffect(() => { 
-    firebase
-    .database()
-    //Fetch requests from firebase
-    .ref(`/rides/${props.value.ruid}/requests`)
-    .on('value', snapshot => {
-        state = snapshot.val();
-        const requests = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        setRequests(requests);
-    }); 
     var state
     firebase.database()
     .ref(`/rides/${props.value.ruid}`)
@@ -97,7 +86,7 @@ const MyRidesRender = (props) => {
 
   // Stop listening for updates when no longer required
   //return () => database().ref(`/rides/${props.value.ruid}`).off('value', onChildAdd);
-  },[]);
+  });
 
 
     return (
@@ -108,6 +97,7 @@ const MyRidesRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
+            <Text>{isOffer}</Text>
             <TouchableOpacity onPress={() => setRequestsModal(true)}>
             <Text style={{fontWeight: 'bold'}}>Review requests</Text>
             </TouchableOpacity>
@@ -117,7 +107,6 @@ const MyRidesRender = (props) => {
             <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
             </TouchableOpacity>
             <Text style={styles.textTitles}>{renderInfo.name}</Text>
-            <Text>is {isOffer}</Text>
             </View>
             <Modal visible={modal} animationType="slide">
             <View>
