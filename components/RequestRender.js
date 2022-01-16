@@ -67,7 +67,6 @@ const RequestRender = (props) => {
 
 
     useEffect(()=>{
-        console.log('spam')
         const { currentUser } = firebase.auth(); 
         var answers = requests;  
         if (requests == null)
@@ -94,7 +93,7 @@ const RequestRender = (props) => {
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
             <Text>Status is: {statusMessage}</Text>
-            <Text>{isOffer}</Text>
+            
             <TouchableOpacity onPress={()=>{
             var state;
             firebase
@@ -117,6 +116,7 @@ const RequestRender = (props) => {
             <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
             </TouchableOpacity>
             <Text style={styles.textTitles}>{renderInfo.name}</Text>
+            <Text>is {isOffer}</Text>
             </View>
             <Modal visible={modal} animationType="slide">
             <View>

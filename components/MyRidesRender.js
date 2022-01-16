@@ -66,7 +66,7 @@ const MyRidesRender = (props) => {
     if (props.value.isOffer)
         setIsOffer('Offering')
     else    
-        setIsOffer('Requesting')
+        setIsOffer('Asking')
         return () => { isMounted = false }; // cleanup
   }, []);
 
@@ -108,7 +108,6 @@ const MyRidesRender = (props) => {
             </View>
             <View style={styles.resultsContainer}>
             <Text> Date: {props.value.date}</Text>
-            <Text>{isOffer}</Text>
             <TouchableOpacity onPress={() => setRequestsModal(true)}>
             <Text style={{fontWeight: 'bold'}}>Review requests</Text>
             </TouchableOpacity>
@@ -118,6 +117,7 @@ const MyRidesRender = (props) => {
             <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
             </TouchableOpacity>
             <Text style={styles.textTitles}>{renderInfo.name}</Text>
+            <Text>is {isOffer}</Text>
             </View>
             <Modal visible={modal} animationType="slide">
             <View>
