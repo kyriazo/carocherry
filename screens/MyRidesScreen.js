@@ -17,7 +17,7 @@ import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
 import { color, set } from "react-native-reanimated";
 
-const MyRidesScreen = () => {
+const MyRidesScreen = (props) => {
 
     const [state, setState] = useState({myRideId: ''})
     const [rides, setRides] = useState([]);
@@ -60,7 +60,11 @@ useEffect(() => {
     return ( 
        
       <ScrollView>
+
         <View> 
+        <TouchableOpacity onPress={() => props.navigation.navigate("Archive")}>
+                                <Text>My archives</Text>
+        </TouchableOpacity>
         <Text style={styles.textTitles}>My Rides</Text>
         <FlatList
           data={rides}
