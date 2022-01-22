@@ -1,17 +1,8 @@
-// import {createAppContainer, createSwitchNavigator} from "react-navigation";
-// import {createStackNavigator} from 'react-navigation-stack';
 import { createStackNavigator,createSwitchNavigator } from "@react-navigation/stack";
 import { AppContainer,NavigationContainer } from "@react-navigation/native"
 import LoadingScreen from './screens/LoadingScreen';
-import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginSreen';
 import RegisterScreen from './screens/RegisterScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import OfferScreen from './screens/OfferScreen';
-import RouteScreen from './screens/RouteScreen';
-import FindScreen from './screens/FindScreen';
-import ResultsScreen from './screens/ResultsScreen';
-import ArchiveScreen from './screens/ArchiveScreen';
 import * as firebase from "firebase";
 import NavigationScreen from "./screens/NavigationScreen";
 import { LogBox,View } from 'react-native';
@@ -42,8 +33,9 @@ if (!firebase.apps.length) {
 }
 //firebase.analytics();
 
-const AuthStack = createStackNavigator();
 
+//Creates anonymous user navigation container
+const AuthStack = createStackNavigator();
 const AuthStackNavigator = () => {
   return(
   <AuthStack.Navigator screenOptions={{headerStyle: {elevation: 0},cardStyle: {backgroundColor: '#ffffff'}}}>
@@ -53,8 +45,8 @@ const AuthStackNavigator = () => {
   )
 }
 
+//Creates logged-in user navigation container
 const AppStack = createStackNavigator();
-
 const AppStackNavigator = () => {
   return(
 <AppStack.Navigator screenOptions={{headerStyle: {elevation: 0},cardStyle: {backgroundColor: '#ffffff'}}}>
@@ -71,6 +63,7 @@ export default function App() {
   let [fontsLoaded] = useFonts({
     Lobster_400Regular,
   });
+  //Use a loader to make sure the user won't see the actuall app before fonts are loaded.
     if (!fontsLoaded) {
       return <AppLoading />;
     }
