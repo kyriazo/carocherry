@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, ActivityIndicator} from "react-native";
 import * as firebase from "firebase";
 import NavigationScreen from "./NavigationScreen";
 
+//This is a middleware screen, only used to check if user is logged in, and navigate to the appropriate container.
 export default class LoadingScreen extends React.Component {
     
     componentDidMount() {
