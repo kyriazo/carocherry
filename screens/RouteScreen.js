@@ -45,7 +45,7 @@ export default class RouteScreen extends React.Component {
  
 
 consoleInfo = () => {  
-    console.log(this.state);
+    // console.log(this.state);
 }
 
 uploadRoute = () => {
@@ -92,7 +92,7 @@ uploadRoute = () => {
     lineDashPattern={[0]}
     origin={this.state.origin}
     destination={this.state.destination}
-    apikey={'AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0'}
+    apikey='AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0'
     strokeWidth={5}
     strokeColor="black"
   />
