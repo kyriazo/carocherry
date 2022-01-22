@@ -20,6 +20,7 @@ export default class LoginScreen extends React.Component {
         firebase.auth().signInWithEmailAndPassword(email,password).catch(error => this.setState({ errorMessage: error.message }))
     }
 
+
     render() {
 
 
@@ -67,7 +68,7 @@ export default class LoginScreen extends React.Component {
 
             <TouchableOpacity style={styles.register}
             onPress={() => this.props.navigation.navigate("Register")}>
-                <Text style={{ color: "#414959", fontSize: 13, fontFamily: 'Lobster_400Regular'}}>
+                <Text style={{ color: "#414959", fontSize: 16, fontFamily: 'Lobster_400Regular'}}>
                     New to Carocherry? <Text style={{ fontWeight: "500", color: "#E9446A"}}>Sign Up</Text>
                     </Text>
             </TouchableOpacity>
@@ -81,7 +82,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f3e1d6',
         color: '#dd5b45',
-        justifyContent: 'center'
+        // justifyContent: 'center'
+        paddingTop: 150
     },
     greeting: {
         marginTop: 20,
@@ -124,7 +126,6 @@ const styles = StyleSheet.create({
     },
     input: {
         borderBottomColor: "#8A8F9E",
-        // borderBottomWidth: StyleSheet.hairlineWidth,
         height: 50,
         fontSize: 15,
         color: "black",
@@ -143,7 +144,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         borderRadius: 30,
-        fontFamily: 'Lobster_400Regular'
+        fontFamily: 'Lobster_400Regular',
+        marginTop: 20
 
     },
     register: {

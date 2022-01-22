@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
 import * as firebase from "firebase";
 import { ExecutionEnvironment } from "expo-constants";
 
@@ -63,8 +63,11 @@ export default class RegisterScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <Image style={styles.logo}
+                    source={require('../assets/logo_trans.png')} 
+                />
                 <Text style={styles.greeting}>
-                    {"Hello!\nSign up to get started."}
+                    {"Hello!\nSign up on Carocherry and become a memeber of the largest ridesharing community."}
                 </Text>
 
                 <View style={styles.errorMessage}>
@@ -72,42 +75,46 @@ export default class RegisterScreen extends React.Component {
                 </View>
 
                 <View style={styles.form}>
-                    <View style={{ marginTop: 32 }}>
-                        <Text style={styles.inputTitle}>First Name</Text>
+                    <View style={styles.email}>
+                        {/* <Text style={styles.inputTitle}>First Name</Text> */}
                         <TextInput
                             style={styles.input}
                             autoCapitalize="none"
+                            placeholder="First Name"
                             onChangeText={firstName => this.setState({ firstName })}
                             value={this.state.firstName}
                         ></TextInput>
                     </View>
 
-                    <View style={{ marginTop: 32 }}>
-                        <Text style={styles.inputTitle}>Last Name</Text>
+                    <View style={styles.email}>
+                        {/* <Text style={styles.inputTitle}>Last Name</Text> */}
                         <TextInput
                             style={styles.input}
                             autoCapitalize="none"
+                            placeholder="Last Name"
                             onChangeText={lastName => this.setState({ lastName })}
                             value={this.state.lastName}
                         ></TextInput>
                     </View>
 
-                    <View style={{ marginTop: 32 }}>
-                        <Text style={styles.inputTitle}>Email Address</Text>
+                    <View style={ styles.email}>
+                        {/* <Text style={styles.inputTitle}>Email Address</Text> */}
                         <TextInput
                             style={styles.input}
                             autoCapitalize="none"
+                            placeholder="Email address"
                             onChangeText={email => this.setState({ email })}
                             value={this.state.email}
                         ></TextInput>
                     </View>
 
-                    <View style={{ marginTop: 32 }}>
-                        <Text style={styles.inputTitle}>Password</Text>
+                    <View styles={styles.password}>
+                        {/* <Text style={styles.inputTitle}>Password</Text> */}
                         <TextInput
                             style={styles.input}
                             secureTextEntry
                             autoCapitalize="none"
+                            placeholder="Password"
                             onChangeText={password => {
                                 this.setState({ password })
                             }}
@@ -116,32 +123,48 @@ export default class RegisterScreen extends React.Component {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
-                    <Text style={{ color: "#FFF", fontWeight: "500" }}>Sign up</Text>
+                <TouchableOpacity style={styles.register} onPress={this.handleSignUp}>
+                    <Text style={{ color: "#FFF", fontWeight: "500", fontSize: 20,fontFamily: 'Lobster_400Regular'}}>Sign up</Text>
                 </TouchableOpacity>
 
-                {/* <TouchableOpacity style={{ alignSelf: "center", marginTop: 32}} onPress={this.props.navigation.navigate("Auth")}>
-                <Text style={{ color: "#414959", fontSize: 13}}>
-                    New to Carocherry? <Text style={{ fontWeight: "500", color: "#E9446A"}}>Login</Text>
+                <TouchableOpacity style={styles.login}
+            onPress={() => this.props.navigation.navigate("Login")}>
+                <Text style={{ color: "#414959", fontSize: 16, fontFamily: 'Lobster_400Regular'}}>
+                    Already have an account on Carocherry? <Text style={{ fontSize: 16,fontWeight: "500", color: "#E9446A"}}>Log In</Text>
                     </Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
+
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
+    container:{
         flex: 1,
+        backgroundColor: '#f3e1d6',
+        color: '#dd5b45',
+        // justifyContent: 'center'
+        paddingTop: 150
     },
     greeting: {
-        marginTop: 32,
+        marginTop: 20,
         fontSize: 18,
         fontWeight: "400",
-        textAlign: "center"
+        textAlign: "center",
+        color: '#dd5b45',
+        maxWidth: '70%',
+        alignSelf: 'center',
+        marginBottom: 30,
+        fontFamily: 'Lobster_400Regular'
+    },
+    logo: {
+        width: 450,
+        height: 100,
+        alignSelf: 'center'
     },
     errorMessage: {
-        height: 72,
+        maxHeight: 72,
         alignItems: "center",
         justifyContent: "center",
         marginHorizontal: 30
@@ -153,28 +176,42 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     form: {
-        marginBottom: 48,
-        marginHorizontal: 30,
+        marginBottom: 15,
+        maxWidth: '80%',
+        alignSelf: 'center',
+        width: '100%'
     },
     inputTitle: {
-        color: "#8A8F9E",
-        fontSize: 10,
+        color: "white",
+        fontSize: 16,
         textTransform: "uppercase"
     },
     input: {
         borderBottomColor: "#8A8F9E",
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        height: 48,
+        // borderBottomWidth: StyleSheet.hairlineWidth,
+        height: 50,
         fontSize: 15,
-        color: "#161F3D"
+        color: "black",
+        borderRadius: 10,
+        marginTop: 15,
+        backgroundColor: 'white',
+        paddingLeft: 15
     },
-    button: {
-        marginHorizontal: 30,
+    register: {
         backgroundColor: "#E9446A",
         borderRadius: 4,
-        height: 52,
+        height: 50,
+        alignSelf: 'center',
+        width: '100%',
+        maxWidth: '80%',
+        justifyContent: 'center',
         alignItems: "center",
-        justifyContent: "center",
-
+        borderRadius: 30,
+        fontFamily: 'Lobster_400Regular',
+        marginTop: 20
+    },
+    login: {
+        alignSelf: "center",
+        marginTop: 32,
     }
 })
