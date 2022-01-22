@@ -14,14 +14,11 @@ import {
   TouchableOpacity,
   PushNotificationIOS,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import PlaceRender from "../components/PlaceRender";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FAB, RadioButton } from 'react-native-paper';
 import { Fontisto } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons'; 
-import { CurrentRenderContext } from "@react-navigation/native";
-import CounterInput from "react-native-counter-input";
 
 export default class OfferScreen extends React.Component {
 
