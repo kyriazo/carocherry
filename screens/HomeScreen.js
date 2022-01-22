@@ -24,13 +24,9 @@ export default class HomeScreen extends React.Component {
   }
   render() {
     return ( 
-       
         <ScrollView>
         <View> 
 
-        <TouchableOpacity style={{ marginTop: 32 }} onPress={()=> { firebase.auth().signOut(); }}>
-        <Text>Logout</Text>
-        </TouchableOpacity>
         <Text style={styles.textTitles}>Latest Rides</Text>
         <FlatList
           data={this.state.rides}
