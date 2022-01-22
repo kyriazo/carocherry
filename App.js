@@ -38,8 +38,8 @@ if (!firebase.apps.length) {
 const AuthStack = createStackNavigator();
 const AuthStackNavigator = () => {
   return(
-  <AuthStack.Navigator screenOptions={{headerStyle: {elevation: 0},cardStyle: {backgroundColor: '#ffffff'}}}>
-  <AuthStack.Screen name="Login" component={LoginScreen} navigationOptions= {{headerShown:false}} />
+  <AuthStack.Navigator screenOptions={{headerShown: false, headerStyle: {elevation: 0},cardStyle: {backgroundColor: '#ffffff'}}}>
+  <AuthStack.Screen name="Login" component={LoginScreen} />
   <AuthStack.Screen name="Register" component={RegisterScreen} navigationOptions= {{headerTitle:'Whatever'}} />
 </AuthStack.Navigator>
   )
@@ -49,7 +49,7 @@ const AuthStackNavigator = () => {
 const AppStack = createStackNavigator();
 const AppStackNavigator = () => {
   return(
-<AppStack.Navigator screenOptions={{headerStyle: {elevation: 0},cardStyle: {backgroundColor: '#ffffff'}}}>
+<AppStack.Navigator screenOptions={{headerShown: false,headerStyle: {elevation: 0},cardStyle: {backgroundColor: '#ffffff'}}}>
   <AppStack.Screen name="LoadingScreen" component={LoadingScreen} navigationOptions= {{headerShown:false}} />
   <AppStack.Screen name="NavigationScreen" component={NavigationScreen} navigationOptions= {{headerShown:false}} />
   <AppStack.Screen name="AuthenticationScreen" component={AuthStackNavigator} navigationOptions= {{headerShown:false}} />
