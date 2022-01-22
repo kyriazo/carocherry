@@ -66,21 +66,26 @@ const MyRidesRender = (props) => {
     if (props.value.isOffer)
         setIsOffer('Offering')
     else    
-        setIsOffer('Requesting')
+        setIsOffer('Asking')
         return () => { isMounted = false }; // cleanup
   }, []);
 
 //Listener to update seats remaining
   useEffect(() => { 
-        var state;
-        firebase
-        .database()
-        .ref(`/rides/${props.value.ruid}`)
-          .once("value")
-          .then((snapshot) => {
-            state = snapshot.val();
-            setSeats(state.seats);
-          });
+    var state
+    firebase.database()
+    .ref(`/rides/${props.value.ruid}`)
+    .on('value', snapshot => {
+      state = snapshot.val();
+      if (state == null){
+        return 0;
+      }else{
+        setSeats(state.seats)
+    }
+    });
+
+  // Stop listening for updates when no longer required
+  //return () => database().ref(`/rides/${props.value.ruid}`).off('value', onChildAdd);
   });
 
 
@@ -175,7 +180,7 @@ const MyRidesRender = (props) => {
                 return (      
                 <View style={styles.requestBox}>
                 <Text>Request from {item.name} with uid {item.uid}</Text>
-                {/* Renders review for each request on separate components */}
+                {/* Renders review for each request on a separate component */}
                 <ReviewRender value={item}/>
                 </View>
                 );

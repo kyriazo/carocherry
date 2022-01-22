@@ -14,8 +14,10 @@ const ProfileRender = (props) => {
     const [requests, setRequests] = useState([]);
     const [isOffer, setIsOffer] = useState('');
     const [buttonStatus, setButtonStatus] = useState(false);
+    const [date, setDate] = useState(new Date())
 
   useEffect(() => {
+    setDate(new Date(props.value.date));
     let isMounted = true;               // note mutable flag
     var state;
     firebase
@@ -65,7 +67,8 @@ const ProfileRender = (props) => {
     if (props.value.isOffer)
         setIsOffer('Offering')
     else    
-        setIsOffer('Requesting')   
+        setIsOffer('Requesting') 
+      
     return () => { isMounted = false };
   }, []);
 
@@ -93,7 +96,7 @@ const ProfileRender = (props) => {
             <Text style={styles.textTitles}>To {props.value.destinationName}</Text>
             </View>
             <View style={styles.resultsContainer}>
-            <Text> Date: {props.value.date}</Text>
+            <Text> Date: {date.toLocaleString()}</Text>
             <Text>{isOffer}</Text>
             <TouchableOpacity disabled={buttonStatus} onPress={sendRequest}>
             <Text style={{fontWeight: 'bold'}}>Request</Text>

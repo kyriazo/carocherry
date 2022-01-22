@@ -10,7 +10,9 @@ const ReviewRender = (props) => {
     const [buttonStatus, setButtonStatus] = useState(true);
 
     useEffect(()=>{  
-              let isMounted = true;               // note mutable flag
+              let isMounted = true;
+              if (isAccepted == null)
+                return;            
               if (isAccepted){  
               setStatusMessage('Accepted');
               }else{
@@ -26,8 +28,11 @@ const ReviewRender = (props) => {
       .ref(`/rides/${props.value.rideId}/requests/${props.value.ruid}`)
       .on('value', snapshot => {
         state = snapshot.val();
+        if (state == null){
+        return 0;
+        }else
         setIsAccepted(state.isAccepted);
-      })
+      });
   });
 
    

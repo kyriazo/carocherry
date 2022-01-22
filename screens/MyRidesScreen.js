@@ -1,9 +1,10 @@
 import _ from "lodash";
 import React from "react";
+import {useEffect, useState} from 'react';
 import {
+  Alert,
 FlatList,
 ScrollView,
-  Alert,
   View,
   Text,
   StyleSheet,
@@ -14,21 +15,59 @@ import RequestRender from "../components/RequestRender";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
+import { color, set } from "react-native-reanimated";
 
-export default class MyRidesScreen extends React.Component {
+const MyRidesScreen = (props) => {
 
-  //Initialization required
-  state = {
-    rideId: ''
-}
+    const [state, setState] = useState({myRideId: ''})
+    const [rides, setRides] = useState([]);
+    const [initialRides, setInitialRides] = useState([]);
+ 
+    //UseEffect hook used in same way as ComponentDidMount
+  useEffect(() => {
+      var state;
+      firebase
+     .database()
+     .ref(`/rides`)
+     .once("value")
+     .then((snapshot) => {
+       state = snapshot.val();
+       const rides = _.map(state, (val, ruid) => {
+         return { ...val, ruid};
+       });
+       setInitialRides(rides)
+     });
+  }, []);
 
-  render() {
-    return (   
-        <ScrollView>
+//Listener to update
+useEffect(() => {
+  var state;
+  const connection = firebase.database()
+  .ref(`/rides/`)
+  .on('value', snapshot => {
+    state = snapshot.val();
+    const rides = _.map(state, (val, ruid) => {
+      return { ...val, ruid};
+    });
+    if (rides != initialRides)
+      setRides(rides)
+    else
+    console.log('Safe')
+  });
+  return () => firebase.database().ref(`/rides`).off('value', connection);
+},[]);
+
+    return ( 
+       
+      <ScrollView>
+
         <View> 
+        <TouchableOpacity onPress={() => props.navigation.navigate("Archive")}>
+                                <Text>My archives</Text>
+        </TouchableOpacity>
         <Text style={styles.textTitles}>My Rides</Text>
         <FlatList
-          data={this.state.rides}
+          data={rides}
           keyExtractor={(item, index) => item.ruid}
           key={(item, index) => item.ruid}
           renderItem={({ item }) => {
@@ -43,7 +82,7 @@ export default class MyRidesScreen extends React.Component {
                     onPress={() => {
                       Alert.alert(
                         "Warning",
-                        "Are you sure you want to delete this ride?",
+                        "Are you sure you want to archive this ride?",
                         [
                           {
                             text: "Cancel",
@@ -51,14 +90,17 @@ export default class MyRidesScreen extends React.Component {
                             style: "cancel"
                           },
                           { text: "OK", onPress: () => 
-                            {firebase.database().ref(`/rides/${item.ruid}`).remove();}
+                            {
+                              firebase.database().ref(`/archivedRides/${item.ruid}`).set(item);
+                              firebase.database().ref(`/rides/${item.ruid}`).remove();
+                          }
                         }
                         ]
                       );
                     }
                     }
                   >
-                   <Text style={styles.deleteText}>Delete this Ride</Text>
+                   <Text style={styles.deleteText}>Archive this Ride</Text>
                   </TouchableOpacity>
               </View>
             );
@@ -68,7 +110,7 @@ export default class MyRidesScreen extends React.Component {
 
 <Text style={styles.textTitles}>My Requests</Text>
 <FlatList
-        data={this.state.rides}
+        data={rides}
         keyExtractor={(item, index) => item.ruid}
         renderItem={({ item }) => {
           const { currentUser } = firebase.auth(); 
@@ -85,7 +127,41 @@ export default class MyRidesScreen extends React.Component {
           return (
             <View>
                <RequestRender value={item} />
-              
+               <TouchableOpacity
+                    onPress={() => {
+                      Alert.alert(
+                        "Warning",
+                        "Are you sure you want to delete your request?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => 
+                            {
+                              const requests = _.map(item.requests, (val, ruid) => {
+                                return { ...val, ruid};
+                              });
+                              for (var i=0; i < requests.length; i++){
+                                var id = requests[i].ruid
+                                if (requests[i].isAccepted == null)
+                                  return;
+                                if (requests[i].isAccepted){
+                                  firebase.database().ref(`/rides/${item.ruid}`).update({seats: item.seats+1});
+                                }
+                                if (requests[i].uid == currentUser.uid)
+                                firebase.database().ref(`/rides/${item.ruid}/requests/${requests[i].ruid}`).remove();
+                              }
+                          }
+                        }
+                        ]
+                      );
+                    }
+                    }
+                  >
+                   <Text style={styles.deleteText}>Delete Request</Text>
+                  </TouchableOpacity>
             </View>
            
           );
@@ -93,58 +169,10 @@ export default class MyRidesScreen extends React.Component {
       />
       </View>
       </ScrollView>      
+ 
     );
   }
   
-
-  async componentDidUpdate() {
-    this.getPermissionAsync();
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
-      });
-  }
-
-
-  async componentDidMount() {
-    this.getPermissionAsync();
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
-      });
-  }
-
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-  };
-}
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -181,3 +209,5 @@ const styles = StyleSheet.create({
     color: "#7D0036",
   }
 });
+
+export default MyRidesScreen;

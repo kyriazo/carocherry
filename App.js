@@ -11,6 +11,7 @@ import OfferScreen from './screens/OfferScreen';
 import RouteScreen from './screens/RouteScreen';
 import FindScreen from './screens/FindScreen';
 import ResultsScreen from './screens/ResultsScreen';
+import ArchiveScreen from './screens/ArchiveScreen';
 import * as firebase from "firebase";
 import NavigationScreen from "./screens/NavigationScreen";
 import { LogBox,View } from 'react-native';

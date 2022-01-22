@@ -18,9 +18,11 @@ const RequestRender = (props) => {
     const [requests, setRequests] = useState([]);
     const [isOffer, setIsOffer] = useState('');
     const [statusMessage, setStatusMessage] = useState('pending');
+    const [date, setDate] = useState(new Date())
  
   
   useEffect(() => {
+    setDate(new Date(props.value.date)); 
     let isMounted = true;               // note mutable flag
     var state;
     firebase
@@ -42,7 +44,6 @@ const RequestRender = (props) => {
         });
         setRequests(requests);
       });
-
     if (props.value.smokeAllow)
         setSmoke('Smoking is allowed.')
     else    
@@ -92,9 +93,9 @@ const RequestRender = (props) => {
             <Text style={styles.textTitles}>To {props.value.destinationName}</Text>
             </View>
             <View style={styles.resultsContainer}>
-            <Text> Date: {props.value.date}</Text>
+            <Text> Date: {date.toLocaleString()}</Text>
             <Text>Status is: {statusMessage}</Text>
-            <Text>{isOffer}</Text>
+            
             <TouchableOpacity onPress={()=>{
             var state;
             firebase
@@ -117,6 +118,7 @@ const RequestRender = (props) => {
             <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
             </TouchableOpacity>
             <Text style={styles.textTitles}>{renderInfo.name}</Text>
+            <Text>is {isOffer}</Text>
             </View>
             <Modal visible={modal} animationType="slide">
             <View>

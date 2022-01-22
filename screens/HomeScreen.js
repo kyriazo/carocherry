@@ -1,5 +1,6 @@
 import _ from "lodash";
 import React from "react";
+import {useEffect, useState} from 'react';
 import {
 FlatList,
 ScrollView,
@@ -12,49 +13,21 @@ import MyRidesRender from "../components/MyRidesRender";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
+import { color, set } from "react-native-reanimated";
 
-export default class HomeScreen extends React.Component {
+const HomeScreen = () => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      myRideId: ''
-    };
-    
-  }
-  render() {
-    return ( 
-        <ScrollView>
-        <View> 
-
-        <Text style={styles.textTitles}>Latest Rides</Text>
-        <FlatList
-          data={this.state.rides}
-          keyExtractor={(item, index) => item.ruid}
-          key={(item, index) => item.ruid}
-          renderItem={({ item }) => {
-            const { currentUser } = firebase.auth();
-            if (currentUser.uid == item.uid)
-            return (
-              <View>
-                 <MyRidesRender value={item} />
-              </View>
-            );
-          }}
-        />
-      </View>
-      </ScrollView>
-    
+    const [state, setState] = useState({myRideId: ''})
+    const [rides, setRides] = useState([]);
+    const [initialRides, setInitialRides] = useState([]);
+    const [test, setTest] = useState([]);
  
-    );
-  }
-  
-
-     async componentDidUpdate() {
-      this.getPermissionAsync();
-       const { currentUser } = firebase.auth();
-           var state;
-           firebase
+    //UseEffect hook used in same way as ComponentDidMount
+  useEffect(() => {
+     
+      const { currentUser } = firebase.auth();
+      var state;
+      firebase
      .database()
      .ref(`/rides`)
      .once("value")
@@ -68,51 +41,83 @@ export default class HomeScreen extends React.Component {
            return obj.uid == currentUser.uid;
        });
        const slicedArray = myArray.slice(0, 5);
-       this.setState({
-         rides: slicedArray,
-       });
+       setInitialRides(slicedArray)
      });
-   }
+  }, []);
 
-   getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-  };
-
-
-  async componentDidMount() {
-    this.getPermissionAsync();
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
+//Listener to update
+useEffect(() => {
+  var answers = rides;  
+  const result = Object.values(answers);   
+  const rideDate = result.map((data) => data.date);
+  const rideId = result.map((data) => data.ruid);
+  for (var i=0; i < rideDate.length; i++){
+    var d1 = new Date();
+    d1 = Date.parse(d1)
+    var d2 = Date.parse(rideDate[i])
+    if (d1 > d2){
+      console.log('this should be archived', rideId[i]);
+      firebase.database()
+      .ref(`/rides/${rideId[i]}`)
+      .on('value', snapshot => {
+      firebase.database().ref(`/archivedRides/${rideId[i]}`).set(snapshot.val());
       });
-  }
-
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
+      //firebase.database().ref(`/rides/${rideId[i]}`).remove();
     }
-  };
-}
+  }
+  const { currentUser } = firebase.auth(); 
+  var state;
+  const connection = firebase.database()
+  .ref(`/rides/`)
+  .on('value', snapshot => {
+    state = snapshot.val();
+    const rides = _.map(state, (val, ruid) => {
+      return { ...val, ruid};
+    });
+    const reverseRides = rides.reverse()
+    const myArray = reverseRides.filter(function ( obj ) {
+      return obj.uid == currentUser.uid;
+  });
+    const slicedArray = myArray.slice(0, 5);
+    if (rides != initialRides){
+      setRides(slicedArray)
+    }else
+    console.log('Safe')
+  });
 
+  
+ // return () => firebase.database().ref(`/rides`).off('value', connection);
+}, []);
 
+    return ( 
+       
+      <ScrollView>
+      <View> 
+
+      <TouchableOpacity style={{ marginTop: 32 }} onPress={()=> { firebase.auth().signOut(); }}>
+      <Text>Logout</Text>
+      </TouchableOpacity>
+      <Text style={styles.textTitles}>Latest Rides</Text>
+      <FlatList
+        data={rides}
+        keyExtractor={(item, index) => item.ruid}
+        key={(item, index) => item.ruid}
+        renderItem={({ item }) => {
+          const { currentUser } = firebase.auth();
+          if (currentUser.uid == item.uid)
+          return (
+            <View>
+               <MyRidesRender value={item} />
+            </View>
+          );
+        }}
+      />
+    </View>
+    </ScrollView>
+ 
+    );
+  }
+  
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -149,3 +154,5 @@ const styles = StyleSheet.create({
     color: "#7D0036",
   }
 });
+
+export default HomeScreen;

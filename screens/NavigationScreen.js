@@ -151,6 +151,7 @@ export default class NavigationScreen extends React.Component {
               const icons = {
                 Home: 'home',
                 Profile: 'account',
+                Rides: "format-list-bulleted",
                 Offer: 'car-hatchback',
                 Find: 'magnify'
               };

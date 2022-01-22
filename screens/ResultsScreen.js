@@ -53,6 +53,10 @@ export default class ResultsScreen extends React.Component {
                         Math.sin(Δλ/2) * Math.sin(Δλ/2);
               const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
               const d = R * c; // in metres
+              var d1 = new Date();
+              d1 = Date.parse(d1)
+              var d2 = Date.parse(item.date)
+              //if (d1 < d2)
               if (currentUser.uid != item.uid)
               if (d < 1000)  
             return (
@@ -68,29 +72,7 @@ export default class ResultsScreen extends React.Component {
     );
   }
 
-  async componentDidUpdate() {
-    this.getPermissionAsync();
-    const { currentUser } = firebase.auth();
-    const ref = firebase.storage().ref("image/" + currentUser.uid);
-    var state;
-    firebase
-      .database()
-      .ref(`/rides`)
-      .once("value")
-      .then((snapshot) => {
-        state = snapshot.val();
-        const rides = _.map(state, (val, ruid) => {
-          return { ...val, ruid};
-        });
-        this.setState({
-          rides: rides,
-        });
-      });
-  }
-
-  async componentDidMount() {
-    this.getPermissionAsync();
-    const { currentUser } = firebase.auth();
+  componentDidMount() {
     var state;
     firebase
       .database()
