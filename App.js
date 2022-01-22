@@ -1,5 +1,7 @@
-import {createAppContainer, createSwitchNavigator} from "react-navigation";
-import {createStackNavigator} from 'react-navigation-stack';
+// import {createAppContainer, createSwitchNavigator} from "react-navigation";
+// import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator,createSwitchNavigator } from "@react-navigation/stack";
+import { AppContainer,NavigationContainer } from "@react-navigation/native"
 import LoadingScreen from './screens/LoadingScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginSreen';
@@ -39,133 +41,37 @@ if (!firebase.apps.length) {
 }
 //firebase.analytics();
 
-const AppStack = createStackNavigator({
-  Navigation: {
-    screen: NavigationScreen,
-    navigationOptions: {
-    }
-  },
-  Route: {
-    screen: RouteScreen,
-    navigationOptions: {
-      // headerShown: false
-      headerTitle: 'TestTitle'
-    }
-    },
-  Find: {
-    screen: FindScreen,
-    navigationOptions: {
-      // headerShown: false
-      headerTitle: 'TestTitle'
-    }
-    },
-  Offer: {
-    screen: OfferScreen,
-    navigationOptions: {
-      // headerShown: false
-      headerTitle: 'TestTitle'
-    }
-    },
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-      // headerShown: false
-      headerTitle: 'TestTitle',
-      headerShown: true
-    }
-    },
-  Profile: {
-    screen: ProfileScreen,
-    navigationOptions: {
-      // headerShown: false
-      headerTitle: 'TestTitle'
-    }
-    },
-  Results: {
-    screen: ResultsScreen,
-    navigationOptions: {
-      // headerShown: false
-      headerTitle: 'TestTitle'
-    }
-}})
+const AuthStack = createStackNavigator();
 
-const AuthStack = createStackNavigator({
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: {
-      headerShown: false
-    }
-  },
-  Register: RegisterScreen
-})
-
-const RootApp = createAppContainer(
-  createSwitchNavigator(
-    {
-      Loading: LoadingScreen,
-      App: AppStack,
-      Auth: AuthStack,
-    },
-    {
-      initialRouteName: "Loading"
-    }
+const AuthStackNavigator = () => {
+  return(
+  <AuthStack.Navigator screenOptions={{headerStyle: {elevation: 0},cardStyle: {backgroundColor: '#ffffff'}}}>
+  <AuthStack.Screen name="Login" component={LoginScreen} navigationOptions= {{headerShown:false}} />
+  <AuthStack.Screen name="Register" component={RegisterScreen} navigationOptions= {{headerTitle:'Whatever'}} />
+</AuthStack.Navigator>
   )
-)
+}
+
+const AppStack = createStackNavigator();
+
+const AppStackNavigator = () => {
+  return(
+<AppStack.Navigator screenOptions={{headerStyle: {elevation: 0},cardStyle: {backgroundColor: '#ffffff'}}}>
+  <AppStack.Screen name="LoadingScreen" component={LoadingScreen} navigationOptions= {{headerShown:false}} />
+  <AppStack.Screen name="NavigationScreen" component={NavigationScreen} navigationOptions= {{headerShown:false}} />
+  <AppStack.Screen name="AuthenticationScreen" component={AuthStackNavigator} navigationOptions= {{headerShown:false}} />
+</AppStack.Navigator>
+  )
+}
+
 
 export default function App() {
 
   let [fontsLoaded] = useFonts({
     Lobster_400Regular,
   });
-
     if (!fontsLoaded) {
       return <AppLoading />;
     }
-    return <RootApp />;
-}
-
-// export default class App extends Component {
-//   state = {
-//     loaded: false
-//   };
-//   // create a helper function to load the font 
-//   _loadFontsAsync = async () => {
-//   // loadAsync returns true | error
-//     let isLoaded = await Font.loadAsync({
-//       // add as many fonts as you want here .... 
-//       Montserrat: require("./assets/fonts/Lobster-Regular.ttf")
-//     });
-//     this.setState({ loaded: isLoaded });
-//   };
-
-// // call _loadFontsAsync 
-//   componentDidMount() {
-//     this._loadFontsAsync();
-//   }
-
-//   render() {
-//     if (!this.state.loaded) {
-//       return <AppLoading />;
-//     }
-//     // from the custom App we return the component we assigned to RootApp.
-//     return <RootApp />;
-//   }
-// }
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
+    return <NavigationContainer><AppStackNavigator/></NavigationContainer>;
+  }
