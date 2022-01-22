@@ -1,17 +1,21 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import  Pressable  from '../components/Pressable';
+import  Logout  from '../components/Logout';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ProfileScreen from './ProfileScreen';
 import CarScreen from './CarScreen';
 import OfferScreen from './OfferScreen';
 import FindScreen from './FindScreen';
+import RouteScreen from './RouteScreen';
+import ArchiveScreen from './ArchiveScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileInput from "../components/ProfileInput";
 import HomeScreen from "./HomeScreen";
 import MyRidesScreen from "./MyRidesScreen"
+import * as firebase from "firebase";
 
 
 function HomeTabScreen({ navigation }) {
@@ -28,7 +32,7 @@ function SettingsScreen({ navigation }) {
 
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
-const MyRidesStack = createStackNavigator();
+const MyRidesTab = createMaterialTopTabNavigator();
 const OfferStack = createStackNavigator();
 const FindStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,9 +50,10 @@ const HomeStackNavigator = () => {
     },
     headerTintColor: 'white',
     cardStyle: {backgroundColor: '#ffffff'},
+    headerLeft:"",
     headerRight: () => { 
         return (
-        <Pressable             
+        <Logout             
             onPress={() => firebase.auth().signOut() }
             title= ""
             icon='logout' />
@@ -79,22 +84,37 @@ const ProfileStackNavigator = () => {
   )
 }
 
-const MyRidesStackNavigator = () => {
+const MyRidesTabNavigator = () => {
   return (
-  <MyRidesStack.Navigator screenOptions={{
-    headerStyle: {
-      elevation: 0,
-      backgroundColor: '#dd5b45',
-    },
-    headerTitleStyle: {
-      color:'white',
-      fontSize: 26
-    },
-    headerTintColor: 'white',
-    cardStyle: {backgroundColor: '#ffffff'},
-    }}>
-    <MyRidesStack.Screen name="MyRides" component={MyRidesScreen}/>
-  </MyRidesStack.Navigator>
+  <MyRidesTab.Navigator 
+  tabBarOptions= {{
+    labelStyle: {
+    color: '#7d3aff',
+    fontSize: 12,
+    lineHeight: 12,
+    backgroundColor: '#a0f312',
+  },
+  tabStyle: {
+    height: 300, // the only change is here
+    borderWidth: 1,
+    borderColor: '#7d3aff',
+    borderRadius: 10,
+    backgroundColor: '#f012',
+  },
+  style: {
+    // height: 30, // there is no difference do it or apply height in tabStyle
+    backgroundColor: '#fff',
+  },
+  indicatorStyle: {
+    height: 0,
+  },
+}}
+    >
+    <MyRidesTab.Screen name="MyRides" component={MyRidesScreen}/>
+    <MyRidesTab.Screen name="MyRequests" component={MyRidesScreen}/>
+    <MyRidesTab.Screen name="MyArchives" component={ArchiveScreen}/>
+
+  </MyRidesTab.Navigator>
   )
 }
 
@@ -112,6 +132,7 @@ const OfferStackNavigator = () => {
     headerTintColor: 'white',
     cardStyle: {backgroundColor: '#ffffff'}}}>
     <OfferStack.Screen name="Offer" component={OfferScreen}/>
+    <OfferStack.Screen name="Route" component={RouteScreen}/>
   </OfferStack.Navigator>
   )
 }
@@ -134,6 +155,19 @@ const FindStackNavigator = () => {
   )
 }
 
+// Results: {
+//   screen: ResultsScreen,
+//   navigationOptions: {
+//     // headerShown: false
+//     headerTitle: 'TestTitle'
+//   }
+// },
+//   Archive: {
+//     screen: ArchiveScreen,
+//     navigationOptions: {
+//       // headerShown: false
+//       headerTitle: 'TestTitle'
+//   }
 export default class NavigationScreen extends React.Component {
 
   //Hides the Container stack navigator header.
@@ -163,14 +197,16 @@ export default class NavigationScreen extends React.Component {
                 />
               );
             },
-          })}
+          })
+          }
         >
           <Tab.Screen name="Home" component={HomeStackNavigator} />
           <Tab.Screen name="Profile" component={ProfileStackNavigator} />
-          <Tab.Screen name="My Rides" component={MyRidesStackNavigator} />
+          <Tab.Screen name="Rides" component={MyRidesTabNavigator} />
           <Tab.Screen name="Offer" component={OfferStackNavigator} />
           <Tab.Screen name="Find" component={FindStackNavigator} />
         </Tab.Navigator>
+
         </NavigationContainer>
       )
         }    

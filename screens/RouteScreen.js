@@ -20,17 +20,17 @@ export default class RouteScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-       origin: { latitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lat, longitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lng},
-       originName: this.props.navigation.state.params.state.originPlace.value.data.description,
-       destination: { latitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lat, longitude: this.props.navigation.state.params.state.destinationPlace.value.details.geometry.location.lng},
-       destinationName: this.props.navigation.state.params.state.destinationPlace.value.data.description,
-       date: this.props.navigation.state.params.state.date.toLocaleString(),
-       isOffer: this.props.navigation.state.params.state.isOffer,
-       petsAllow: this.props.navigation.state.params.state.petsAllow,
-       musicAllow: this.props.navigation.state.params.state.musicAllow,
-       smokingAllow: this.props.navigation.state.params.state.smokingAllow,
-       luggageAllow: this.props.navigation.state.params.state.luggageAllow,
-       seats: this.props.navigation.state.params.state.seats
+       origin: { latitude: this.props.route.params.state.originPlace.value.details.geometry.location.lat, longitude: this.props.route.params.state.originPlace.value.details.geometry.location.lng},
+       originName: this.props.route.params.state.originPlace.value.data.description,
+       destination: { latitude: this.props.route.params.state.destinationPlace.value.details.geometry.location.lat, longitude: this.props.route.params.state.destinationPlace.value.details.geometry.location.lng},
+       destinationName: this.props.route.params.state.destinationPlace.value.data.description,
+       date: this.props.route.params.state.date.toLocaleString(),
+       isOffer: this.props.route.params.state.isOffer,
+       petsAllow: this.props.route.params.state.petsAllow,
+       musicAllow: this.props.route.params.state.musicAllow,
+       smokingAllow: this.props.route.params.state.smokingAllow,
+       luggageAllow: this.props.route.params.state.luggageAllow,
+       seats: this.props.route.params.state.seats
     };
 }
 
@@ -65,7 +65,7 @@ uploadRoute = () => {
         seats: this.state.seats,
         seatLimit: this.state.seats,
     });
-        //this.props.navigation.navigate("Home")
+        this.props.navigation.navigate("Home")
     }
 
   render() {
@@ -82,8 +82,8 @@ uploadRoute = () => {
         provider={PROVIDER_GOOGLE}
         style = {{ flex: 1}}
         initialRegion = {{
-          latitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.viewport.northeast.lat,
-          longitude: this.props.navigation.state.params.state.originPlace.value.details.geometry.viewport.northeast.lng,
+          latitude: this.props.route.params.state.originPlace.value.details.geometry.viewport.northeast.lat,
+          longitude: this.props.route.params.state.originPlace.value.details.geometry.viewport.northeast.lng,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }}

@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as firebase from "firebase";
+import { StatusBar } from 'react-native';
 
 export default class ProfileScreen extends React.Component {
 
@@ -85,6 +86,8 @@ export default class ProfileScreen extends React.Component {
     }
 
     render() {
+        StatusBar.setBarStyle('light-content', true);
+        StatusBar.setBackgroundColor('black',true);
         return (
             <ScrollView>
                 <View style={ styles.container }>

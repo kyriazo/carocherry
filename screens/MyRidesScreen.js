@@ -61,10 +61,7 @@ useEffect(() => {
        
       <ScrollView>
 
-        <View> 
-        <TouchableOpacity onPress={() => props.navigation.navigate("Archive")}>
-                                <Text>My archives</Text>
-        </TouchableOpacity>
+        <View>
         <Text style={styles.textTitles}>My Rides</Text>
         <FlatList
           data={rides}

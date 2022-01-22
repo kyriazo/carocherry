@@ -8,7 +8,7 @@ export default function Button(props) {
   return (
     <Pressable style={styles.button} onPress={onPress}>
       {title != "" && <Text ifstyle={styles.text}>{title}</Text>}
-      <MaterialCommunityIcons name={icon} color='#E9446A' size={30} />
+      <MaterialCommunityIcons name={icon} color='#ffffff' size={30} />
     </Pressable>
   );
 }
@@ -18,16 +18,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 32,
+    paddingHorizontal: 12,
     borderRadius: 4,
-    elevation: 3,
-    backgroundColor: 'black',
+    // elevation: 3,
   },
   text: {
     fontSize: 16,
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: 'white',
+    color: '#ffffff',
   },
 });

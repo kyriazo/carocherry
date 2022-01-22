@@ -14,8 +14,12 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
 import { color, set } from "react-native-reanimated";
+import { StatusBar } from "react-native";
 
 const HomeScreen = () => {
+
+  StatusBar.setBarStyle('light-content', true);
+  StatusBar.setBackgroundColor('black',true);
 
     const [state, setState] = useState({myRideId: ''})
     const [rides, setRides] = useState([]);
@@ -89,16 +93,17 @@ useEffect(() => {
  // return () => firebase.database().ref(`/rides`).off('value', connection);
 }, []);
 
-    return ( 
-       
-      <ScrollView>
-      <View> 
+    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBackgroundColor('black',true);
 
-      <TouchableOpacity style={{ marginTop: 32 }} onPress={()=> { firebase.auth().signOut(); }}>
-      <Text>Logout</Text>
-      </TouchableOpacity>
-      <Text style={styles.textTitles}>Latest Rides</Text>
+
+    return (    
       <FlatList
+        ListHeaderComponent={
+          <>
+          <Text style={styles.textTitles}>Latest Rides</Text>
+          </>
+        }
         data={rides}
         keyExtractor={(item, index) => item.ruid}
         key={(item, index) => item.ruid}
@@ -111,10 +116,12 @@ useEffect(() => {
             </View>
           );
         }}
+        listFooterComponent={
+          <>
+          </>
+        }
       />
-    </View>
-    </ScrollView>
- 
+
     );
   }
   
@@ -140,11 +147,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textTitles: {
-    textAlign: 'center',
-    padding: 10,
-    fontSize: 18,
-    fontWeight: "bold",
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingTop: 20,
+    fontSize: 28,
+    fontWeight: "400",
     color: "#7D0036",
+    fontFamily: 'Lobster_400Regular'
   },
   deleteText: {
     textAlign: 'center',

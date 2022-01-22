@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
 import * as firebase from "firebase";
 import { ExecutionEnvironment } from "expo-constants";
+import { StatusBar } from 'react-native';
 
 export default class RegisterScreen extends React.Component {
 
@@ -61,6 +62,8 @@ export default class RegisterScreen extends React.Component {
 
 
     render() {
+        StatusBar.setBarStyle('light-content', true);
+        StatusBar.setBackgroundColor('black',true);
         return (
             <View style={styles.container}>
                 <Image style={styles.logo}
@@ -190,7 +193,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#8A8F9E",
         // borderBottomWidth: StyleSheet.hairlineWidth,
         height: 50,
-        fontSize: 15,
+        fontSize: 18,
         color: "black",
         borderRadius: 10,
         marginTop: 15,

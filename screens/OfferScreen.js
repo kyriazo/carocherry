@@ -18,7 +18,31 @@ import PlaceRender from "../components/PlaceRender";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FAB, RadioButton } from 'react-native-paper';
 import { Fontisto } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'react-native';
+import RouteScreen from './RouteScreen'
+import { createStackNavigator } from '@react-navigation/stack';
+
+
+const RouteStack = createStackNavigator();
+
+const RouteStackNavigator = () => {
+  return(
+  <RouteStack.Navigator initialRouteName="Route" screenOptions={{
+    headerStyle: {
+      elevation: 0,
+      backgroundColor: '#dd5b45',
+    },
+    headerTitleStyle: {
+      color:'white',
+      fontSize: 26
+    },
+    headerTintColor: 'white',
+    cardStyle: {backgroundColor: '#ffffff'}}}>
+    <RouteStack.Screen name="Route" component={RouteScreen}/>
+  </RouteStack.Navigator>
+  )
+}
 
 export default class OfferScreen extends React.Component {
 
@@ -45,6 +69,12 @@ export default class OfferScreen extends React.Component {
         luggageAllow: true,
     };
 }
+
+componentDidMount() {
+
+}
+
+
 
 //Toggles modals on
 showFromModal = () => {
@@ -122,6 +152,8 @@ toggleLuggage = () => {
 }
 
   render() {
+    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBackgroundColor('black',true);
     return ( 
       <ScrollView 
       contentContainerStyle={{ flexGrow: 1 }}
@@ -348,7 +380,7 @@ toggleLuggage = () => {
                  return 
                  }
                  else
-                 this.props.navigation.navigate("Route", { state: this.state })
+                 this.props.navigation.navigate("Route", {state: this.state })
                  
           }}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Next</Text>

@@ -22,7 +22,8 @@ export default class LoginScreen extends React.Component {
 
 
     render() {
-
+        StatusBar.setBarStyle('light-content', true);
+        StatusBar.setBackgroundColor('black',true);
 
         return (
             <View style={styles.container}>
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     input: {
         borderBottomColor: "#8A8F9E",
         height: 50,
-        fontSize: 15,
+        fontSize: 18,
         color: "black",
         borderRadius: 10,
         marginTop: 15,
