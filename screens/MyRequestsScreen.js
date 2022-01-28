@@ -10,13 +10,13 @@ ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import MyRidesRender from "../components/MyRidesRender";
+import RequestRender from "../components/RequestRender";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
 import { color, set } from "react-native-reanimated";
 
-const MyRidesScreen = (props) => {
+const MyRequestsScreen = (props) => {
 
     const [state, setState] = useState({myRideId: ''})
     const [rides, setRides] = useState([]);
@@ -53,52 +53,39 @@ useEffect(() => {
     else
     console.log('Safe')
   });
-
-  var answers = rides;  
-  const result = Object.values(answers);   
-  const rideDate = result.map((data) => data.date);
-  const rideId = result.map((data) => data.ruid);
-  for (var i=0; i < rideDate.length; i++){
-    var d1 = new Date();
-    d1 = Date.parse(d1)
-    var d2 = Date.parse(rideDate[i])
-    if (d1 > d2){
-      console.log('this should be archived', rideId[i]);
-      firebase.database()
-      .ref(`/rides/${rideId[i]}`)
-      .on('value', snapshot => {
-      firebase.database().ref(`/archivedRides/${rideId[i]}`).set(snapshot.val());
-      });
-      //firebase.database().ref(`/rides/${rideId[i]}`).remove();
-    }
-  }
-
   return () => firebase.database().ref(`/rides`).off('value', connection);
 },[]);
 
     return ( 
        
       <ScrollView>
-
+        
         <View>
-        <Text style={styles.textTitles}>My Rides</Text>
+        <Text style={styles.textTitles}>My Requests</Text>
+        {/* The FlatList below renders only the requests of the current user by checking each request from the rides listed and matching uid and ruid. */}
         <FlatList
-          data={rides}
-          keyExtractor={(item, index) => item.ruid}
-          key={(item, index) => item.ruid}
-          renderItem={({ item }) => {
-            const { currentUser } = firebase.auth();
-            if (currentUser.uid == item.uid)
-            return (
-              <View>
-                  {/* Renders each ride on a separate component */}
-                 <MyRidesRender value={item} />
-                  {/* Archives ride after alert confirmation */}
-                  <TouchableOpacity
+        data={rides}
+        keyExtractor={(item, index) => item.ruid}
+        renderItem={({ item }) => {
+          const { currentUser } = firebase.auth(); 
+          var answers = item.requests;  
+          if (item.requests == null)
+          return
+          const result = Object.values(answers);   
+          const rideId = result.map((data) => data.rideId);
+          const userId = result.map((data) => data.uid);
+          for (var i=0; i < rideId.length; i++)
+          if (rideId[i] == item.ruid)
+          for (var j=0; j < userId.length; j++)
+          if (userId[j] == currentUser.uid)
+          return (
+            <View>
+               <RequestRender value={item} />
+               <TouchableOpacity
                     onPress={() => {
                       Alert.alert(
                         "Warning",
-                        "Are you sure you want to archive this ride?",
+                        "Are you sure you want to delete your request?",
                         [
                           {
                             text: "Cancel",
@@ -107,8 +94,20 @@ useEffect(() => {
                           },
                           { text: "OK", onPress: () => 
                             {
-                              firebase.database().ref(`/archivedRides/${item.ruid}`).set(item);
-                              firebase.database().ref(`/rides/${item.ruid}`).remove();
+                              //Increases seats of ride by 1 only if the user was accepted. Otherwise the request gets deleted without altering seats.
+                              const requests = _.map(item.requests, (val, ruid) => {
+                                return { ...val, ruid};
+                              });
+                              for (var i=0; i < requests.length; i++){
+                                var id = requests[i].ruid
+                                if (requests[i].isAccepted == null)
+                                  return;
+                                if (requests[i].isAccepted){
+                                  firebase.database().ref(`/rides/${item.ruid}`).update({seats: item.seats+1});
+                                }
+                                if (requests[i].uid == currentUser.uid)
+                                firebase.database().ref(`/rides/${item.ruid}/requests/${requests[i].ruid}`).remove();
+                              }
                           }
                         }
                         ]
@@ -116,13 +115,13 @@ useEffect(() => {
                     }
                     }
                   >
-                   <Text style={styles.deleteText}>Archive this Ride</Text>
+                   <Text style={styles.deleteText}>Delete Request</Text>
                   </TouchableOpacity>
-              </View>
-            );
-          }}
+            </View>
            
-        />
+          );
+        }}
+      />
       </View>
       </ScrollView>      
  
@@ -166,4 +165,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MyRidesScreen;
+export default MyRequestsScreen;

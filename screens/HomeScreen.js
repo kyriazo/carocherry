@@ -24,9 +24,9 @@ const HomeScreen = () => {
     const [state, setState] = useState({myRideId: ''})
     const [rides, setRides] = useState([]);
     const [initialRides, setInitialRides] = useState([]);
-    const [test, setTest] = useState([]);
+    const [dateMessage, setDateMessage] = useState(['']);
  
-    //UseEffect hook used in same way as ComponentDidMount
+  //useEffect hook used to set the initial rides fetched from firebase.
   useEffect(() => {
      
       const { currentUser } = firebase.auth();
@@ -49,7 +49,7 @@ const HomeScreen = () => {
      });
   }, []);
 
-//Listener to update
+//Listens to firebase and updates the state only if its different from initial state so it gets rendered on screen. Also archives rides that are past date.
 useEffect(() => {
   var answers = rides;  
   const result = Object.values(answers);   
@@ -64,7 +64,7 @@ useEffect(() => {
       firebase.database()
       .ref(`/rides/${rideId[i]}`)
       .on('value', snapshot => {
-      firebase.database().ref(`/archivedRides/${rideId[i]}`).set(snapshot.val());
+      //firebase.database().ref(`/archivedRides/${rideId[i]}`).set(snapshot.val());
       });
       //firebase.database().ref(`/rides/${rideId[i]}`).remove();
     }

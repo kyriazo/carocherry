@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileInput from "../components/ProfileInput";
 import HomeScreen from "./HomeScreen";
 import MyRidesScreen from "./MyRidesScreen"
+import MyRequestsScreen from "./MyRequestsScreen"
 import * as firebase from "firebase";
 
 
@@ -111,7 +112,7 @@ const MyRidesTabNavigator = () => {
 }}
     >
     <MyRidesTab.Screen name="MyRides" component={MyRidesScreen}/>
-    <MyRidesTab.Screen name="MyRequests" component={MyRidesScreen}/>
+    <MyRidesTab.Screen name="MyRequests" component={MyRequestsScreen}/>
     <MyRidesTab.Screen name="MyArchives" component={ArchiveScreen}/>
 
   </MyRidesTab.Navigator>
