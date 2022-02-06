@@ -104,6 +104,7 @@ useEffect(() => {
           <Text style={styles.textTitles}>Latest Rides</Text>
           </>
         }
+        style={styles.page}
         data={rides}
         keyExtractor={(item, index) => item.ruid}
         key={(item, index) => item.ruid}
@@ -126,6 +127,9 @@ useEffect(() => {
   }
   
 const styles = StyleSheet.create({
+  page: {
+    backgroundColor: '#f3e1d6'
+  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -152,7 +156,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     fontSize: 28,
     fontWeight: "400",
-    color: "#7D0036",
+    color: "#dd5b45",
     fontFamily: 'Lobster_400Regular'
   },
   deleteText: {

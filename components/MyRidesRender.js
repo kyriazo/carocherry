@@ -4,7 +4,8 @@ import * as firebase from "firebase";
 import _ from "lodash";
 import { cos } from 'react-native-reanimated';
 import ReviewRender from './ReviewRender';
-import { FontAwesome } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
+import { boxShadow } from 'tailwind-rn/unsupported-core-plugins';
 
 const MyRidesRender = (props) => {
     
@@ -91,23 +92,33 @@ const MyRidesRender = (props) => {
 
     return (
        <View style={styles.container}>
-           <View style={styles.resultsContainer}>
-            <Text style={styles.textTitles}>From {props.value.originName}</Text>
-            <Text style={styles.textTitles}>To {props.value.destinationName}</Text>
+          <View style={styles.addressContainer}>
+            <Text style={styles.addressLabel}>From</Text>
+            <Text style={styles.addressData}>{props.value.originName.split(',')}</Text>
+            <Text style={styles.addressLabel}>To</Text>
+            <Text style={styles.addressData}>
+                <Text>{props.value.destinationName.split(',')[0]}</Text>
+                <Text>{props.value.destinationName.split(',')[1]}</Text>
+                <Text>{props.value.destinationName.split(',')[2]}</Text>
+            </Text>
+          </View>
+          <View style={styles.verticalContainer}>
+            <View style={styles.rightContainer}>
+              <Text style={styles.rideType}>{isOffer}</Text>
+              <View style={styles.imageContainer}>
+                <TouchableOpacity onPress={() => setModal(true)}>
+                <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
+                </TouchableOpacity>
+                <Text style={styles.textTitles}>{renderInfo.name}</Text>
+              </View>
             </View>
             <View style={styles.resultsContainer}>
-            <Text> Date: {props.value.date}</Text>
-            <Text>{isOffer}</Text>
-            <TouchableOpacity onPress={() => setRequestsModal(true)}>
-            <Text style={{fontWeight: 'bold'}}>Review requests</Text>
-            </TouchableOpacity>
+              <Text> Date: {props.value.date}</Text>
+              <TouchableOpacity onPress={() => setRequestsModal(true)}>
+              <Text style={{fontWeight: 'bold'}}>Review requests</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.imageContainer}>
-            <TouchableOpacity onPress={() => setModal(true)}>
-            <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
-            </TouchableOpacity>
-            <Text style={styles.textTitles}>{renderInfo.name}</Text>
-            </View>
+          </View>
             <Modal visible={modal} animationType="slide">
             <View>
             <ScrollView>
@@ -116,7 +127,7 @@ const MyRidesRender = (props) => {
                     <View style={styles.upperView}>
 
                        
-                            <View style={{
+                            <View style={{  
                                 height: 120,
                                 width: 120,
                                 borderRadius: 120,
@@ -196,74 +207,147 @@ const MyRidesRender = (props) => {
     );
 };
 
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
+        maxWidth: '100%',
         flexDirection: "row",
         borderColor: '#E9446A',
-        borderRadius: 10,
         borderWidth: 1,
-        margin: 10
+        margin: 10,
+        backgroundColor: '#ffffff',
+        minHeight: 180,
+        // position: 'relative',
+        // zIndex: 1
+        
     },
+    addressContainer: {
+      height: '100%', 
+      flex: 2,
+      // paddingLeft: 5,
+      // zIndex: -1,
+      // maxWidth: 150,
+      // width: '100%',
+      flexDirection: "column",
+      // alignSelf: 'center',
+      // justifyContent: 'center',
+      backgroundColor:'#ffffff',
+      // borderRadius: 8,
+      
+  },
+  verticalContainer: {
+    flex: 3
+  },
     resultsContainer: {
-        width: 100,
+        // width: '100%',
+        flex: 2,
         flexDirection: "column",
         alignSelf: 'flex-start',
+        // justifyContent: 'space-between',
+        height: '100%',
+        // backgroundColor:'#ffffff',
+        backgroundColor:'#910099',
     },
-    imageContainer: {
-        position: 'absolute',
-        marginTop: 10,
-        right: 10
+    
+    rightContainer: {
+       flex:2,
+       backgroundColor:'#ffffff',
     },
-    textTitles: {
-        padding: 10,
+    // imageContainer: {
+    //     // position: 'absolute',
+    //     // right: 10,        
+    // },
+    addressData: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: '#7D0036'
+        color: '#dd5b45',
+        textAlign: 'center',
+        flexDirection: 'column',
+        flex:20
     },
-    input: {
-        paddingHorizontal: 10,
+    addressLabel: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#ffffff',
+        backgroundColor: '#dd5b45',
+        height: 30,
+        alignContent: 'center',
+        textAlign: 'center',
+        paddingTop: 6,
+        flex:1,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 0,
+        borderBottomRightRadius: 10
+        
     },
-    miniCircle: {
-        height: 60,
-        width: 60,
-        borderRadius: 60,
-        alignSelf: 'center',
-    },
-    circle: {
-        height: 120,
-        width: 120,
-        borderRadius: 120,
-        alignSelf: 'center',
-    },
-    button: {
-        marginHorizontal: 30,
-        backgroundColor: "#E9446A",
-        borderRadius: 4,
-        height: 52,
-        alignItems: "center",
-        justifyContent: "center",
+    rideType: {
+      backgroundColor: '#eeffee',
+      fontWeight: 'bold',
+      width: 'auto',
+      alignSelf: 'flex-end',
+      paddingVertical: 8,
+      paddingHorizontal: 9,
+      textAlign: 'center',
+      borderBottomLeftRadius: 10,
+      fontSize: 18,
+      // shadowRadius: 50,
+      // shadowOffset:  {width: 10,height: 10},
+      // borderBottomWidth: 2,
+      // borderLeftWidth: 2,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 3,
       },
-      upperView: {
-        flexDirection: 'row',
-        backgroundColor: "#E9446A",
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    lowerView: {
-        flex: 3,
-        backgroundColor: '#f3e1d6'
-    },
-    requestContainer: {
-        flexDirection: 'row',
-    },
-    requestBox: {
-        borderColor: '#E9446A',
-        borderRadius: 1,
-        borderWidth: 1,
-        margin: 10
-    }
+      shadowOpacity: 0.55,
+      shadowRadius: 3.84,
+
+      elevation: 5,
+          },
+    // input: {
+    //     paddingHorizontal: 10,
+    // },
+    // miniCircle: {
+    //     height: 60,
+    //     width: 60,
+    //     borderRadius: 60,
+    //     alignSelf: 'center',
+    // },
+    // circle: {
+    //     height: 120,
+    //     width: 120,
+    //     borderRadius: 120,
+    //     alignSelf: 'center',
+    // },
+    // button: {
+    //     marginHorizontal: 30,
+    //     backgroundColor: "#E9446A",
+    //     borderRadius: 4,
+    //     height: 52,
+    //     alignItems: "center",
+    //     justifyContent: "center",
+    //   },
+    //   upperView: {
+    //     flexDirection: 'row',
+    //     backgroundColor: "#E9446A",
+    //     flex: 1,
+    //     justifyContent: 'center',
+    //     alignItems: 'center'
+    // },
+    // lowerView: {
+    //     flex: 3,
+    //     backgroundColor: '#f3e1d6'
+    // },
+    // requestContainer: {
+    //     flexDirection: 'row',
+    // },
+    // requestBox: {
+    //     borderColor: '#E9446A',
+    //     borderRadius: 1,
+    //     borderWidth: 1,
+    //     margin: 10
+    // }
 })
 
 export default MyRidesRender;
