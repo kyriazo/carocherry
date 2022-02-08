@@ -5,7 +5,7 @@ import _ from "lodash";
 import { cos } from 'react-native-reanimated';
 import ReviewRender from './ReviewRender';
 import { FontAwesome } from '@expo/vector-icons';
-import { boxShadow } from 'tailwind-rn/unsupported-core-plugins';
+//import { boxShadow } from 'tailwind-rn/unsupported-core-plugins';
 
 const MyRidesRender = (props) => {
     

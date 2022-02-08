@@ -30,6 +30,7 @@ const MyRequestsScreen = (props) => {
      .ref(`/rides`)
      .once("value")
      .then((snapshot) => {
+       //gets snapshot from firebase and sets initial array of objects with unique ruids.
        state = snapshot.val();
        const rides = _.map(state, (val, ruid) => {
          return { ...val, ruid};
@@ -71,6 +72,7 @@ useEffect(() => {
           var answers = item.requests;  
           if (item.requests == null)
           return
+          //Separate rideId and userId. Scan rides array until ruid matches and then do same for user id. Then render that object.
           const result = Object.values(answers);   
           const rideId = result.map((data) => data.rideId);
           const userId = result.map((data) => data.uid);
