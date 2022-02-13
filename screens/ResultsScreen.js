@@ -25,7 +25,6 @@ export default class ResultsScreen extends React.Component {
     super(props);
     this.state = {
     };
-    
   }
 
   render() {
@@ -33,6 +32,8 @@ export default class ResultsScreen extends React.Component {
    
         <View> 
         <Text style={styles.textTitles}>Matched results</Text>
+        {/* The flatlist below renders all the rides that don't match the users id and are closer than 2km based on haversine formula 
+        to calculate the distance between two points on a sphere */}
         <FlatList
           data={this.state.rides}
           keyExtractor={(item, index) => item.ruid}
@@ -53,6 +54,7 @@ export default class ResultsScreen extends React.Component {
                         Math.sin(Δλ/2) * Math.sin(Δλ/2);
               const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
               const d = R * c; // in metres
+              // attempt to show only recent rides
               var d1 = new Date();
               d1 = Date.parse(d1)
               var d2 = Date.parse(item.date)
@@ -60,7 +62,7 @@ export default class ResultsScreen extends React.Component {
               if (currentUser.uid != item.uid)
               if (d < 1000)  
             return (
-            
+                // Renders each ride on a separate component with the properties of sent item
                 <ProfileRender value={item} />
             );
           }}
@@ -72,6 +74,8 @@ export default class ResultsScreen extends React.Component {
     );
   }
 
+
+  //Fires once to populate rides array from firebase
   componentDidMount() {
     var state;
     firebase
