@@ -5,7 +5,6 @@ import _ from "lodash";
 import { cos } from 'react-native-reanimated';
 import ReviewRender from './ReviewRender';
 import { FontAwesome } from '@expo/vector-icons';
-import { boxShadow } from 'tailwind-rn/unsupported-core-plugins';
 
 const MyRidesRender = (props) => {
     
@@ -89,7 +88,6 @@ const MyRidesRender = (props) => {
   //return () => database().ref(`/rides/${props.value.ruid}`).off('value', onChildAdd);
   });
 
-
     return (
        <View style={styles.container}>
           <View style={styles.addressContainer}>
@@ -103,27 +101,27 @@ const MyRidesRender = (props) => {
             </Text>
           </View>
           <View style={styles.verticalContainer}>
-            <View style={styles.rightContainer}>
-              <Text style={styles.rideType}>{isOffer}</Text>
-              <View style={styles.imageContainer}>
-                <TouchableOpacity onPress={() => setModal(true)}>
-                <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
-                </TouchableOpacity>
-                <Text style={styles.textTitles}>{renderInfo.name}</Text>
-              </View>
-            </View>
-            <View style={styles.resultsContainer}>
-              <Text> Date: {props.value.date}</Text>
-              <TouchableOpacity onPress={() => setRequestsModal(true)}>
-              <Text style={{fontWeight: 'bold'}}>Review requests</Text>
+              <View style={styles.imagetextContainer}>
+              <View style={styles.rideDetails}>
+              <TouchableOpacity onPress={() => setModal(true)}>
+              <Text style={styles.rideDetailsText}>Ride Details</Text>
               </TouchableOpacity>
+              </View>
+              <View style={styles.imageContainer}>
+                <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
+                <Text style={styles.textTitles}>{renderInfo.name}</Text>
+                </View>
+              </View>
+            <View style={styles.dateContainer}>
+              {/* <Text style={styles.dateLabel}> Date</Text> */}
+              <Text style={styles.dateValue}>{props.value.date}</Text>
+              <Text style={styles.rideType}>{isOffer}</Text>
             </View>
           </View>
             <Modal visible={modal} animationType="slide">
-            <View>
-            <ScrollView>
-                <View style={{ flex: 1 }}>
-
+            <View style={styles.modalView}>
+            {/* <ScrollView style={styles.scrollview}> */}
+                <View style={styles.modalViewsContainer}>
                     <View style={styles.upperView}>
 
                        
@@ -135,27 +133,30 @@ const MyRidesRender = (props) => {
                             }}>
                                 <Image source={{ uri: renderInfo.image }} style={styles.circle} />
                             </View>
-                      
+                            <Text style={styles.modalTextName}>{renderInfo.name} {renderInfo.lastName}</Text>
                     </View>
 
 
                     <View style={styles.lowerView}>
-
-                    <Text style={styles.textTitles}>{renderInfo.name} {renderInfo.lastName}</Text>
-                        <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
-                        <Text style={styles.textTitles}>{renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
-                        <Text style={styles.textTitles}>Ride Preferences:</Text>
-                        <Text style={styles.textTitles}>{smoke}</Text>
-                        <Text style={styles.textTitles}>{pets}</Text>
-                        <Text style={styles.textTitles}>{music}</Text>
-                        <Text style={styles.textTitles}>{luggage}</Text>
+                        <View style={styles.lowerViewTexts}>
+                        <Text style={styles.modalMainTitle}>Ride Details</Text>
+                        <Text style={styles.modalTitle}>User Details:</Text>
+                        <Text style={styles.modalText}>{renderInfo.miniBio}</Text>
+                        <Text style={styles.modalText}>{renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
+                        <Text style={styles.modalTitle}>Ride Preferences:</Text>
+                        <Text style={styles.modalText}>{smoke}</Text>
+                        <Text style={styles.modalText}>{pets}</Text>
+                        <Text style={styles.modalText}>{music}</Text>
+                        <Text style={styles.modalText}>{luggage}</Text>
+                        </View>
+                        <TouchableOpacity style={styles.modalButton} onPress={() => setModal(false)}>
+                        <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
+                        </TouchableOpacity>
                     </View>
 
                 </View>
-            </ScrollView> 
-            <TouchableOpacity style={styles.button} onPress={() => setModal(false)}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
-            </TouchableOpacity>
+            {/* </ScrollView>  */}
+            
           </View>
 
         </Modal>
@@ -215,7 +216,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderColor: '#E9446A',
         borderWidth: 1,
-        margin: 10,
+        marginVertical: 30,
+        marginHorizontal: 10,
         backgroundColor: '#ffffff',
         minHeight: 180,
         // position: 'relative',
@@ -239,25 +241,51 @@ const styles = StyleSheet.create({
   verticalContainer: {
     flex: 3
   },
-    resultsContainer: {
-        // width: '100%',
-        flex: 2,
+    dateContainer: {
+        width: '100%',
+        flex: 3,
         flexDirection: "column",
-        alignSelf: 'flex-start',
-        // justifyContent: 'space-between',
-        height: '100%',
-        // backgroundColor:'#ffffff',
-        backgroundColor:'#910099',
+        justifyContent: 'center',
+        position: 'relative',
+        // height: '100%',
+        backgroundColor:'#ffffff',
+        fontSize: 18,
+        // paddingBottom: 10
     },
-    
-    rightContainer: {
-       flex:2,
+    dateLabel: {
+      fontSize: 20,
+      textAlign: 'center'
+    },
+    dateValue: {
+      fontSize: 18,
+      textAlign:'center',
+      textAlignVertical: 'top',
+      height: '100%',
+      fontWeight: 'bold'
+    },
+    imageContainer: {
+       flex:1,
        backgroundColor:'#ffffff',
+       textAlign: 'center',
+       paddingTop: 8,
     },
-    // imageContainer: {
-    //     // position: 'absolute',
-    //     // right: 10,        
-    // },
+    imagetextContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      textAlignVertical: 'center',
+      height: '100%',
+    },
+    rideDetails: {
+      textAlignVertical: 'center',
+      flex: 1
+    },
+    rideDetailsText: {
+      textAlignVertical: 'center',
+      textAlign: 'right',
+      fontWeight: 'bold',
+      fontSize: 18,
+      height: '100%'
+    },
     addressData: {
         fontSize: 14,
         fontWeight: 'bold',
@@ -282,15 +310,18 @@ const styles = StyleSheet.create({
         
     },
     rideType: {
-      backgroundColor: '#eeffee',
+      backgroundColor: '#f3e1d6',
       fontWeight: 'bold',
       width: 'auto',
       alignSelf: 'flex-end',
-      paddingVertical: 8,
+      paddingVertical: 4,
       paddingHorizontal: 9,
       textAlign: 'center',
-      borderBottomLeftRadius: 10,
+      borderTopLeftRadius: 10,
+      // borderTopRightRadius: 10,
       fontSize: 18,
+      position: 'absolute',
+      bottom: 0,
       // shadowRadius: 50,
       // shadowOffset:  {width: 10,height: 10},
       // borderBottomWidth: 2,
@@ -298,7 +329,7 @@ const styles = StyleSheet.create({
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
-        height: 3,
+        height: -6,
       },
       shadowOpacity: 0.55,
       shadowRadius: 3.84,
@@ -308,46 +339,109 @@ const styles = StyleSheet.create({
     // input: {
     //     paddingHorizontal: 10,
     // },
-    // miniCircle: {
-    //     height: 60,
-    //     width: 60,
-    //     borderRadius: 60,
-    //     alignSelf: 'center',
-    // },
-    // circle: {
-    //     height: 120,
-    //     width: 120,
-    //     borderRadius: 120,
-    //     alignSelf: 'center',
-    // },
-    // button: {
-    //     marginHorizontal: 30,
-    //     backgroundColor: "#E9446A",
-    //     borderRadius: 4,
-    //     height: 52,
-    //     alignItems: "center",
-    //     justifyContent: "center",
-    //   },
-    //   upperView: {
-    //     flexDirection: 'row',
-    //     backgroundColor: "#E9446A",
-    //     flex: 1,
-    //     justifyContent: 'center',
-    //     alignItems: 'center'
-    // },
-    // lowerView: {
-    //     flex: 3,
-    //     backgroundColor: '#f3e1d6'
-    // },
-    // requestContainer: {
-    //     flexDirection: 'row',
-    // },
-    // requestBox: {
-    //     borderColor: '#E9446A',
-    //     borderRadius: 1,
-    //     borderWidth: 1,
-    //     margin: 10
-    // }
+    miniCircle: {
+        height: 60,
+        width: 60,
+        borderRadius: 60,
+        alignSelf: 'center',
+    },
+    circle: {
+        height: 120,
+        width: 120,
+        borderRadius: 120,
+        alignSelf: 'center',
+    },
+    button: {
+        marginHorizontal: 30,
+        backgroundColor: "#E9446A",
+        borderRadius: 4,
+        height: 52,
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      modalViewsContainer: {
+        flex:1,
+        height: '100%',
+        flexDirection: 'column',
+        justifyContent: 'flex-start'
+      },
+      modalView: {
+        backgroundColor: '#f3e1d6',
+        height: '100%',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        // alignItems: 'flex-start'
+
+      },
+    upperView: {
+      flexDirection: 'row',
+      backgroundColor: "#E9446A",
+      flexDirection: 'column',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 30,
+      width: '100%',
+    },
+    modalTextName: {
+      fontSize: 26,
+      color: '#000000',
+      fontWeight: 'bold'
+    },
+    lowerView: {
+        flex: 6,
+        height: '100%',
+        paddingVertical: 25,
+        alignItems: 'center',
+        width: '100%'
+        // backgroundColor: '#00ffff',
+
+    },
+    lowerViewTexts: {
+      maxWidth: '80%',
+      width: '100%'
+      // textAlign: 'center'
+    },
+    
+    modalMainTitle: {
+      fontSize: 34,
+      fontWeight: 'bold',
+      textAlign: 'left',
+      marginBottom: 30
+    },
+    modalTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginBottom: 10
+    },
+    modalText: {
+      fontSize: 16,
+      paddingVertical: 5
+    },
+    modalButton: {
+      marginHorizontal: 30,
+      backgroundColor: "#E9446A",
+      borderRadius: 10,
+      height: 52,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 50,
+      width: '80%'
+    },
+    requestContainer: {
+        flexDirection: 'row',
+    },
+    requestBox: {
+        borderColor: '#E9446A',
+        borderRadius: 1,
+        borderWidth: 1,
+        margin: 10
+    },
+    textTitles: {
+      textAlign: 'center',
+      width: 'auto'
+    }
 })
 
 export default MyRidesRender;

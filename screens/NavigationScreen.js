@@ -89,25 +89,43 @@ const MyRidesTabNavigator = () => {
   return (
   <MyRidesTab.Navigator 
   tabBarOptions= {{
+    activeTintColor: '#ff0000',
+    inactiveTintColor: '#333333',
+    pressColor: 'transparent',
+        pressOpacity: 15,
+        labelStyle: {
+          fontSize: 16,
+          textTransform: 'none',
+        },
     labelStyle: {
-    color: '#7d3aff',
-    fontSize: 12,
-    lineHeight: 12,
-    backgroundColor: '#a0f312',
+    // color: '#7d3aff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    backgroundColor: '#ffffff',
   },
   tabStyle: {
-    height: 300, // the only change is here
-    borderWidth: 1,
-    borderColor: '#7d3aff',
-    borderRadius: 10,
-    backgroundColor: '#f012',
+    height: 60, // the only change is here
+    // borderRightWidth: 1,
+    marginTop: 35,
+    // borderRightColor: '#ff0000',
+    backgroundColor: '#ffffff',
   },
-  style: {
-    // height: 30, // there is no difference do it or apply height in tabStyle
-    backgroundColor: '#fff',
+  activeTabStyle: {
+    elevation: 10
+
   },
+  // indicatorStyle: {
+  //         backgroundColor: 'blue',
+  //         height: 4,
+  //       },
+  // style: {
+  //   // height: 30, // there is no difference do it or apply height in tabStyle
+  //   backgroundColor: '#fff',
+  // },
   indicatorStyle: {
-    height: 0,
+    height: 15,
+    elevation: 15,
+    color: '#333333'
   },
 }}
     >

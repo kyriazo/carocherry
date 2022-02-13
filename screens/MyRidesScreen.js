@@ -80,7 +80,7 @@ useEffect(() => {
        
       <ScrollView>
 
-        <View>
+        <View style={styles.container}>
         <Text style={styles.textTitles}>My Rides</Text>
         <FlatList
           data={rides}
@@ -92,7 +92,7 @@ useEffect(() => {
             return (
               <View>
                   {/* Renders each ride on a separate component */}
-                 <MyRidesRender value={item} />
+                 <MyRidesRender style={styles.renderItem} value={item} />
                   {/* Archives ride after alert confirmation */}
                   <TouchableOpacity
                     onPress={() => {
@@ -131,25 +131,23 @@ useEffect(() => {
   
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingBottom: 40
   },
   upperView: {
     flexDirection: "row",
     flex: 1,
-    fontSize: 5
+    fontSize: 15
   },
-  button: {
-    position: 'absolute',
-    marginHorizontal: 30,
-    backgroundColor: "#E9446A",
-    borderRadius: 4,
-    top: 50,
-    height: 52,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  // button: {
+  //   position: 'absolute',
+  //   marginHorizontal: 30,
+  //   backgroundColor: "#E9446A",
+  //   borderRadius: 4,
+  //   top: 50,
+  //   height: 52,
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  // },
   textTitles: {
     textAlign: 'center',
     padding: 10,
@@ -163,6 +161,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#7D0036",
+    backgroundColor: '#ffffff',
+    position: 'absolute',
+    bottom: -10,
+    left:10,
+    borderLeftColor: '#E9446A',
+    borderLeftWidth: 1,
+    borderBottomColor: '#E9446A',
+    borderBottomWidth: 1,
+    borderRightColor: '#E9446A',
+    borderRightWidth: 1
   }
 });
 
