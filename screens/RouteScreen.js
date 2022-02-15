@@ -75,7 +75,10 @@ uploadRoute = () => {
       keyboardShouldPersistTaps='always' 
       listViewDisplayed={false}
       >
-      <SafeAreaView>
+      <View style={styles.containerView}>
+      {/* <SafeAreaView
+      > */}
+      <Text style={styles.textTitle}>Route Preview</Text>
         <View style={styles.container}>
         <View style={styles.mapContainer}>
         <MapView
@@ -102,22 +105,24 @@ uploadRoute = () => {
 
  <View style={{ flex: 1 }}>
 
-                        <Text>Confirm your preferences</Text>
-                        <Text>From {this.state.originName}</Text>
-                        <Text>To {this.state.destinationName}</Text>
-                        <Text>{this.state.date}</Text>
-                        <Text>Is it an offer = {this.state.isOffer}</Text>
-                        <Text>Seats available: {this.state.seats}</Text>
-                        <Text>Smoking allowed = {this.state.smokingAllow.toString()}</Text>
-                        <Text>Music allowed = {this.state.musicAllow.toString()}</Text>
-                        <Text>Pets allowed = {this.state.petsAllow.toString()}</Text>
-                        <Text>Luggage allowed = {this.state.luggageAllow.toString()}</Text>
-                        <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
-                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Offer Ride</Text>
-                        </TouchableOpacity> 
+                        <Text style={styles.textLabel}>Confirm your preferences</Text>
+                        <Text style={styles.preferenceText}>From: {this.state.originName}</Text>
+                        <Text style={styles.preferenceText}>To: {this.state.destinationName}</Text>
+                        <Text style={styles.preferenceText}>Date: {this.state.date}</Text>
+                        <Text style={styles.preferenceText}>Ride type: {this.state.isOffer ? 'Offer' : 'Request'}</Text>
+                        <Text style={styles.preferenceText}>Available seats: {this.state.seats}</Text>
+
+                        <Text style={styles.preferenceText}>Smoking: {this.state.smokingAllow ? 'Allowed' : 'Not allowed'}</Text>
+                        <Text style={styles.preferenceText}>Music: {this.state.musicAllow ? 'Welcome' : 'Not prefered'}</Text>
+                        <Text style={styles.preferenceText}>Pets: {this.state.petsAllow ? 'Welcome' : 'Not welcome'}</Text>
+                        <Text style={styles.preferenceText}>Luggage space: {this.state.luggageAllow ? 'Yes' : 'No'}</Text>
                 </View>
         </View>
-      </SafeAreaView>
+        <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Offer Ride</Text>
+                        </TouchableOpacity> 
+      {/* </SafeAreaView>  */}
+      </View>
       </ScrollView>
     )
   }
@@ -126,15 +131,27 @@ uploadRoute = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    backgroundColor: '#eee',
+    backgroundColor: '#eeeeee',
+    height: '100%'
+  },
+  containerView: {
+    backgroundColor: '#eeeeee',
+    height: '100%'
+  },
+  textTitle: {
+    textAlignVertical: 'center',
+    fontSize: 24,
+    paddingVertical: 15,
+    paddingLeft: 10,
+    fontWeight: 'bold'
+    // height: '100%'
   },
   mapContainer: {
     //height: 50,
     padding: 0,
     justifyContent: 'center',
     alignContent: 'center',
-    height: '50%'
+    height: '40%'
   },
   button: {
     marginHorizontal: 30,
@@ -143,10 +160,23 @@ const styles = StyleSheet.create({
     height: 52,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 'auto',
+    marginBottom: 10
   },
   textInput: {
     padding: 10,
     backgroundColor: '#eee',
     marginVertical: 5,
+  },
+  textLabel: {
+    paddingLeft: 10,
+    paddingVertical: 15,
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  preferenceText: {
+    paddingLeft: 10,
+    paddingVertical: 5,
+    fontSize: 16
   }
 });
