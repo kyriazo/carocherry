@@ -78,7 +78,7 @@ useEffect(() => {
 
     return ( 
        
-      <ScrollView>
+      // <ScrollView>
 
         <View style={styles.container}>
         <Text style={styles.textTitles}>My Rides</Text>
@@ -90,10 +90,11 @@ useEffect(() => {
             const { currentUser } = firebase.auth();
             if (currentUser.uid == item.uid)
             return (
-              <View>
+              <View >
                   {/* Renders each ride on a separate component */}
                  <MyRidesRender style={styles.renderItem} value={item} />
                   {/* Archives ride after alert confirmation */}
+                  <View style={{zIndex: 100}}>
                   <TouchableOpacity
                     onPress={() => {
                       Alert.alert(
@@ -118,13 +119,14 @@ useEffect(() => {
                   >
                    <Text style={styles.deleteText}>Archive this Ride</Text>
                   </TouchableOpacity>
+                  </View>
               </View>
             );
           }}
            
         />
       </View>
-      </ScrollView>      
+      // </ScrollView>      
  
     );
   }
@@ -138,16 +140,16 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 15
   },
-  // button: {
-  //   position: 'absolute',
-  //   marginHorizontal: 30,
-  //   backgroundColor: "#E9446A",
-  //   borderRadius: 4,
-  //   top: 50,
-  //   height: 52,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  // },
+  button: {
+    position: 'absolute',
+    marginHorizontal: 30,
+    backgroundColor: "#E9446A",
+    borderRadius: 4,
+    top: 50,
+    height: 52,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   textTitles: {
     textAlign: 'center',
     padding: 10,
