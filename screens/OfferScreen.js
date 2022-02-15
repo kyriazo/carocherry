@@ -50,9 +50,9 @@ export default class OfferScreen extends React.Component {
     super(props);
     this.state = {
         originPlace: '',
-        originName: 'Where from?',
+        originName: 'Select Departure',
         destinationPlace: '',
-        destinationName: 'Where to?',
+        destinationName: 'Select Destination',
         date: new Date(),
         mode: 'date',
         show: false,
@@ -162,30 +162,36 @@ toggleLuggage = () => {
       >
       <View style={{flex:1}}> 
         <View style={styles.container}>
-        <TouchableOpacity onPress={this.showFromModal}>
-        <Text style={styles.textInput}>{this.state.originName}</Text>
-        </TouchableOpacity>
-        <Modal visible={this.state.fromModal} animationType="slide">
+        {/* <TouchableOpacity onPress={this.showFromModal}> */}
+        {/* <Text style={styles.textInput}>{this.state.originName}</Text> */}
+        {/* <Modal visible={this.state.fromModal} animationType="slide"> */}
           <GooglePlacesAutocomplete
             suppressDefaultStyles
             styles={{
-              textInput: styles.TextInput,
+              textInput: {
+                backgroundColor: '#ffffff',
+                borderBottomColor: "#8A8F9E",
+                height: 50,
+                fontSize: 18,
+                color: "black",
+                backgroundColor: 'white',
+                paddingLeft: 15,
+                textAlignVertical: 'center',
+                borderRadius: 10
+              },
               container: {
-                position: 'absolute',
-                top: 0,
-                left: 10,
-                right: 10,
+                marginTop: 15,
+                borderRadius: 10,
+                backgroundColor: '#ffffff'
               },
               listView: {
-                position: 'absolute',
-                top: 105,
               },
               separator: {
                 backgroundColor: 'grey',
                 height: 1
               }
             }}
-            placeholder='Where from?'
+            placeholder='Select Departure'
             textInputProps={{
               onChangeText: (text) => { this.setState({originStatus: text}) }
              }}
@@ -205,31 +211,38 @@ toggleLuggage = () => {
           }}
           renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
         />
-       </Modal>
-       <TouchableOpacity onPress={this.showToModal}>
+       {/* </Modal> */}
+       {/* <TouchableOpacity onPress={this.showToModal}>
        <Text style={styles.textInput}>{this.state.destinationName}</Text>
         </TouchableOpacity>
-        <Modal visible={this.state.toModal} animationType="slide">
+        <Modal visible={this.state.toModal} animationType="slide"> */}
           <GooglePlacesAutocomplete
             suppressDefaultStyles
             styles={{
-              textInput: styles.TextInput,
+              textInput: {
+                backgroundColor: '#ffffff',
+                borderBottomColor: "#8A8F9E",
+                height: 50,
+                fontSize: 18,
+                color: "black",
+                backgroundColor: 'white',
+                paddingLeft: 15,
+                textAlignVertical: 'center',
+                borderRadius: 10
+              },
               container: {
-                position: 'absolute',
-                top: 0,
-                left: 10,
-                right: 10,
+                marginTop: 15,
+                borderRadius: 10,
+                backgroundColor: '#ffffff'
               },
               listView: {
-                position: 'absolute',
-                top: 105,
               },
               separator: {
                 backgroundColor: 'grey',
                 height: 1
               }
             }}
-            placeholder='Where to?'
+            placeholder='Select destination'
             textInputProps={{
               onChangeText: (text) => { this.setState({destinationStatus: text}) }
              }}
@@ -249,10 +262,10 @@ toggleLuggage = () => {
           }}
           renderRow={(data: GooglePlaceData) => <PlaceRender data={data} />}
         />
-        </Modal>
+        {/* </Modal> */}
        
           <View style={styles.dateContainer}>
-          <Text style={styles.textInput}>{this.state.date.toLocaleString()}</Text>
+          <Text style={styles.dateTextInput}>{this.state.date.toLocaleString()}</Text>
 
         
       <View>
@@ -283,15 +296,15 @@ toggleLuggage = () => {
          </View>
         
          <View style={styles.prefContainer}>
-      
           <Text style={styles.textTitles}>Are you offering or requesting?</Text>
+          <View style={styles.offerContainer}>
            <View style={{ flexDirection: 'row' }}>
            <RadioButton
               value="first"
               status={ this.state.checked === 'first' ? 'checked' : 'unchecked' }
               onPress={() => this.setState({ checked: 'first', isOffer: true })}
            /> 
-           <Text>Offering</Text>
+           <Text style={styles.offerText}>Offering</Text>
            </View>
            
            <View style={{ flexDirection: 'row' }}>
@@ -301,11 +314,13 @@ toggleLuggage = () => {
               status={ this.state.checked === 'second' ? 'checked' : 'unchecked' }
               onPress={() => this.setState({ checked: 'second', isOffer: false })}
           />
-           <Text>Requesting</Text>
+           <Text style={styles.offerText}>Requesting</Text>
           </View>
-          
+          </View>
             <Text style={styles.textTitles}>How many seats?</Text>
+            <View style={styles.picker}>
             <Picker
+              style={styles.picker}
               selectedValue={this.state.seats}
               onValueChange={(itemValue, itemIndex) => this.setState({seats: itemValue})}
             >
@@ -314,55 +329,56 @@ toggleLuggage = () => {
                <Picker.Item label="2" value="2"></Picker.Item>
                <Picker.Item label="3" value="3"></Picker.Item>
             </Picker>
-          <Text style={styles.textTitles}>Is smoking allowed?</Text>
+            </View>
+          <Text style={styles.textTitles}>Extra ride options</Text>
            <View style={styles.switchStyle}>
-           <Text>No smoking please</Text>
            <Switch
-              trackColor={{ false: "#ff0000", true:  "#00ff00" }}
+              trackColor={{ false: "#aaaaaa", true:  "#E9446A" }}
               thumbColor={this.state.smokingAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.toggleSmoking}
               value={this.state.smokingAllow}
             />
-            <Text>Smoking is fine</Text>
+             <Text style={styles.switchText}>Smoking allowed</Text>
+            {/* <Text>Smoking is fine</Text> */}
            </View>
            
-           <Text style={styles.textTitles}>Music?</Text>
+           {/* <Text style={styles.textTitles}>Music?</Text> */}
            <View style={styles.switchStyle}>
-           <Text>I prefer silence</Text>
            <Switch
-              trackColor={{ false: "#ff0000", true:  "#00ff00" }}
+              trackColor={{ false: "#aaaaaa", true:  "#E9446A" }}
               thumbColor={this.state.musicAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.toggleMusic}
               value={this.state.musicAllow}
             />
-            <Text>I like music</Text>
+             <Text style={styles.switchText}>Music is welcome</Text>
+            {/* <Text>I like music</Text> */}
             </View>
-           <Text style={styles.textTitles}>Are pets welcome?</Text>
+           {/* <Text style={styles.textTitles}>Are pets welcome?</Text> */}
            <View style={styles.switchStyle}>
-             <Text>No pets please</Text>
            <Switch
-              trackColor={{ false: "#ff0000", true:  "#00ff00" }}
+              trackColor={{ false: "#aaaaaa", true:  "#E9446A" }}
               thumbColor={this.state.petsAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.togglePets}
               value={this.state.petsAllow}
             />
-             <Text>Pets welcome</Text>
+            <Text style={styles.switchText}>Pets allowed</Text>
+             {/* <Text>Pets welcome</Text> */}
             </View>
            
-            <Text style={styles.textTitles}>Room for luggage?</Text>
+            {/* <Text style={styles.textTitles}>Room for luggage?</Text> */}
            <View style={styles.switchStyle}>
-             <Text>No room for luggage</Text>
            <Switch
-              trackColor={{ false: "#ff0000", true:  "#00ff00" }}
+              trackColor={{ false: "#aaaaaa", true:  "#E9446A" }}
               thumbColor={this.state.petsAllow ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={this.toggleLuggage}
               value={this.state.luggageAllow}
             />
-             <Text>There is enough room</Text>
+            <Text style={styles.switchText}>Luggage space</Text>
+             {/* <Text>There is enough room</Text> */}
             </View> 
            
            </View>
@@ -405,46 +421,81 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#f3e1d6',
     height: '100%',
+    paddingHorizontal: 15
   },
   dateContainer: {
     padding: 0,
     flexDirection: 'row',
+    textAlignVertical: 'center',
+    alignItems: 'center',
+    marginTop: 15
   },
   prefContainer: {
-    
+  },
+  offerContainer: {
+    flexDirection: 'row',
+    textAlignVertical: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 10
+  },
+  offerText: {
+    textAlignVertical: 'center'
+  },
+  picker: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
   },
   button: {
     //bottom: 50,
-    width: 100,
+    width: '100%',
     //marginHorizontal: 30,
     backgroundColor: "#E9446A",
     borderRadius: 4,
     height: 52,
-    marginLeft: 140,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 'auto'
   },
   dateButton: {
     marginLeft: 15,
     padding: 10,
-    //backgroundColor: "#E9446A",
+    // backgroundColor: "#E9446A",
   },
   textInput: {
-    borderRadius: 20,
-    padding: 10,
-    backgroundColor: '#eee',
-    marginVertical: 5,
+    borderBottomColor: "#8A8F9E",
+    height: 50,
+    fontSize: 18,
+    color: "black",
+    borderRadius: 10,
+    marginTop: 15,
+    backgroundColor: 'white',
+    paddingLeft: 15,
+    textAlignVertical: 'center',
+  },
+  dateTextInput: {
+    borderBottomColor: "#8A8F9E",
+    height: 50,
+    fontSize: 18,
+    color: "black",
+    borderRadius: 10,
+    backgroundColor: 'white',
+    paddingLeft: 15,
+    textAlignVertical: 'center'
   },
   textTitles: {
-    padding: 10,
+    paddingVertical: 10,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#7D0036'
 },
   switchStyle:{
     flexDirection: 'row',
-    alignContent: 'center',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-start',
   },
+  switchText: {
+    width: '35%',
+    fontSize: 16,
+    marginLeft: 10
+  }
 });
