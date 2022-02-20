@@ -24,13 +24,14 @@ export default class RouteScreen extends React.Component {
        originName: this.props.route.params.state.originPlace.value.data.description,
        destination: { latitude: this.props.route.params.state.destinationPlace.value.details.geometry.location.lat, longitude: this.props.route.params.state.destinationPlace.value.details.geometry.location.lng},
        destinationName: this.props.route.params.state.destinationPlace.value.data.description,
-       date: this.props.route.params.state.date.toLocaleString(),
+       date: this.props.route.params.state.showDate,
        isOffer: this.props.route.params.state.isOffer,
        petsAllow: this.props.route.params.state.petsAllow,
        musicAllow: this.props.route.params.state.musicAllow,
        smokingAllow: this.props.route.params.state.smokingAllow,
        luggageAllow: this.props.route.params.state.luggageAllow,
        seats: this.props.route.params.state.seats
+
     };
 }
 

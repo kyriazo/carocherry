@@ -54,6 +54,7 @@ export default class OfferScreen extends React.Component {
         destinationPlace: '',
         destinationName: 'Select Destination',
         date: new Date(),
+        showDate: 'Select Date',
         mode: 'date',
         show: false,
         fromModal: false,
@@ -109,6 +110,13 @@ onChange = (event, selectedDate) => {
     show: Platform.OS === 'ios',
     date: currentDate
 });
+   selectedDate = selectedDate.toString().split(' ');
+   var dateTime = selectedDate[4].split(':');
+   selectedDate=selectedDate[0]+' '+selectedDate[1]+' '+selectedDate[2] + ' ' +dateTime[0]+ ':'+dateTime[1];
+   console.log(selectedDate);
+   this.setState({
+     showDate: selectedDate
+   })
 };
 
 setSeats = (value) => {
@@ -265,7 +273,7 @@ toggleLuggage = () => {
         {/* </Modal> */}
        
           <View style={styles.dateContainer}>
-          <Text style={styles.dateTextInput}>{this.state.date.toLocaleString()}</Text>
+          <Text style={styles.dateTextInput}>{this.state.showDate}</Text>
 
         
       <View>

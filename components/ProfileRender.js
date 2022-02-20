@@ -15,9 +15,10 @@ const ProfileRender = (props) => {
     const [isOffer, setIsOffer] = useState('');
     const [buttonStatus, setButtonStatus] = useState(false);
     const [date, setDate] = useState(new Date())
+    
 
   useEffect(() => {
-    setDate(new Date(props.value.date));
+    setDate(props.value.date)
     let isMounted = true;               // note mutable flag
     var state;
     firebase
