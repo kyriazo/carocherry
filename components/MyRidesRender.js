@@ -91,14 +91,18 @@ const MyRidesRender = (props) => {
     return (
        <View style={styles.container}>
           <View style={styles.addressContainer}>
+          <View style={{flex: 1}}>
             <Text style={styles.addressLabel}>From</Text>
             <Text style={styles.addressData}>{props.value.originName.split(',')}</Text>
+          </View>
+          <View style={{flex: 1}}>
             <Text style={styles.addressLabel}>To</Text>
             <Text style={styles.addressData}>
                 <Text>{props.value.destinationName.split(',')[0]}</Text>
                 <Text>{props.value.destinationName.split(',')[1]}</Text>
                 <Text>{props.value.destinationName.split(',')[2]}</Text>
             </Text>
+          </View>
           </View>
           <View style={styles.verticalContainer}>
               <View style={styles.imagetextContainer}>
@@ -292,7 +296,9 @@ const styles = StyleSheet.create({
         color: '#dd5b45',
         textAlign: 'center',
         flexDirection: 'column',
-        flex:20
+        flex:20,
+        paddingTop: 15,
+        paddingHorizontal: 5,
     },
     addressLabel: {
         fontSize: 14,

@@ -130,9 +130,9 @@ const MyRidesTabNavigator = () => {
   },
 }}
     >
-    <MyRidesTab.Screen name="MyRides" component={MyRidesScreen}/>
-    <MyRidesTab.Screen name="MyRequests" component={MyRequestsScreen}/>
-    <MyRidesTab.Screen name="MyArchives" component={ArchiveScreen}/>
+    <MyRidesTab.Screen name="Rides" component={MyRidesScreen}/>
+    <MyRidesTab.Screen name="Requests" component={MyRequestsScreen}/>
+    <MyRidesTab.Screen name="Archives" component={ArchiveScreen}/>
 
   </MyRidesTab.Navigator>
   )

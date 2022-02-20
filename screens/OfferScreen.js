@@ -169,7 +169,9 @@ toggleLuggage = () => {
       listViewDisplayed={false}
       >
       <View style={{flex:1}}> 
+      
         <View style={styles.container}>
+        <Text style={styles.pageTitle}>Register your Ride</Text>
         {/* <TouchableOpacity onPress={this.showFromModal}> */}
         {/* <Text style={styles.textInput}>{this.state.originName}</Text> */}
         {/* <Modal visible={this.state.fromModal} animationType="slide"> */}
@@ -341,6 +343,7 @@ toggleLuggage = () => {
             </Picker>
             </View>
           <Text style={styles.textTitles}>Extra ride options</Text>
+          <View style={styles.switchStyles}>
            <View style={styles.switchStyle}>
            <Switch
               trackColor={{ false: "#aaaaaa", true:  "#E9446A" }}
@@ -390,6 +393,7 @@ toggleLuggage = () => {
             <Text style={styles.switchText}>Luggage space</Text>
              {/* <Text>There is enough room</Text> */}
             </View> 
+            </View>
            
            </View>
            
@@ -502,10 +506,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+    paddingLeft: 10
+  },
+  switchStyles: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10
   },
   switchText: {
     width: '35%',
     fontSize: 16,
     marginLeft: 10
-  }
+  },
+  pageTitle: {
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingTop: 10,
+    fontSize: 28,
+    fontWeight: "400",
+    color: "#dd5b45",
+    fontFamily: 'Lobster_400Regular'
+  },
 });

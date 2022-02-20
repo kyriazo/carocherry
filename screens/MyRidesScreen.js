@@ -82,7 +82,7 @@ useEffect(() => {
         <FlatList
           ListHeaderComponent={
             <>
-            <Text style={styles.textTitles}>My Rides</Text>
+            <Text style={styles.pageTitle}>My Rides</Text>
             </>
           }
           style= {styles.container}
@@ -134,7 +134,8 @@ useEffect(() => {
   
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 40
+    paddingBottom: 40,
+    backgroundColor: '#f3e1d6'
   },
   upperView: {
     flexDirection: "row",
@@ -174,6 +175,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderRightColor: '#E9446A',
     borderRightWidth: 1
+  },
+  pageTitle: {
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingTop: 20,
+    fontSize: 28,
+    fontWeight: "400",
+    color: "#dd5b45",
+    fontFamily: 'Lobster_400Regular'
   }
 });
 

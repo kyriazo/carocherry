@@ -369,7 +369,9 @@ const styles = StyleSheet.create({
         color: '#dd5b45',
         textAlign: 'center',
         flexDirection: 'column',
-        flex:20
+        flex:20,
+        paddingTop: 15,
+        paddingHorizontal: 5,
     },
     addressLabel: {
         fontSize: 14,

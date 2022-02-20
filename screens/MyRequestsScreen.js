@@ -63,10 +63,11 @@ useEffect(() => {
         <FlatList
         ListHeaderComponent={
             <>
-            <Text style={styles.textTitles}>My Requests</Text>
+            <Text style={styles.pageTitle}>My Requests</Text>
             </>
           }
         data={rides}
+        style={styles.container}
         keyExtractor={(item, index) => item.ruid}
         renderItem={({ item }) => {
           const { currentUser } = firebase.auth(); 
@@ -131,9 +132,7 @@ useEffect(() => {
   
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#f3e1d6'
   },
   upperView: {
     flexDirection: "row",
@@ -163,7 +162,33 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#7D0036",
-  }
+  },
+  pageTitle: {
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingTop: 20,
+    fontSize: 28,
+    fontWeight: "400",
+    color: "#dd5b45",
+    fontFamily: 'Lobster_400Regular'
+  },
+  deleteText: {
+    textAlign: 'center',
+    padding: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#7D0036",
+    backgroundColor: '#ffffff',
+    position: 'absolute',
+    bottom: -10,
+    left:10,
+    borderLeftColor: '#E9446A',
+    borderLeftWidth: 1,
+    borderBottomColor: '#E9446A',
+    borderBottomWidth: 1,
+    borderRightColor: '#E9446A',
+    borderRightWidth: 1
+  },
 });
 
 export default MyRequestsScreen;

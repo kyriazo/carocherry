@@ -63,10 +63,11 @@ useEffect(() => {
         <FlatList
           ListHeaderComponent={
               <>
-              <Text style={styles.textTitles}>My Archives</Text>
+              <Text style={styles.pageTitle}>My Archives</Text>
               </>
             }
           data={rides}
+          style={styles.container}
           keyExtractor={(item, index) => item.ruid}
           key={(item, index) => item.ruid}
           renderItem={({ item }) => {
@@ -89,9 +90,16 @@ useEffect(() => {
   
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#f3e1d6'
+  },
+  pageTitle: {
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingTop: 20,
+    fontSize: 28,
+    fontWeight: "400",
+    color: "#dd5b45",
+    fontFamily: 'Lobster_400Regular'
   },
   upperView: {
     flexDirection: "row",
