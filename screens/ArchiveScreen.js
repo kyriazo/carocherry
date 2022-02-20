@@ -59,11 +59,13 @@ useEffect(() => {
 
     return ( 
        
-      <ScrollView>
 
-        <View> 
-        <Text style={styles.textTitles}>Archived Rides</Text>
         <FlatList
+          ListHeaderComponent={
+              <>
+              <Text style={styles.textTitles}>My Archives</Text>
+              </>
+            }
           data={rides}
           keyExtractor={(item, index) => item.ruid}
           key={(item, index) => item.ruid}
@@ -81,8 +83,6 @@ useEffect(() => {
           }}
            
         />
-        </View>
-      </ScrollView>      
  
     );
   }

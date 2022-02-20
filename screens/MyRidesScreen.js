@@ -63,7 +63,7 @@ useEffect(() => {
     d1 = Date.parse(d1)
     var d2 = Date.parse(rideDate[i])
     if (d1 > d2){
-      console.log('this should be archived', rideId[i]);
+      // console.log('this should be archived', rideId[i]);
       firebase.database()
       .ref(`/rides/${rideId[i]}`)
       .on('value', snapshot => {
@@ -78,11 +78,14 @@ useEffect(() => {
 
     return ( 
        
-      // <ScrollView>
 
-        <View style={styles.container}>
-        <Text style={styles.textTitles}>My Rides</Text>
         <FlatList
+          ListHeaderComponent={
+            <>
+            <Text style={styles.textTitles}>My Rides</Text>
+            </>
+          }
+          style= {styles.container}
           data={rides}
           keyExtractor={(item, index) => item.ruid}
           key={(item, index) => item.ruid}
@@ -125,8 +128,6 @@ useEffect(() => {
           }}
            
         />
-      </View>
-      // </ScrollView>      
  
     );
   }

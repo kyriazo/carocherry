@@ -64,10 +64,10 @@ export default class OfferScreen extends React.Component {
         checked: 'first',
         isOffer: 'true',
         seats: 0,
-        smokingAllow: true,
-        musicAllow: true,
-        petsAllow: true,
-        luggageAllow: true,
+        smokingAllow: false,
+        musicAllow: false,
+        petsAllow: false,
+        luggageAllow: false,
     };
 }
 
@@ -193,6 +193,7 @@ toggleLuggage = () => {
                 backgroundColor: '#ffffff'
               },
               listView: {
+                paddingHorizontal:15
               },
               separator: {
                 backgroundColor: 'grey',
@@ -244,6 +245,7 @@ toggleLuggage = () => {
                 backgroundColor: '#ffffff'
               },
               listView: {
+                paddingHorizontal: 15
               },
               separator: {
                 backgroundColor: 'grey',
@@ -436,7 +438,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     textAlignVertical: 'center',
     alignItems: 'center',
-    marginTop: 15
+    marginTop: 15,
   },
   prefContainer: {
   },
@@ -487,7 +489,7 @@ const styles = StyleSheet.create({
     color: "black",
     borderRadius: 10,
     backgroundColor: 'white',
-    paddingLeft: 15,
+    paddingHorizontal: 15,
     textAlignVertical: 'center'
   },
   textTitles: {

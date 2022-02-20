@@ -98,7 +98,7 @@ uploadRoute = () => {
     destination={this.state.destination}
     apikey='AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0'
     strokeWidth={5}
-    strokeColor="black"
+    strokeColor="#39979c"
   />
       </MapView>      
       

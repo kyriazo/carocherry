@@ -58,13 +58,14 @@ useEffect(() => {
 },[]);
 
     return ( 
-       
-      <ScrollView>
-        
-        <View>
-        <Text style={styles.textTitles}>My Requests</Text>
-        {/* The FlatList below renders only the requests of the current user by checking each request from the rides listed and matching uid and ruid. */}
+               
+        /* The FlatList below renders only the requests of the current user by checking each request from the rides listed and matching uid and ruid. */
         <FlatList
+        ListHeaderComponent={
+            <>
+            <Text style={styles.textTitles}>My Requests</Text>
+            </>
+          }
         data={rides}
         keyExtractor={(item, index) => item.ruid}
         renderItem={({ item }) => {
@@ -124,8 +125,6 @@ useEffect(() => {
           );
         }}
       />
-      </View>
-      </ScrollView>      
  
     );
   }

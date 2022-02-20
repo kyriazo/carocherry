@@ -16,6 +16,7 @@ import ProfileInput from "../components/ProfileInput";
 import HomeScreen from "./HomeScreen";
 import MyRidesScreen from "./MyRidesScreen"
 import MyRequestsScreen from "./MyRequestsScreen"
+import ResultsScreen from './ResultsScreen'
 import * as firebase from "firebase";
 
 
@@ -170,6 +171,7 @@ const FindStackNavigator = () => {
     headerTintColor: 'white',
     cardStyle: {backgroundColor: '#ffffff'}}}>
     <FindStack.Screen name="Find" component={FindScreen}/>
+    <FindStack.Screen name="Results" component={ResultsScreen}/>
   </FindStack.Navigator>
   )
 }

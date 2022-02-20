@@ -39,9 +39,9 @@ export default class ResultsScreen extends React.Component {
           keyExtractor={(item, index) => item.ruid}
           renderItem={({ item }) => {
               const { currentUser } = firebase.auth();
-              const lat1 = this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lat;
+              const lat1 = this.props.navigation.getState().routes[1].params.state.originPlace.value.details.geometry.location.lat;
               const lat2 = item.origin.latitude;
-              const lon1 = this.props.navigation.state.params.state.originPlace.value.details.geometry.location.lng;
+              const lon1 = this.props.navigation.getState().routes[1].params.state.originPlace.value.details.geometry.location.lng;
               const lon2 = item.origin.longitude;
               const R = 6371e3; // metres
               const φ1 = lat1 * Math.PI/180; // φ, λ in radians
@@ -59,7 +59,7 @@ export default class ResultsScreen extends React.Component {
               d1 = Date.parse(d1)
               var d2 = Date.parse(item.date)
               //if (d1 < d2)
-              if (currentUser.uid != item.uid)
+              // if (currentUser.uid != item.uid)
               if (d < 1000)  
             return (
                 // Renders each ride on a separate component with the properties of sent item
@@ -75,7 +75,7 @@ export default class ResultsScreen extends React.Component {
   }
 
 
-  //Fires once to populate rides array from firebase
+  // Fires once to populate rides array from firebase
   componentDidMount() {
     var state;
     firebase
