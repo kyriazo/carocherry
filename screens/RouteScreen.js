@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React from "react";
 import {
+  Modal,
   ScrollView,
   View,
   Text,
@@ -30,7 +31,8 @@ export default class RouteScreen extends React.Component {
        musicAllow: this.props.route.params.state.musicAllow,
        smokingAllow: this.props.route.params.state.smokingAllow,
        luggageAllow: this.props.route.params.state.luggageAllow,
-       seats: this.props.route.params.state.seats
+       seats: this.props.route.params.state.seats,
+       modal: false
 
     };
 }
@@ -47,6 +49,10 @@ export default class RouteScreen extends React.Component {
 
 consoleInfo = () => {  
     // console.log(this.state);
+}
+
+goHome = () => {  
+  this.props.navigation.navigate("Home")
 }
 
 uploadRoute = () => {
@@ -66,7 +72,10 @@ uploadRoute = () => {
         seats: this.state.seats,
         seatLimit: this.state.seats,
     });
-        this.props.navigation.navigate("Home")
+        //this.props.navigation.navigate("Home")
+        this.setState({
+          modal: true
+        })
     }
 
   render() {
@@ -98,12 +107,17 @@ uploadRoute = () => {
     destination={this.state.destination}
     apikey='AIzaSyClWDkDCABZp_zXKkYVw3barMfvWVySPE0'
     strokeWidth={5}
-    strokeColor="#39979c"
+    strokeColor="black"
   />
       </MapView>      
       
         </View>
-
+        <Modal visible={this.state.modal} animationType="slide">
+            <Text style={styles.modalText}>Success</Text>
+            <TouchableOpacity style={styles.button} onPress={this.goHome}>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Go back to home</Text>
+        </TouchableOpacity> 
+        </Modal>
  <View style={{ flex: 1 }}>
 
                         <Text style={styles.textLabel}>Confirm your preferences</Text>
@@ -121,7 +135,7 @@ uploadRoute = () => {
         </View>
         <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
                                 <Text style={{ color: "#FFF", fontWeight: "500" }}>Offer Ride</Text>
-                        </TouchableOpacity> 
+        </TouchableOpacity> 
       {/* </SafeAreaView>  */}
       </View>
       </ScrollView>
@@ -179,5 +193,12 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingVertical: 5,
     fontSize: 16
+  },
+  modalText: {
+    paddingLeft: 10,
+    paddingVertical: 15,
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignContent: 'center'
   }
 });
