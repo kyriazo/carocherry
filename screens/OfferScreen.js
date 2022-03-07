@@ -405,6 +405,10 @@ toggleLuggage = () => {
                   alert("Please specify your route");
                   return
                   }
+                  if (this.state.showDate == 'Select Date'){
+                    alert("Please select a date");
+                    return
+                    }  
                 if (this.state.seats == 0) {
                  alert("Please specify available seats");
                  return 
