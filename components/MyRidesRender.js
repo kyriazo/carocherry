@@ -122,7 +122,11 @@ const MyRidesRender = (props) => {
               <Text style={styles.rideType}>{isOffer}</Text>
             </View>
           </View>
-            <Modal visible={modal} animationType="slide">
+            <Modal 
+            visible={modal} 
+            animationType="slide"
+            onRequestClose={() => { setModal(false) }}
+            >
             <View style={styles.modalView}>
             {/* <ScrollView style={styles.scrollview}> */}
                 <View style={styles.modalViewsContainer}>
@@ -164,7 +168,9 @@ const MyRidesRender = (props) => {
           </View>
 
         </Modal>
-        <Modal visible={requestsModal} animationType="slide">
+        <Modal visible={requestsModal} animationType="slide" 
+        onRequestClose={() => { setModal(false) }}
+        >
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> 
             <Text style={{fontWeight: 'bold'}}>List of incoming requests:</Text>
             {/* Button to fetch new requests with call to firebase */}
@@ -221,7 +227,7 @@ const styles = StyleSheet.create({
         borderColor: '#E9446A',
         borderWidth: 1,
         marginVertical: 30,
-        marginHorizontal: 10,
+        // marginHorizontal: 10,
         backgroundColor: '#ffffff',
         minHeight: 180,
         // position: 'relative',

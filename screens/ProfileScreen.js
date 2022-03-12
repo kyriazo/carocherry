@@ -95,9 +95,9 @@ export default class ProfileScreen extends React.Component {
                     <View style={styles.upperView}>
                         <TouchableOpacity onPress={this._pickImage}>
                             <View style={{
-                                height: 80,
-                                width: 80,
-                                borderRadius: 80,
+                                height: 100,
+                                width: 100,
+                                borderRadius: 100,
                                 // backgroundColor: 'white',
                             }}>
                                 <Image style={styles.image} source={{ uri: this.state.image }} style={styles.circle} />
@@ -108,7 +108,6 @@ export default class ProfileScreen extends React.Component {
 
 
                     <View style={styles.lowerView}>
-
                         <Text style={styles.sectionLabel}>Profile</Text>
                         <ProfileInput style={styles.sectionInput} value={this.state.name} title='First Name' inputType='default' onUpdate={this.nameHandler} />
                         <ProfileInput style={styles.sectionInput} value={this.state.lastName} title='Last Name' inputType='default' onUpdate={this.lastNameHandler} />
@@ -207,10 +206,11 @@ export default class ProfileScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f3e1d6'
+        backgroundColor: '#f3e1d6',
+        paddingHorizontal: 15
     },
     upperView: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         // backgroundColor: "#E9446A",
         flex: 1,
         alignItems: 'center',
@@ -223,9 +223,9 @@ const styles = StyleSheet.create({
         flex: 3,
     },
     circle: {
-        height: 80,
-        width: 80,
-        borderRadius: 80,
+        height: 100,
+        width: 100,
+        borderRadius: 100,
         alignSelf: 'center',
     },
     button: {
@@ -237,23 +237,24 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     sectionLabel: {
-        fontSize: 24,
+        fontSize: 26,
         paddingTop: 10,
         fontWeight: "bold",
         paddingBottom: 5,
         // paddingLeft: 10
-        marginLeft: 15
+        marginLeft: 0,
+        marginTop: 25
     },
     inputLabel: {
-        paddingLeft: 10,
+        paddingLeft: 0,
     },
     image: {
         width: 30,
         height: 30
     },
     fullName: {
-        marginLeft: 10,
-        fontSize: 20,
+        marginTop: 10,
+        fontSize: 24,
         fontWeight: 'bold',
         color: "#dd5b45"
     }

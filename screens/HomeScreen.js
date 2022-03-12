@@ -128,7 +128,8 @@ useEffect(() => {
   
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#f3e1d6'
+    backgroundColor: '#f3e1d6',
+    paddingHorizontal: 15
   },
   container: {
     flex: 1,

@@ -137,7 +137,9 @@ const ProfileRender = (props) => {
             <Text style={styles.textTitles}>{renderInfo.name}</Text>
             </View> */}
 
-            <Modal visible={modal} animationType="slide">
+            <Modal visible={modal} animationType="slide"
+            onRequestClose={() => { setModal(false) }}
+            >
             <View>
             <ScrollView>
                 <View style={{ flex: 1 }}>
