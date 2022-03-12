@@ -207,7 +207,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f3e1d6',
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        paddingTop: '15%'
     },
     upperView: {
         flexDirection: 'column',

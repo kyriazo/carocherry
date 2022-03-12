@@ -53,6 +53,7 @@ const HomeStackNavigator = () => {
     headerTintColor: 'white',
     cardStyle: {backgroundColor: '#ffffff'},
     headerLeft:"",
+    headerShown: false,
     headerRight: () => { 
         return (
         <Logout             
@@ -68,7 +69,6 @@ const HomeStackNavigator = () => {
 }
 
 const ProfileStackNavigator = () => {
-  console.log('ProfileNAvigator')
   return(
   <ProfileStack.Navigator initialRouteName="Profile" screenOptions={{
     headerStyle: {
@@ -80,6 +80,8 @@ const ProfileStackNavigator = () => {
       fontSize: 26
     },
     headerTintColor: 'white',
+    headerLeft: null,
+    headerShown: false,
     cardStyle: {backgroundColor: '#ffffff'}}}>
     <ProfileStack.Screen name="Profile" component={ProfileScreen}/>
   </ProfileStack.Navigator>
@@ -149,6 +151,8 @@ const OfferStackNavigator = () => {
       color:'white',
       fontSize: 26
     },
+    headerLeft: null,
+    headerShown: false,
     headerTintColor: 'white',
     cardStyle: {backgroundColor: '#ffffff'}}}>
     <OfferStack.Screen name="Offer" component={OfferScreen}/>
@@ -168,6 +172,8 @@ const FindStackNavigator = () => {
       color:'white',
       fontSize: 26
     },
+    headerLeft: null,
+    headerShown: false,
     headerTintColor: 'white',
     cardStyle: {backgroundColor: '#ffffff'}}}>
     <FindStack.Screen name="Find" component={FindScreen}/>

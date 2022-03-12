@@ -79,7 +79,7 @@ uploadRoute = () => {
       <View style={styles.containerView}>
       {/* <SafeAreaView
       > */}
-      <Text style={styles.textTitle}>Route Preview</Text>
+      <Text style={styles.textTitle}>Suggested Route Preview</Text>
         <View style={styles.container}>
         <View style={styles.mapContainer}>
         <MapView

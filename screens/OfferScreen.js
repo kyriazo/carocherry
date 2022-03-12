@@ -432,10 +432,11 @@ toggleLuggage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     backgroundColor: '#f3e1d6',
     height: '100%',
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
+    paddingTop: '10%',
+    paddingBottom: 20
   },
   dateContainer: {
     padding: 0,
@@ -521,7 +522,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     paddingLeft: 10,
     paddingTop: 10,
-    fontSize: 28,
+    fontSize: 36,
     fontWeight: "400",
     color: "#dd5b45",
     fontFamily: 'Lobster_400Regular'

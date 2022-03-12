@@ -175,8 +175,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     height: '100%',
     paddingBottom: 20,
-    paddingTop: 50,
-    paddingHorizontal: 15
+    paddingTop: '35%',
+    paddingHorizontal: 15,
   },
   button: {
     width: '100%',
