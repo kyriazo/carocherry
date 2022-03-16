@@ -4,113 +4,113 @@ import * as firebase from "firebase";
 import _ from "lodash";
 
 const ProfileRender = (props) => {
-    const [renderInfo, setRenderInfo] = useState([]);
-    const [modal, setModal] = useState(false);
-    const [smoke, setSmoke] = useState('');
-    const [pets, setPets] = useState('');
-    const [music, setMusic] = useState('');
-    const [luggage, setLuggage] = useState('');
-    const [name, setName] = useState('');
-    const [requests, setRequests] = useState([]);
-    const [isOffer, setIsOffer] = useState('');
-    const [buttonStatus, setButtonStatus] = useState(false);
-    const [date, setDate] = useState(new Date())
-    const [requestText, setRequestText] = useState('Request');
+  const [renderInfo, setRenderInfo] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [smoke, setSmoke] = useState('');
+  const [pets, setPets] = useState('');
+  const [music, setMusic] = useState('');
+  const [luggage, setLuggage] = useState('');
+  const [name, setName] = useState('');
+  const [requests, setRequests] = useState([]);
+  const [isOffer, setIsOffer] = useState('');
+  const [buttonStatus, setButtonStatus] = useState(false);
+  const [date, setDate] = useState(new Date())
+  const [requestText, setRequestText] = useState('Request');
     
 
-  useEffect(() => {
-    setDate(props.value.date)
-    setRequestText('Request');
-    let isMounted = true;               // note mutable flag
+    useEffect(() => {
+      setDate(props.value.date)
+      let isMounted = true;               // note mutable flag
+      var state;
+      firebase
+      .database()
+      .ref(`/users/${props.value.uid}`)
+      .once('value')
+      .then((snapshot) => {
+      state = snapshot.val();
+      setRenderInfo(state)
+      });
+  
+      const { currentUser } = firebase.auth();
+      firebase.database()
+              .ref((`/users/${currentUser.uid}`))
+              .once('value')
+              .then((snapshot) => {
+                  state = snapshot.val()
+                  setName(state.name);
+              });
+              firebase
+               .database()
+               .ref(`/rides/${props.value.ruid}/requests`)
+               .once("value")
+               .then((snapshot) => {
+               state = snapshot.val();
+               const requests = _.map(state, (val, ruid) => {
+                 return { ...val, ruid};
+               });
+               setRequests(requests);
+               const userID = requests.map((data) => data.uid)
+               for (var i=0; i < userID.length; i++)
+                if (userID[i] == currentUser.uid){
+                    setRequestText('Request Sent');
+                }else
+                    setRequestText('Request');
+             });       
+      if (props.value.smokeAllow)
+          setSmoke('Smoking is allowed.')
+      else    
+          setSmoke('Smoking is not allowed.')
+      if (props.value.petsAllow)
+          setPets('Pets are fine.')
+      else    
+          setPets('No pets please.')
+      if (props.value.musicAllow)
+          setMusic('I like music.')
+      else    
+          setMusic('I prefer silence.')
+      if (props.value.luggageAllow)
+          setLuggage('There is enough room for luggage.')
+      else 
+          setLuggage('There is no room for luggage.')
+      if (props.value.isOffer)
+          setIsOffer('Offering')
+      else    
+          setIsOffer('Requesting') 
+        
+      return () => { isMounted = false };
+    }, []);
+  
+    useEffect(() => { 
     var state;
     firebase
     .database()
-    .ref(`/users/${props.value.uid}`)
-    .once('value')
-    .then((snapshot) => {
-    state = snapshot.val();
-    setRenderInfo(state)
+    .ref(`/rides/${props.value.ruid}/requests`)
+    .on('value', snapshot => {
+      state = snapshot.val();
+      const requests = _.map(state, (val, ruid) => {
+      return { ...val, ruid};
+      });
+      setRequests(requests);
     });
-
-    const { currentUser } = firebase.auth();
-    firebase.database()
-            .ref((`/users/${currentUser.uid}`))
-            .once('value')
-            .then((snapshot) => {
-                state = snapshot.val()
-                setName(state.name);
-            });
-            firebase
-             .database()
-             .ref(`/rides/${props.value.ruid}/requests`)
-             .once("value")
-             .then((snapshot) => {
-             state = snapshot.val();
-             const requests = _.map(state, (val, ruid) => {
-               return { ...val, ruid};
-             });
-             setRequests(requests);
-             const userID = requests.map((data) => data.uid)
-             for (var i=0; i < userID.length; i++)
-              if (userID[i] == currentUser.uid){
-                  setRequestText('Request Sent');
-              }  
-           });       
-    if (props.value.smokeAllow)
-        setSmoke('Smoking is allowed.')
-    else    
-        setSmoke('Smoking is not allowed.')
-    if (props.value.petsAllow)
-        setPets('Pets are fine.')
-    else    
-        setPets('No pets please.')
-    if (props.value.musicAllow)
-        setMusic('I like music.')
-    else    
-        setMusic('I prefer silence.')
-    if (props.value.luggageAllow)
-        setLuggage('There is enough room for luggage.')
-    else 
-        setLuggage('There is no room for luggage.')
-    if (props.value.isOffer)
-        setIsOffer('Offering')
-    else    
-        setIsOffer('Requesting') 
-      
-    return () => { isMounted = false };
-  }, []);
-
-  useEffect(() => { 
-  var state;
-  firebase
-  .database()
-  .ref(`/rides/${props.value.ruid}/requests`)
-  .on('value', snapshot => {
-    state = snapshot.val();
-    const requests = _.map(state, (val, ruid) => {
-    return { ...val, ruid};
-    });
-    setRequests(requests);
-  });
-  }, []);
-
-     const sendRequest = () => {
-      const { currentUser } = firebase.auth();
-      const userID = requests.map((data) => data.uid)
-        //setButtonStatus(true)
-        for (var i=0; i < userID.length; i++)
-        if (userID[i] == currentUser.uid){
-            console.log('Request already sent');
-            return
-        }    
-       firebase.database().ref(`/rides/${props.value.ruid}/requests`).push({
-         rideId: props.value.ruid,
-         uid: currentUser.uid,
-         isAccepted: false,
-         name: name
-       });
-       setRequestText('Request Sent');
-    }
+    }, []);
+  
+       const sendRequest = () => {
+        const { currentUser } = firebase.auth();
+        const userID = requests.map((data) => data.uid)
+          //setButtonStatus(true)
+          for (var i=0; i < userID.length; i++)
+          if (userID[i] == currentUser.uid){
+              console.log('Request already sent');
+              return
+          }    
+         firebase.database().ref(`/rides/${props.value.ruid}/requests`).push({
+           rideId: props.value.ruid,
+           uid: currentUser.uid,
+           isAccepted: false,
+           name: name
+         });
+         setRequestText('Request Sent');
+      }
 
     return (
        <View style={styles.container}>

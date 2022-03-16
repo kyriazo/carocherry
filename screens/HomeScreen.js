@@ -9,7 +9,7 @@ ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import MyRidesRender from "../components/MyRidesRender";
+import ProfileRender from "../components/ProfileRender";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import * as firebase from "firebase";
@@ -80,8 +80,8 @@ useEffect(() => {
     });
     const reverseRides = rides.reverse()
     const myArray = reverseRides.filter(function ( obj ) {
-      return obj.uid == currentUser.uid;
-  });
+      return obj.uid != currentUser.uid;
+    });
     const slicedArray = myArray.slice(0, 5);
     if (rides != initialRides){
       setRides(slicedArray)
@@ -110,10 +110,9 @@ useEffect(() => {
         key={(item, index) => item.ruid}
         renderItem={({ item }) => {
           const { currentUser } = firebase.auth();
-          if (currentUser.uid == item.uid)
           return (
             <View>
-               <MyRidesRender value={item} />
+               <ProfileRender value={item} />
             </View>
           );
         }}
