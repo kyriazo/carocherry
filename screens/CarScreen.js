@@ -57,7 +57,9 @@ export default class ProfileScreen extends React.Component {
   render() {
     return (
       <View>
-        <Modal visible={this.state.show} animationType="slide">
+        <Modal visible={this.state.show} animationType="slide"
+        onRequestClose={() => { setModal(false) }}
+        >
           <View>
             <ProfileInput
               title="Make"

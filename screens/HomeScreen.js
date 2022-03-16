@@ -128,7 +128,9 @@ useEffect(() => {
   
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#f3e1d6'
+    backgroundColor: '#f3e1d6',
+    paddingHorizontal: 15,
+    paddingTop: '10%'
   },
   container: {
     flex: 1,
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     paddingLeft: 10,
     paddingTop: 20,
-    fontSize: 28,
+    fontSize: 34,
     fontWeight: "400",
     color: "#dd5b45",
     fontFamily: 'Lobster_400Regular'

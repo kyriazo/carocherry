@@ -132,7 +132,8 @@ useEffect(() => {
   
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f3e1d6'
+    backgroundColor: '#f3e1d6',
+    paddingHorizontal: 15
   },
   upperView: {
     flexDirection: "row",
@@ -174,20 +175,23 @@ const styles = StyleSheet.create({
   },
   deleteText: {
     textAlign: 'center',
-    padding: 10,
+    padding: 4,
     fontSize: 18,
     fontWeight: "bold",
     color: "#7D0036",
-    backgroundColor: '#ffffff',
+    backgroundColor: '#efefef',
     position: 'absolute',
-    bottom: -10,
-    left:10,
+    bottom: 31,
+    elevation: 5,
+    left: '35%',
     borderLeftColor: '#E9446A',
     borderLeftWidth: 1,
-    borderBottomColor: '#E9446A',
-    borderBottomWidth: 1,
+    borderTopColor: '#E9446A',
+    borderTopWidth: 1,
     borderRightColor: '#E9446A',
-    borderRightWidth: 1
+    borderRightWidth: 1,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
   },
 });
 

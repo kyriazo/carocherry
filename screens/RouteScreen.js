@@ -88,7 +88,7 @@ uploadRoute = () => {
       <View style={styles.containerView}>
       {/* <SafeAreaView
       > */}
-      <Text style={styles.textTitle}>Route Preview</Text>
+      <Text style={styles.textTitle}>Suggested Route Preview</Text>
         <View style={styles.container}>
         <View style={styles.mapContainer}>
         <MapView
@@ -112,11 +112,13 @@ uploadRoute = () => {
       </MapView>      
       
         </View>
-        <Modal visible={this.state.modal} animationType="slide">
-            <Text style={styles.modalText}>Success</Text>
+        <Modal  visible={this.state.modal} transparent={true} backdropOpacity={90} backdropColor={'#333333'} animationType="slide">
+        <View style={styles.modal}>
+            <Text style={styles.modalText}>Congratulations. Your ride has been successfuly registered on Carocherry!</Text>
             <TouchableOpacity style={styles.button} onPress={this.goHome}>
-                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Go back to home</Text>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Return to Homepage</Text>
         </TouchableOpacity> 
+        </View>
         </Modal>
  <View style={{ flex: 1 }}>
 
@@ -200,5 +202,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     alignContent: 'center'
+  },
+  modal: {
+    marginTop: '60%',
+    marginHorizontal: '5%',
+    backgroundColor: 'white',
+    elevation: 20,
+    borderRadius: 10,
+  
   }
 });

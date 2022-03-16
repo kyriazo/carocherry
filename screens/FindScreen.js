@@ -172,11 +172,11 @@ destinationTextHandler = (destinationText) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     backgroundColor: '#eee',
     height: '100%',
     paddingBottom: 20,
-    paddingTop: 50
+    paddingTop: '35%',
+    paddingHorizontal: 15,
   },
   button: {
     width: '100%',

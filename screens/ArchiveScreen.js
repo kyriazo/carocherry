@@ -90,7 +90,8 @@ useEffect(() => {
   
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f3e1d6'
+    backgroundColor: '#f3e1d6',
+    paddingHorizontal: 15
   },
   pageTitle: {
     textAlign: 'left',

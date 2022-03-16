@@ -4,7 +4,7 @@ import { TextInput, View, Text, StyleSheet } from 'react-native';
 const ProfileInput = ({title, inputType, onUpdate, value}) => {
     
     return (
-        <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1 }}>
+        <View style={styles.inputContainer}>
             <Text style={styles.textTitles}>{title}</Text>
             <TextInput value={value} keyboardType={inputType} style={styles.input} onChangeText={onUpdate} />
         </View>
@@ -14,13 +14,24 @@ const ProfileInput = ({title, inputType, onUpdate, value}) => {
 
 const styles = StyleSheet.create({
     textTitles: {
-        padding: 10,
+        paddingVertical: 10,
         fontSize: 18,
         fontWeight: 'bold',
         color: '#7D0036'
     },
     input: {
-        paddingHorizontal: 10,
+        // borderBottomColor: "#8A8F9E",
+        height: 50,
+        fontSize: 18,
+        color: "black",
+        borderRadius: 10,
+        // marginTop: 15,
+        backgroundColor: 'white',
+        paddingLeft: 15,
+        textAlignVertical: 'center',
+    },
+    inputContainer: {
+
     }
 })
 

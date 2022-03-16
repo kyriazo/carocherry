@@ -164,7 +164,9 @@ const RequestRender = (props) => {
             <Text style={styles.textTitles}>{renderInfo.name}</Text>
             <Text>is {isOffer}</Text>
             </View> */}
-            <Modal visible={modal} animationType="slide">
+            <Modal visible={modal} animationType="slide"
+            onRequestClose={() => { setModal(false) }}
+            >
             <View>
             <ScrollView>
                 <View style={{ flex: 1 }}>
@@ -211,14 +213,6 @@ const RequestRender = (props) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "row",
-        borderColor: '#E9446A',
-        borderRadius: 10,
-        borderWidth: 1,
-        margin: 10
-    },
     resultsContainer: {
         width: 100,
         flexDirection: "column",
@@ -279,7 +273,6 @@ const styles = StyleSheet.create({
         borderColor: '#E9446A',
         borderWidth: 1,
         marginVertical: 30,
-        marginHorizontal: 10,
         backgroundColor: '#ffffff',
         minHeight: 180,
         // position: 'relative',
