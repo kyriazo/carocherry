@@ -15,10 +15,12 @@ const ProfileRender = (props) => {
     const [isOffer, setIsOffer] = useState('');
     const [buttonStatus, setButtonStatus] = useState(false);
     const [date, setDate] = useState(new Date())
+    const [requestText, setRequestText] = useState('Request');
     
 
   useEffect(() => {
     setDate(props.value.date)
+    setRequestText('Request');
     let isMounted = true;               // note mutable flag
     var state;
     firebase
@@ -48,7 +50,12 @@ const ProfileRender = (props) => {
                return { ...val, ruid};
              });
              setRequests(requests);
-           });  
+             const userID = requests.map((data) => data.uid)
+             for (var i=0; i < userID.length; i++)
+              if (userID[i] == currentUser.uid){
+                  setRequestText('Request Sent');
+              }  
+           });       
     if (props.value.smokeAllow)
         setSmoke('Smoking is allowed.')
     else    
@@ -73,21 +80,36 @@ const ProfileRender = (props) => {
     return () => { isMounted = false };
   }, []);
 
+  useEffect(() => { 
+  var state;
+  firebase
+  .database()
+  .ref(`/rides/${props.value.ruid}/requests`)
+  .on('value', snapshot => {
+    state = snapshot.val();
+    const requests = _.map(state, (val, ruid) => {
+    return { ...val, ruid};
+    });
+    setRequests(requests);
+  });
+  }, []);
+
      const sendRequest = () => {
-         setButtonStatus(true)
-    const { currentUser } = firebase.auth();
-    const userID = requests.map((data) => data.uid)
-      for (var i=0; i < userID.length; i++)
-      if (userID[i] == currentUser.uid){
-          alert('Request already sent');
-          return
-      }
+      const { currentUser } = firebase.auth();
+      const userID = requests.map((data) => data.uid)
+        //setButtonStatus(true)
+        for (var i=0; i < userID.length; i++)
+        if (userID[i] == currentUser.uid){
+            console.log('Request already sent');
+            return
+        }    
        firebase.database().ref(`/rides/${props.value.ruid}/requests`).push({
          rideId: props.value.ruid,
          uid: currentUser.uid,
          isAccepted: false,
          name: name
        });
+       setRequestText('Request Sent');
     }
 
     return (
@@ -106,7 +128,7 @@ const ProfileRender = (props) => {
               <View style={styles.imagetextContainer}>
               <View style={styles.rideDetails}>
               <TouchableOpacity disabled={buttonStatus} onPress={sendRequest}>
-            <Text style={styles.rideRequestText}>Request</Text>
+            <Text style={styles.rideRequestText}>{requestText}</Text>
             </TouchableOpacity>
               </View>
               <View style={styles.imageContainer}>
