@@ -6,6 +6,7 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import * as firebase from "firebase";
 import { StatusBar } from 'react-native';
+import { Modal } from "react-native-paper";
 
 export default class ProfileScreen extends React.Component {
 
@@ -20,7 +21,8 @@ export default class ProfileScreen extends React.Component {
             plate: '',
             make: '',
             model: '',
-            color: ''
+            color: '',
+            modal: false
         };
     }
 
@@ -68,6 +70,9 @@ export default class ProfileScreen extends React.Component {
         const { currentUser } = firebase.auth();
         firebase.database().ref(`/users/${currentUser.uid}`)
             .set(this.state);
+        this.setState({
+            modal: true
+        })
     }
     fetchHandler = () => {
         const { currentUser } = firebase.auth();
@@ -90,6 +95,7 @@ export default class ProfileScreen extends React.Component {
         StatusBar.setBackgroundColor('black',true);
         return (
             <ScrollView>
+                    
                 <View style={ styles.container }>
 
                     <View style={styles.upperView}>
@@ -105,8 +111,6 @@ export default class ProfileScreen extends React.Component {
                         </TouchableOpacity>
                         <Text style={styles.fullName} >{this.state.name} {this.state.lastName}</Text>
                     </View>
-
-
                     <View style={styles.lowerView}>
                         <Text style={styles.sectionLabel}>Profile</Text>
                         <ProfileInput style={styles.sectionInput} value={this.state.name} title='First Name' inputType='default' onUpdate={this.nameHandler} />
@@ -125,6 +129,14 @@ export default class ProfileScreen extends React.Component {
                         </View>   
                     </View>
                 </View>
+                <Modal  visible={this.state.modal} transparent={true} backdropOpacity={90} backdropColor={'#333333'} animationType="slide">
+        <View style={styles.modal}>
+            <Text style={styles.modalText}>Your profile has been successfully saved.</Text>
+            <TouchableOpacity style={styles.button} onPress={()=>{this.setState({modal: false})}}>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Return</Text>
+        </TouchableOpacity> 
+        </View>
+        </Modal>
             </ScrollView>
         );
     }
@@ -231,11 +243,13 @@ const styles = StyleSheet.create({
     },
     button: {
         marginHorizontal: 30,
-        backgroundColor: "#E9446A",
-        borderRadius: 4,
-        height: 52,
-        alignItems: "center",
-        justifyContent: "center",
+    backgroundColor: "#E9446A",
+    borderRadius: 4,
+    height: 52,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 'auto',
+    marginBottom: 10
     },
     sectionLabel: {
         fontSize: 26,
@@ -258,5 +272,19 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: "#dd5b45"
-    }
+    },
+    modalText: {
+        paddingLeft: 10,
+        paddingVertical: 15,
+        fontSize: 16,
+        fontWeight: 'bold',
+        alignContent: 'center'
+      },
+      modal: {
+        marginTop: '60%',
+        marginHorizontal: '5%',
+        backgroundColor: 'white',
+        elevation: 20,
+        borderRadius: 10,     
+      }
 })
