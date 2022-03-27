@@ -11,6 +11,7 @@ import OfferScreen from './OfferScreen';
 import FindScreen from './FindScreen';
 import RouteScreen from './RouteScreen';
 import ArchiveScreen from './ArchiveScreen';
+import LogoutScreen from './LogoutScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileInput from "../components/ProfileInput";
 import HomeScreen from "./HomeScreen";
@@ -37,6 +38,7 @@ const ProfileStack = createStackNavigator();
 const MyRidesTab = createMaterialTopTabNavigator();
 const OfferStack = createStackNavigator();
 const FindStack = createStackNavigator();
+const LogoutStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeStackNavigator = () => {
@@ -161,6 +163,26 @@ const OfferStackNavigator = () => {
   )
 }
 
+const LogoutStackNavigator = () => {
+  return (
+  <LogoutStack.Navigator screenOptions={{
+    headerStyle: {
+      elevation: 0,
+      backgroundColor: '#dd5b45',
+    },
+    headerTitleStyle: {
+      color:'white',
+      fontSize: 26
+    },
+    headerLeft: null,
+    headerShown: false,
+    headerTintColor: 'white',
+    cardStyle: {backgroundColor: '#ffffff'}}}>
+    <LogoutStack.Screen name="Logout" component={LogoutScreen}/>
+  </LogoutStack.Navigator>
+  )
+}
+
 const FindStackNavigator = () => {
   return (
   <FindStack.Navigator screenOptions={{
@@ -214,7 +236,8 @@ export default class NavigationScreen extends React.Component {
                 Profile: 'account',
                 Rides: "format-list-bulleted",
                 Offer: 'car-hatchback',
-                Find: 'magnify'
+                Find: 'magnify',
+                Logout: 'logout'
               };
               return (
                 <MaterialCommunityIcons
@@ -227,11 +250,12 @@ export default class NavigationScreen extends React.Component {
           })
           }
         >
-          <Tab.Screen name="Home" component={HomeStackNavigator} />
+          <Tab.Screen name="Find" component={FindStackNavigator} />
+          {/* <Tab.Screen name="Home" component={HomeStackNavigator} /> */}
           <Tab.Screen name="Profile" component={ProfileStackNavigator} />
           <Tab.Screen name="Rides" component={MyRidesTabNavigator} />
           <Tab.Screen name="Offer" component={OfferStackNavigator} />
-          <Tab.Screen name="Find" component={FindStackNavigator} />
+          <Tab.Screen name="Logout" component={LogoutStackNavigator} />
         </Tab.Navigator>
 
         </NavigationContainer>
