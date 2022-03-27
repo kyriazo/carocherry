@@ -2,13 +2,22 @@ import React from "react";
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from "react-native";
 import * as firebase from "firebase";
 import { color } from "react-native-reanimated";
-import { StatusBar } from "react-native";
+import { StatusBar,BackHandler } from "react-native";
 
 export default class LogoutScreen extends React.Component {
 
 
     componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
         firebase.auth().signOut()
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton() {
+        return true;
     }
 
     state = {

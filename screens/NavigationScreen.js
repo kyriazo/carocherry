@@ -166,6 +166,7 @@ const OfferStackNavigator = () => {
 const LogoutStackNavigator = () => {
   return (
   <LogoutStack.Navigator screenOptions={{
+    tabBarVisible: false,
     headerStyle: {
       elevation: 0,
       backgroundColor: '#dd5b45',
