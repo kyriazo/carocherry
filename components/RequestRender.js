@@ -1,5 +1,5 @@
 import React, {useState,  useEffect} from 'react';
-import { FlatList, ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
+import { RefreshControl, FlatList, ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 import _ from "lodash";
 import { FontAwesome } from '@expo/vector-icons'; 
@@ -84,6 +84,23 @@ const RequestRender = (props) => {
         }else
                 setStatusMessage("Not Accepted.")     
         }
+        var state;
+        firebase
+        .database()
+        .ref(`/rides/${props.value.ruid}/requests`)
+          .on('value', snapshot => {
+            state = snapshot.val();
+            const requests = _.map(state, (val, ruid) => {
+              return { ...val, ruid};
+            });
+            for (var i=0; i < requests.length; i++) 
+            if (userId[i] == currentUser.uid){
+              if (isAccepted[i]){
+                  setStatusMessage("Accepted.") 
+          }else
+                  setStatusMessage("Not Accepted.")     
+          }
+          });
     });
 
     return (
