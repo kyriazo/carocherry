@@ -52,7 +52,8 @@ consoleInfo = () => {
 }
 
 goHome = () => {  
-  this.props.navigation.navigate("Home")
+  this.props.navigation.popToTop();
+  this.props.navigation.navigate("Rides")
 }
 
 uploadRoute = () => {
@@ -116,7 +117,7 @@ uploadRoute = () => {
         <View style={styles.modal}>
             <Text style={styles.modalText}>Congratulations. Your ride has been successfuly registered on Carocherry!</Text>
             <TouchableOpacity style={styles.button} onPress={this.goHome}>
-                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Return to Homepage</Text>
+                                <Text style={{ color: "#FFF", fontWeight: "500" }}>Return to Rides</Text>
         </TouchableOpacity> 
         </View>
         </Modal>
