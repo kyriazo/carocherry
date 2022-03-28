@@ -2,6 +2,7 @@ import _ from "lodash";
 import React from "react";
 import {useEffect, useState} from 'react';
 import {
+  RefreshControl,
   Alert,
 FlatList,
 ScrollView,
@@ -24,57 +25,50 @@ const MyRidesScreen = (props) => {
  
   //useEffect hook used to set the initial rides fetched from firebase.
   useEffect(() => {
-      var state;
-      firebase
-     .database()
-     .ref(`/rides`)
-     .once("value")
-     .then((snapshot) => {
-       state = snapshot.val();
-       const rides = _.map(state, (val, ruid) => {
-         return { ...val, ruid};
-       });
-       setInitialRides(rides)
-     });
-  }, []);
-
-//Listens to firebase and updates the state only if its different from initial state so it gets rendered on screen.
-useEffect(() => {
-  var state;
-  const connection = firebase.database()
-  .ref(`/rides/`)
-  .on('value', snapshot => {
+     
+    const { currentUser } = firebase.auth();
+    var state;
+    firebase
+    .database()
+    .ref(`/rides`)
+    .once("value")
+    .then((snapshot) => {
     state = snapshot.val();
     const rides = _.map(state, (val, ruid) => {
       return { ...val, ruid};
     });
-    if (rides != initialRides)
-      setRides(rides)
-    else
-    console.log('Safe')
+    const reverseRides = rides.reverse()
+    const myArray = reverseRides.filter(function ( obj ) {
+        return obj.uid == currentUser.uid;
+    });
+    setInitialRides(myArray);
+    });
+}, []);
+
+//Listens to firebase and updates the state only if its different from initial state so it gets rendered on screen. Also archives rides that are past date.
+useEffect(() => { 
+const { currentUser } = firebase.auth(); 
+var state;
+const connection = firebase.database()
+.ref(`/rides/`)
+.on('value', snapshot => {
+  state = snapshot.val();
+  const rides = _.map(state, (val, ruid) => {
+    return { ...val, ruid};
   });
+  const reverseRides = rides.reverse()
+  const myArray = reverseRides.filter(function ( obj ) {
+    return obj.uid == currentUser.uid;
+  });
+  if (rides != initialRides){
+    setRides(myArray)
+  }else
+  console.log('Safe')
+});
 
-  var answers = rides;  
-  const result = Object.values(answers);   
-  const rideDate = result.map((data) => data.date);
-  const rideId = result.map((data) => data.ruid);
-  for (var i=0; i < rideDate.length; i++){
-    var d1 = new Date();
-    d1 = Date.parse(d1)
-    var d2 = Date.parse(rideDate[i])
-    if (d1 > d2){
-      // console.log('this should be archived', rideId[i]);
-      firebase.database()
-      .ref(`/rides/${rideId[i]}`)
-      .on('value', snapshot => {
-      firebase.database().ref(`/archivedRides/${rideId[i]}`).set(snapshot.val());
-      });
-      //firebase.database().ref(`/rides/${rideId[i]}`).remove();
-    }
-  }
 
-  return () => firebase.database().ref(`/rides`).off('value', connection);
-},[]);
+// return () => firebase.database().ref(`/rides`).off('value', connection);
+}, []);
 
     return ( 
        
