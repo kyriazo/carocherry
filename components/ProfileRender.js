@@ -132,8 +132,10 @@ const ProfileRender = (props) => {
             </TouchableOpacity>
               </View>
               <View style={styles.imageContainer}>
+              <TouchableOpacity onPress={() => setModal(true)}>
                 <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
                 <Text style={styles.textTitles}>{renderInfo.name}</Text>
+                </TouchableOpacity>
                 </View>
               </View>
             <View style={styles.dateContainer}>
