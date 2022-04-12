@@ -2,7 +2,7 @@ import React from "react";
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from "react-native";
 import * as firebase from "firebase";
 import { color } from "react-native-reanimated";
-import { StatusBar } from "react-native";
+import { StatusBar,BackHandler } from "react-native";
 
 export default class LoginScreen extends React.Component {
 
@@ -12,6 +12,18 @@ export default class LoginScreen extends React.Component {
         errorMessage: ""
     }
 
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton() {
+        return true;
+    }
+
     
 
     handleLogin = () => {
@@ -19,7 +31,7 @@ export default class LoginScreen extends React.Component {
 
         firebase.auth().signInWithEmailAndPassword(email,password).catch(error => this.setState({ errorMessage: error.message }))
     }
-
+    
 
     render() {
         StatusBar.setBarStyle('light-content', true);

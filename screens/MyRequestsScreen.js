@@ -85,6 +85,7 @@ useEffect(() => {
           return (
             <View>
                <RequestRender value={item} />
+               <View style={styles.deleteButton}>
                <TouchableOpacity
                     onPress={() => {
                       Alert.alert(
@@ -121,6 +122,7 @@ useEffect(() => {
                   >
                    <Text style={styles.deleteText}>Delete Request</Text>
                   </TouchableOpacity>
+                  </View>
             </View>
            
           );
@@ -180,6 +182,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#7D0036",
     backgroundColor: '#efefef',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
+  },
+  deleteButton: {
     position: 'absolute',
     bottom: 31,
     elevation: 5,
@@ -192,7 +198,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10
-  },
+  }
 });
 
 export default MyRequestsScreen;

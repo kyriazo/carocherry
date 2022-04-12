@@ -97,7 +97,7 @@ useEffect(() => {
                   {/* Renders each ride on a separate component */}
                  <MyRidesRender style={styles.renderItem} value={item} />
                   {/* Archives ride after alert confirmation */}
-                  <View style={{zIndex: 100}}>
+                  <View style={styles.deleteButton}>
                   <TouchableOpacity
                     onPress={() => {
                       Alert.alert(
@@ -167,9 +167,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#7D0036",
     backgroundColor: '#efefef',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10
+  },
+  deleteButton: {
     position: 'absolute',
-    bottom: 31,
+    bottom:31,
     elevation: 5,
+    zIndex:10000,
     left: '35%',
     borderLeftColor: '#E9446A',
     borderLeftWidth: 1,
@@ -187,7 +192,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "400",
     color: "#dd5b45",
-    fontFamily: 'Lobster_400Regular'
+    fontFamily: 'Lobster_400Regular',
   }
 });
 
