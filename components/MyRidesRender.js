@@ -1,5 +1,5 @@
 import React, {useState,  useEffect} from 'react';
-import { RefreshConrol, FlatList, ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
+import { FlatList, ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 import _ from "lodash";
 import { cos } from 'react-native-reanimated';
@@ -83,7 +83,7 @@ const MyRidesRender = (props) => {
         setSeats(state.seats)
     }
     });
-
+ 
   // Stop listening for updates when no longer required
   //return () => database().ref(`/rides/${props.value.ruid}`).off('value', onChildAdd);
   });
@@ -111,14 +111,9 @@ const MyRidesRender = (props) => {
               <Text style={styles.rideDetailsText}>Ride Details</Text>
               </TouchableOpacity>
               </View>
-
-
-              {/* To be stylized? */}
               <TouchableOpacity onPress={() => setRequestsModal(true)}>
-              <Text>Ride Requests</Text>
+              <Text>Requests</Text>
               </TouchableOpacity>
-
-
               <View style={styles.imageContainer}>
                 <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
                 <Text style={styles.textTitles}>{renderInfo.name}</Text>
@@ -179,8 +174,6 @@ const MyRidesRender = (props) => {
         <Modal visible={requestsModal} animationType="slide" 
         onRequestClose={() => { setModal(false) }}
         >
-            <ScrollView
-            >
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> 
             <Text style={{fontWeight: 'bold'}}>List of incoming requests:</Text>
             {/* Button to fetch new requests with call to firebase */}
@@ -222,7 +215,6 @@ const MyRidesRender = (props) => {
              <TouchableOpacity style={styles.button} onPress={() => setRequestsModal(false)}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
             </TouchableOpacity>
-            </ScrollView>
         </Modal>
         </View> 
         
