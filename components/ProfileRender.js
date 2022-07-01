@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { ScrollView, Modal, TouchableOpacity, View, Text, StyleSheet, Image, TouchableHighlightBase, Button } from 'react-native';
 import * as firebase from "firebase";
 import _ from "lodash";
+import { render } from 'react-dom';
+import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
 const ProfileRender = (props) => {
   const [renderInfo, setRenderInfo] = useState([]);
@@ -11,6 +13,11 @@ const ProfileRender = (props) => {
   const [music, setMusic] = useState('');
   const [luggage, setLuggage] = useState('');
   const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [miniBio, setMiniBio] = useState('');
+  const [contactInf, setContactInf] = useState('');
+  const [image, setImage] = useState('');
+  const [userInf, setUserInf] = useState('');
   const [requests, setRequests] = useState([]);
   const [isOffer, setIsOffer] = useState('');
   const [buttonStatus, setButtonStatus] = useState(false);
@@ -38,6 +45,10 @@ const ProfileRender = (props) => {
               .then((snapshot) => {
                   state = snapshot.val()
                   setName(state.name);
+                  setLastName(state.lastName);
+                  setMiniBio(state.miniBio);
+                  setContactInf(state.contactInf);
+                  setImage(state.image);
               });
               firebase
                .database()
@@ -107,7 +118,11 @@ const ProfileRender = (props) => {
            rideId: props.value.ruid,
            uid: currentUser.uid,
            isAccepted: false,
-           name: name
+           name: name,
+           lastName: lastName,
+           miniBio: miniBio,
+           contactInf: contactInf,
+           image: image
          });
          setRequestText('Request Sent');
       }
@@ -185,14 +200,15 @@ const ProfileRender = (props) => {
 
                     <View style={styles.lowerView}>
 
-                    <Text style={styles.textTitles}>{renderInfo.name} {renderInfo.lastName}</Text>
-                        <Text style={styles.textTitles}>{renderInfo.miniBio}</Text>
-                        <Text style={styles.textTitles}>{renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
+                    <Text style={styles.textTitles}>Name: {renderInfo.name} {renderInfo.lastName}</Text>
+                        <Text style={styles.textTitles}>Last Name: {renderInfo.miniBio}</Text>
+                        <Text style={styles.textTitles}>Car: {renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
                         <Text style={styles.textTitles}>Ride Preferences:</Text>
                         <Text style={styles.textTitles}>{smoke}</Text>
                         <Text style={styles.textTitles}>{pets}</Text>
                         <Text style={styles.textTitles}>{music}</Text>
                         <Text style={styles.textTitles}>{luggage}</Text>
+                        <Text>Ride Information: {props.value.extraInf}</Text>              
                     </View>
 
                 </View>

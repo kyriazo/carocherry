@@ -32,8 +32,8 @@ export default class RouteScreen extends React.Component {
        smokingAllow: this.props.route.params.state.smokingAllow,
        luggageAllow: this.props.route.params.state.luggageAllow,
        seats: this.props.route.params.state.seats,
+       extraInf: this.props.route.params.state.extraInf,
        modal: false
-
     };
 }
 
@@ -72,6 +72,7 @@ uploadRoute = () => {
         luggageAllow: this.state.luggageAllow,
         seats: this.state.seats,
         seatLimit: this.state.seats,
+        extraInf: this.state.extraInf
     });
         //this.props.navigation.navigate("Home")
         this.setState({
@@ -134,6 +135,7 @@ uploadRoute = () => {
                         <Text style={styles.preferenceText}>Music: {this.state.musicAllow ? 'Welcome' : 'Not prefered'}</Text>
                         <Text style={styles.preferenceText}>Pets: {this.state.petsAllow ? 'Welcome' : 'Not welcome'}</Text>
                         <Text style={styles.preferenceText}>Luggage space: {this.state.luggageAllow ? 'Yes' : 'No'}</Text>
+                        <Text style={styles.preferenceText}>Extra Information: {this.state.extraInf}</Text>
                 </View>
         </View>
         <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>

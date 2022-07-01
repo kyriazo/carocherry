@@ -10,6 +10,7 @@ const MyRidesRender = (props) => {
     
     //Initialization of needed variables
     const [renderInfo, setRenderInfo] = useState([]);
+    const [requesterInfo, setRequesterInfo] = useState([]);
     const [modal, setModal] = useState(false);
     const [requestsModal, setRequestsModal] = useState(false);
     const [seats, setSeats] = useState(props.value.seats);
@@ -44,6 +45,7 @@ const MyRidesRender = (props) => {
           return { ...val, ruid};
         });
         setRequests(requests);
+        console.log(requests);
       });
 
     //Set preferences texts 
@@ -87,7 +89,6 @@ const MyRidesRender = (props) => {
   // Stop listening for updates when no longer required
   //return () => database().ref(`/rides/${props.value.ruid}`).off('value', onChildAdd);
   });
-
     return (
        <View style={styles.container}>
           <View style={styles.addressContainer}>
@@ -178,6 +179,7 @@ const MyRidesRender = (props) => {
             <Text style={{fontWeight: 'bold'}}>List of incoming requests:</Text>
             {/* Button to fetch new requests with call to firebase */}
             <TouchableOpacity onPress={() => {
+                var state;
                  firebase
                  .database()
                  .ref(`/rides/${props.value.ruid}/requests`)
@@ -204,8 +206,10 @@ const MyRidesRender = (props) => {
                 if (item.rideId == props.value.ruid)
                 return (      
                 <View style={styles.requestBox}>
-                <Text>Request from {item.name} with uid {item.uid}</Text>
-                {/* Renders review for each request on a separate component */}
+                <Text>Request from {item.name} {item.lastName}</Text>
+                <Text>{item.miniBio}</Text>
+                <Text>{item.contactInf}</Text>
+                <Image source={{ uri: item.image }} style={styles.profileCircle} />
                 <ReviewRender value={item}/>
                 </View>
                 );
@@ -360,6 +364,14 @@ const styles = StyleSheet.create({
         borderRadius: 60,
         alignSelf: 'center',
     },
+    profileCircle: {
+      height: 60,
+      width: 60,
+      borderRadius: 60,
+      position: 'absolute',
+      top: 10,
+      right: 10,
+  },
     circle: {
         height: 120,
         width: 120,

@@ -3,6 +3,7 @@ import { RefreshControl, FlatList, ScrollView, Modal, TouchableOpacity, View, Te
 import * as firebase from "firebase";
 import _ from "lodash";
 import { FontAwesome } from '@expo/vector-icons'; 
+import { render } from 'react-dom';
 
 
 const RequestRender = (props) => {
@@ -11,6 +12,7 @@ const RequestRender = (props) => {
     const [modal, setModal] = useState(false);
     const [requestsModal, setRequestsModal] = useState(false);
     const [array, setArray] = useState([]);
+    const [extraInf, setExtraInf] = useState('');
     const [smoke, setSmoke] = useState('');
     const [pets, setPets] = useState('');
     const [music, setMusic] = useState('');
@@ -80,9 +82,11 @@ const RequestRender = (props) => {
         for (var i=0; i < userId.length; i++)
         if (userId[i] == currentUser.uid){
             if (isAccepted[i]){
-                setStatusMessage("Accepted.")
+                setStatusMessage("Accepted.");
+                setExtraInf(renderInfo.extraInf);
         }else
-                setStatusMessage("Not Accepted.")     
+                setStatusMessage("Not Accepted.")
+                setExtraInf(`Information hidden until you're accepted`);     
         }
         var state;
         firebase
@@ -93,12 +97,15 @@ const RequestRender = (props) => {
             const requests = _.map(state, (val, ruid) => {
               return { ...val, ruid};
             });
-            for (var i=0; i < requests.length; i++) 
+            for (var i=0; i < requests.length; i++)
             if (userId[i] == currentUser.uid){
               if (isAccepted[i]){
-                  setStatusMessage("Accepted.") 
-          }else
-                  setStatusMessage("Not Accepted.")     
+                  setStatusMessage("Acccepted.") 
+                  setExtraInf(renderInfo.extraInf);
+              }else{
+                  setStatusMessage("Not Accepted.")
+                  setExtraInf(`Information hidden until you're accepted`); 
+              }      
           }
           });
     });
@@ -213,6 +220,8 @@ const RequestRender = (props) => {
                         <Text style={styles.textTitles}>{pets}</Text>
                         <Text style={styles.textTitles}>{music}</Text>
                         <Text style={styles.textTitles}>{luggage}</Text>
+                        <Text>Ride Information: {props.value.extraInf}</Text>  
+                        <Text>User Information: {extraInf}</Text>
                     </View>
 
                 </View>

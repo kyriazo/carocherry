@@ -21,6 +21,7 @@ import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
 import RouteScreen from './RouteScreen'
+import ProfileInput from "../components/ProfileInput";
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -68,6 +69,7 @@ export default class OfferScreen extends React.Component {
         musicAllow: false,
         petsAllow: false,
         luggageAllow: false,
+        extraInf: ''
     };
 }
 
@@ -157,6 +159,12 @@ toggleLuggage = () => {
   this.setState({
     luggageAllow: !this.state.luggageAllow
   })
+}
+
+infHandler = (inf) => {
+  this.setState({
+      extraInf: inf
+  });
 }
 
   render() {
@@ -391,10 +399,10 @@ toggleLuggage = () => {
               value={this.state.luggageAllow}
             />
             <Text style={styles.switchText}>Luggage space</Text>
-             {/* <Text>There is enough room</Text> */}
             </View> 
+            
             </View>
-           
+            <ProfileInput value={this.state.extraInf} title='Extra Information' inputType='default' onUpdate={this.infHandler} />
            </View>
            
            <View style={{ flexDirection: 'row' }}>

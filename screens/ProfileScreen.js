@@ -22,7 +22,8 @@ export default class ProfileScreen extends React.Component {
             make: '',
             model: '',
             color: '',
-            modal: false
+            modal: false,
+            contactInf: ''
         };
     }
 
@@ -64,6 +65,11 @@ export default class ProfileScreen extends React.Component {
     colorHandler = (clr) => {
         this.setState({
             color: clr
+        });
+    }
+    contactInfHandler = (inf) => {
+        this.setState({
+            contactInf: inf
         });
     }
     databaseHandler = () => {
@@ -117,6 +123,7 @@ export default class ProfileScreen extends React.Component {
                         <ProfileInput style={styles.sectionInput} value={this.state.lastName} title='Last Name' inputType='default' onUpdate={this.lastNameHandler} />
                         <ProfileInput style={styles.sectionInput} value={this.state.birthYear} title='Year of birth' inputType='numeric' onUpdate={this.bYearHandler} />
                         <ProfileInput style={styles.sectionInput} value={this.state.miniBio} title='Mini bio' inputType='default' onUpdate={this.miniBioHandler} />
+                        <ProfileInput style={styles.sectionInput} value={this.state.contactInf} title='Contact Information' inputType='default' onUpdate={this.contactInfHandler} />
                         <Text style={styles.sectionLabel}>Vehicle</Text>
                         <ProfileInput style={styles.sectionInput} value={this.state.plate} title='Plate' inputType='default' onUpdate={this.plateHandler} />
                         <ProfileInput style={styles.sectionInput} value={this.state.make} title='Make' inputType='default' onUpdate={this.makeHandler} />
@@ -177,11 +184,11 @@ export default class ProfileScreen extends React.Component {
                     lastName: state.lastName,
                     birthYear: state.birthYear,
                     miniBio: state.miniBio,
+                    contactInf: state.contactInf,
                     plate: state.plate,
                     make: state.make,
                     model: state.model,
                     color: state.color
-
                 })
 
             })

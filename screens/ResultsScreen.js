@@ -60,7 +60,7 @@ export default class ResultsScreen extends React.Component {
               var d2 = Date.parse(item.date)
               //if (d1 < d2)
               if (currentUser.uid != item.uid)
-              if (d < 1000)  
+              if (d < 2000)  
             return (
                 // Renders each ride on a separate component with the properties of sent item
                 <ProfileRender value={item} />
