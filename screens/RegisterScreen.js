@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, KeyboardAvoidingView } from "react-native";
 import * as firebase from "firebase";
 import { ExecutionEnvironment } from "expo-constants";
 import { StatusBar } from 'react-native';
@@ -65,7 +65,7 @@ export default class RegisterScreen extends React.Component {
         StatusBar.setBarStyle('light-content', true);
         StatusBar.setBackgroundColor('black',true);
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container} behavior="position">
                 <Image style={styles.logo}
                     source={require('../assets/logo_trans.png')} 
                 />
@@ -137,7 +137,7 @@ export default class RegisterScreen extends React.Component {
                     </Text>
             </TouchableOpacity>
 
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 }

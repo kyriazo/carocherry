@@ -2,6 +2,7 @@ import _ from "lodash";
 import React from "react";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {
+  KeyboardAvoidingView,
   View,
   Text,
   StyleSheet,
@@ -57,7 +58,7 @@ destinationTextHandler = (destinationText) => {
     return (
       
       // <SafeAreaView>
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="position">
          <View style={styles.headlineContainer}>
                 <Image style={styles.logo}
                     source={require('../assets/logo_trans.png')} 
@@ -163,7 +164,7 @@ destinationTextHandler = (destinationText) => {
           }}>
               <Text style={styles.buttonText}>Find a Ride!</Text>  
         </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
       // </SafeAreaView>
     )
   }

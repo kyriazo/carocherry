@@ -113,7 +113,7 @@ const MyRidesRender = (props) => {
               </TouchableOpacity>
               </View>
               <TouchableOpacity onPress={() => setRequestsModal(true)}>
-              <Text>Requests</Text>
+              <Text style={styles.requestLabel}>Requests</Text>
               </TouchableOpacity>
               <View style={styles.imageContainer}>
                 <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
@@ -206,9 +206,9 @@ const MyRidesRender = (props) => {
                 if (item.rideId == props.value.ruid)
                 return (      
                 <View style={styles.requestBox}>
-                <Text>Request from {item.name} {item.lastName}</Text>
-                <Text>{item.miniBio}</Text>
-                <Text>{item.contactInf}</Text>
+                <Text><Text style={{fontWeight: 'bold'}}>Name:</Text> {item.name} {item.lastName}</Text>
+                <Text><Text style={{fontWeight: 'bold'}}>Mini Bio:</Text> {item.miniBio}</Text>
+                <Text><Text style={{fontWeight: 'bold'}}>Information:</Text> {item.contactInf}</Text>
                 <Image source={{ uri: item.image }} style={styles.profileCircle} />
                 <ReviewRender value={item}/>
                 </View>
@@ -325,9 +325,21 @@ const styles = StyleSheet.create({
         flex:1,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 0,
-        borderBottomRightRadius: 10
-        
+        borderBottomRightRadius: 10   
     },
+    requestLabel: {
+      fontSize: 14,
+      fontWeight: 'bold',
+      color: '#ffffff',
+      backgroundColor: '#dd5b45',
+      alignContent: 'center',
+      textAlign: 'center',
+      paddingTop: 6,
+      paddingHorizontal: 6,
+      borderBottomLeftRadius: 10,
+      borderBottomRightRadius: 10,
+      height: 30
+  },
     rideType: {
       backgroundColor: '#f3e1d6',
       fontWeight: 'bold',

@@ -152,11 +152,13 @@ uploadRoute = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#eeeeee',
-    height: '100%'
+    height: '100%',
+    flex: 1
   },
   containerView: {
     backgroundColor: '#eeeeee',
-    height: '100%'
+    height: '100%',
+    flex: 1
   },
   textTitle: {
     textAlignVertical: 'center',
