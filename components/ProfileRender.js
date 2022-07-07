@@ -86,7 +86,8 @@ const ProfileRender = (props) => {
       if (props.value.isOffer)
           setIsOffer('Offering')
       else    
-          setIsOffer('Requesting') 
+          setIsOffer('Requesting')
+          
         
       return () => { isMounted = false };
     }, []);
@@ -179,10 +180,9 @@ const ProfileRender = (props) => {
             <Modal visible={modal} animationType="slide"
             onRequestClose={() => { setModal(false) }}
             >
-            <View>
+            <View style={styles.modalView}>
             <ScrollView>
-                <View style={{ flex: 1 }}>
-
+                <View style={styles.modalViewsContainer}>
                     <View style={styles.upperView}>
 
                        
@@ -193,29 +193,31 @@ const ProfileRender = (props) => {
                                 backgroundColor: 'white'
                             }}>
                                 <Image source={{ uri: renderInfo.image }} style={styles.circle} />
+                                <Text style={styles.modalTextName}>{renderInfo.name} {renderInfo.lastName}</Text>
                             </View>
                       
                     </View>
 
-
                     <View style={styles.lowerView}>
-
-                    <Text style={styles.textTitles}>Name: {renderInfo.name} {renderInfo.lastName}</Text>
-                        <Text style={styles.textTitles}>Last Name: {renderInfo.miniBio}</Text>
-                        <Text style={styles.textTitles}>Car: {renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
-                        <Text style={styles.textTitles}>Ride Preferences:</Text>
-                        <Text style={styles.textTitles}>{smoke}</Text>
-                        <Text style={styles.textTitles}>{pets}</Text>
-                        <Text style={styles.textTitles}>{music}</Text>
-                        <Text style={styles.textTitles}>{luggage}</Text>
-                        <Text>Ride Information: {props.value.extraInf}</Text>              
+                        <View style={styles.lowerViewTexts}>
+                        <Text style={styles.modalMainTitle}>Ride Details</Text>
+                        <Text style={styles.modalTitle}>User Details:</Text>
+                        <Text style={styles.modalText}>{renderInfo.miniBio}</Text>
+                        <Text style={styles.modalText}>{renderInfo.make} {renderInfo.model} {renderInfo.color}</Text>
+                        <Text style={styles.modalTitle}>Ride Preferences:</Text>
+                        <Text style={styles.modalText}>{smoke}</Text>
+                        <Text style={styles.modalText}>{pets}</Text>
+                        <Text style={styles.modalText}>{music}</Text>
+                        <Text style={styles.modalText}>{luggage}</Text>    
+                        <Text style={styles.modalText}>{props.value.extraInf}</Text>  
+                      </View>             
                     </View>
-
+                    <TouchableOpacity style={styles.modalButton} onPress={() => setModal(false)}>
+                    <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView> 
-            <TouchableOpacity style={styles.button} onPress={() => setModal(false)}>
-              <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
-            </TouchableOpacity>
+          
           </View>
 
         </Modal>
@@ -458,13 +460,14 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      paddingVertical: 30,
+      paddingVertical: 35,
       width: '100%',
     },
     modalTextName: {
       fontSize: 26,
       color: '#000000',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      marginLeft: 10
     },
     lowerView: {
         flex: 6,

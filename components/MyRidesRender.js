@@ -45,7 +45,6 @@ const MyRidesRender = (props) => {
           return { ...val, ruid};
         });
         setRequests(requests);
-        console.log(requests);
       });
 
     //Set preferences texts 
@@ -118,7 +117,7 @@ const MyRidesRender = (props) => {
               <View style={styles.imageContainer}>
                 <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
                 <Text style={styles.textTitles}>{renderInfo.name}</Text>
-                </View>
+              </View>
               </View>
             <View style={styles.dateContainer}>
               {/* <Text style={styles.dateLabel}> Date</Text> */}
@@ -173,9 +172,9 @@ const MyRidesRender = (props) => {
 
         </Modal>
         <Modal visible={requestsModal} animationType="slide" 
-        onRequestClose={() => { setModal(false) }}
-        >
-            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}> 
+        onRequestClose={() => { setModal(false) }}>
+            <View style={{justifyContent: 'space-between', backgroundColor: '#f3e1d6', height: '100%'}}> 
+            <View>
             <Text style={{fontWeight: 'bold'}}>List of incoming requests:</Text>
             {/* Button to fetch new requests with call to firebase */}
             <TouchableOpacity onPress={() => {
@@ -190,12 +189,13 @@ const MyRidesRender = (props) => {
                        return { ...val, ruid};
                      });
                      setRequests(requests);
-                   });  
+                   });
             }}>      
-             <FontAwesome style={{marginRight: 10}} name="refresh" size={30} color="black" /> 
+             <FontAwesome style={{marginRight: 10, textAlign: 'right'}} name="refresh" size={30} color="black" /> 
              </TouchableOpacity> 
+             </View>
             
-            </View>
+           
             <Text>Seats left: {seats}</Text>
             
             <FlatList
@@ -219,6 +219,7 @@ const MyRidesRender = (props) => {
              <TouchableOpacity style={styles.button} onPress={() => setRequestsModal(false)}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
             </TouchableOpacity>
+        </View> 
         </Modal>
         </View> 
         
@@ -429,20 +430,18 @@ const styles = StyleSheet.create({
       fontWeight: 'bold'
     },
     lowerView: {
-        flex: 6,
-        height: '100%',
-        paddingVertical: 25,
-        alignItems: 'center',
-        width: '100%'
-        // backgroundColor: '#00ffff',
-
-    },
-    lowerViewTexts: {
-      maxWidth: '80%',
+      flex: 6,
+      height: '100%',
+      paddingVertical: 25,
+      alignItems: 'center',
       width: '100%'
-      // textAlign: 'center'
-    },
-    
+      // backgroundColor: '#00ffff',
+  },
+  lowerViewTexts: {
+    maxWidth: '80%',
+    width: '100%'
+    // textAlign: 'center'
+  },   
     modalMainTitle: {
       fontSize: 34,
       fontWeight: 'bold',
@@ -472,6 +471,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     requestBox: {
+        backgroundColor: 'white',
         borderColor: '#E9446A',
         borderRadius: 1,
         borderWidth: 1,
