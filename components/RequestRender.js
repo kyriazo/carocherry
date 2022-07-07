@@ -201,10 +201,9 @@ const RequestRender = (props) => {
                                 borderRadius: 120,
                                 backgroundColor: 'white'
                             }}>
-                                <Image source={{ uri: renderInfo.image }} style={styles.circle} />
-                                <Text style={styles.modalTextName}>{renderInfo.name} {renderInfo.lastName}</Text>
+                                <Image source={{ uri: renderInfo.image }} style={styles.circle} />  
                             </View>
-                      
+                            <Text style={styles.modalTextName}>{renderInfo.name} {renderInfo.lastName}</Text>
                     </View>
 
 
@@ -219,8 +218,9 @@ const RequestRender = (props) => {
                         <Text style={styles.modalText}>{pets}</Text>
                         <Text style={styles.modalText}>{music}</Text>
                         <Text style={styles.modalText}>{luggage}</Text>
+                        <Text style={styles.modalTitle}>Notes:</Text>
                         <Text style={styles.modalText}>{props.value.extraInf}</Text>  
-                        <Text style={styles.modalText}>User Information: {extraInf}</Text>       
+                        <Text style={styles.modalText}>Contact Information: {extraInf}</Text>       
                      </View>
                       <TouchableOpacity style={styles.modalButton} onPress={() => setModal(false)}>
                         <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
@@ -474,14 +474,14 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      paddingVertical: 35,
+      paddingVertical: 30,
       width: '100%',
     },
     modalTextName: {
       fontSize: 26,
       color: '#000000',
       fontWeight: 'bold',
-      marginLeft: 15,
+      marginLeft: 10,
     },
     lowerView: {
         flex: 6,

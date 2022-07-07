@@ -159,6 +159,8 @@ const MyRidesRender = (props) => {
                         <Text style={styles.modalText}>{pets}</Text>
                         <Text style={styles.modalText}>{music}</Text>
                         <Text style={styles.modalText}>{luggage}</Text>
+                        <Text style={styles.modalTitle}>Notes:</Text>  
+                        <Text style={styles.modalText}>{props.value.extraInf}</Text> 
                         </View>
                         <TouchableOpacity style={styles.modalButton} onPress={() => setModal(false)}>
                         <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>

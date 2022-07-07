@@ -193,9 +193,8 @@ const ProfileRender = (props) => {
                                 backgroundColor: 'white'
                             }}>
                                 <Image source={{ uri: renderInfo.image }} style={styles.circle} />
-                                <Text style={styles.modalTextName}>{renderInfo.name} {renderInfo.lastName}</Text>
                             </View>
-                      
+                            <Text style={styles.modalTextName}>{renderInfo.name} {renderInfo.lastName}</Text>
                     </View>
 
                     <View style={styles.lowerView}>
@@ -208,7 +207,8 @@ const ProfileRender = (props) => {
                         <Text style={styles.modalText}>{smoke}</Text>
                         <Text style={styles.modalText}>{pets}</Text>
                         <Text style={styles.modalText}>{music}</Text>
-                        <Text style={styles.modalText}>{luggage}</Text>    
+                        <Text style={styles.modalText}>{luggage}</Text>  
+                        <Text style={styles.modalTitle}>Notes:</Text>  
                         <Text style={styles.modalText}>{props.value.extraInf}</Text>  
                       </View>             
                     </View>
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      paddingVertical: 35,
+      paddingVertical: 30,
       width: '100%',
     },
     modalTextName: {
