@@ -10,7 +10,6 @@ const MyRidesRender = (props) => {
     
     //Initialization of needed variables
     const [renderInfo, setRenderInfo] = useState([]);
-    const [requesterInfo, setRequesterInfo] = useState([]);
     const [modal, setModal] = useState(false);
     const [requestsModal, setRequestsModal] = useState(false);
     const [seats, setSeats] = useState(props.value.seats);
@@ -19,6 +18,7 @@ const MyRidesRender = (props) => {
     const [music, setMusic] = useState('');
     const [luggage, setLuggage] = useState('');
     const [requests, setRequests] = useState([]);
+    const [requesterInfo, setRequesterInfo] = useState([]);
     const [isOffer, setIsOffer] = useState('');
     
 //UseEffect hook used in same way as ComponentDidMount
@@ -44,9 +44,19 @@ const MyRidesRender = (props) => {
         const requests = _.map(state, (val, ruid) => {
           return { ...val, ruid};
         });
+        // requests.forEach(element => {
+        //   firebase
+        //   .database()
+        //   //Fetch users from firebase
+        //   .ref(`/users/${element.uid}`)
+        //     .once("value")
+        //     .then((snapshot) => {
+        //       state = snapshot.val();
+        //       console.log(state);
+        //     });
+        // });
         setRequests(requests);
-      });
-
+      }); 
     //Set preferences texts 
     if (props.value.smokeAllow)
         setSmoke('Smoking is allowed.')
@@ -205,7 +215,17 @@ const MyRidesRender = (props) => {
                 keyExtractor={(item, index) => item.ruid}
                 key={(item, index) => item.ruid}
                 renderItem={({ item }) => {
-                if (item.rideId == props.value.ruid)
+                if (item.rideId == props.value.ruid){
+                var userInfo;
+                //console.log(requesterInfo.length);
+                requesterInfo.forEach(element => {
+                    if (item.uid == element.uid){
+                      //console.log(item.uid);
+                      //console.log(element.uid);
+                      userInfo = element.name;
+                      //console.log(userInfo);
+                    }
+                }); 
                 return (      
                 <View style={styles.requestBox}>
                 <Text><Text style={{fontWeight: 'bold'}}>Name:</Text> {item.name} {item.lastName}</Text>
@@ -215,6 +235,7 @@ const MyRidesRender = (props) => {
                 <ReviewRender value={item}/>
                 </View>
                 );
+                }
           }}
         />
             
