@@ -52,7 +52,7 @@ const ReviewRender = (props) => {
                         setButtonStatus(false);
                     }}
                   /> 
-                <Text style={{padding: 5, fontWeight: 'bold', color: 'green'}}>Accept</Text>
+                <Text style={{padding: 5, fontWeight: 'bold', color: 'green', fontSize: 18, marginRight: 20}}>Accept</Text>
                 </View>
       
                 <View style={{ flexDirection: 'row' }}>
@@ -64,10 +64,9 @@ const ReviewRender = (props) => {
                         setButtonStatus(false);
                     }}
                   /> 
-                <Text style={{padding: 5, fontWeight: 'bold', color: 'red'}}>Reject</Text>
+                <Text style={{padding: 5,fontWeight: 'bold', color: 'red',fontSize: 18}}>Reject</Text>
                 </View>
                 </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center'}}>
                 <TouchableOpacity activeOpacity={buttonStatus ? 1 : 0.2} disabled={buttonStatus} style={styles.saveButton} onPress={()=> {
                     if (status){
                     var state;
@@ -110,12 +109,8 @@ const ReviewRender = (props) => {
                       });
                     }
                 }}>
-                <Text style={{ color: "#FFF", fontWeight: "500" }}>Save</Text>
+                <Text style={{ color: "#FFF", fontWeight: "500" , fontSize: 18}}>Save</Text>
                 </TouchableOpacity>  
-                <TouchableOpacity style={styles.saveButton}>
-                <Text style={{ color: "#FFF", fontWeight: "500" }}>Close</Text>
-                </TouchableOpacity>
-                </View>
 
         </View>
     );
@@ -128,12 +123,15 @@ const styles = StyleSheet.create({
         height: 32,
         alignItems: "center",
         justifyContent: "center",
-        width: '40%'
+        width: '50%',
+        alignSelf: 'center',
+        marginTop: 10
       },
     choicesContainer:{
       flexDirection: 'row',
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      marginTop: 10
     }
 })
 
