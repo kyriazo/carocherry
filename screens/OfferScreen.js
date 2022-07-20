@@ -22,6 +22,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
 import RouteScreen from './RouteScreen'
 import ProfileInput from "../components/ProfileInput";
+import ProfileInputMultiline from "../components/ProfileInputMultiline";
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -402,7 +403,11 @@ infHandler = (inf) => {
             </View> 
             
             </View>
-            <ProfileInput value={this.state.extraInf} title='Extra Information' inputType='default' onUpdate={this.infHandler} />
+            <ProfileInputMultiline value={this.state.extraInf} title='Extra Information' inputType='default' onUpdate={this.infHandler} />
+            {/* <View style={styles.inputContainer}>
+            <Text style={styles.textTitles}>Extra Information</Text>
+             <TextInput value={this.state.extraInf} multiline numberOfLines={5} keyboardType='default' style={styles.input} onChangeText={this.infHandler} />
+            </View> */}
            </View>
            
            <View style={{ flexDirection: 'row' }}>
@@ -458,6 +463,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   prefContainer: {
+    marginBottom: 20
   },
   offerContainer: {
     flexDirection: 'row',

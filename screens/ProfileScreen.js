@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     button: {
-        marginHorizontal: 30,
+    marginHorizontal: 30,
     backgroundColor: "#E9446A",
     borderRadius: 4,
     height: 52,

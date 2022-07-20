@@ -114,7 +114,7 @@ const connection = firebase.database()
                     }
                     }
                   >
-                   <Text style={styles.deleteText}>Archive this Ride</Text>
+                   <Text style={styles.deleteText}>Archive</Text>
                   </TouchableOpacity>
                   </View>
               </View>
@@ -157,7 +157,8 @@ const styles = StyleSheet.create({
   deleteText: {
     textAlign: 'center',
     padding: 4,
-    fontSize: 18,
+    paddingHorizontal: 6,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#7D0036",
     backgroundColor: '#efefef',
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
     bottom:31,
     elevation: 5,
     zIndex:10000,
-    left: '35%',
+    left: '55%',
     borderLeftColor: '#E9446A',
     borderLeftWidth: 1,
     borderTopColor: '#E9446A',

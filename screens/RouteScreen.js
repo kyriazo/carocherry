@@ -122,21 +122,21 @@ uploadRoute = () => {
         </TouchableOpacity> 
         </View>
         </Modal>
- <View style={{ flex: 1 }}>
+ <ScrollView style={styles.prefView}>
 
                         <Text style={styles.textLabel}>Confirm your preferences</Text>
-                        <Text style={styles.preferenceText}>From: {this.state.originName}</Text>
-                        <Text style={styles.preferenceText}>To: {this.state.destinationName}</Text>
-                        <Text style={styles.preferenceText}>Date: {this.state.date}</Text>
-                        <Text style={styles.preferenceText}>Ride type: {this.state.isOffer ? 'Offer' : 'Request'}</Text>
-                        <Text style={styles.preferenceText}>Available seats: {this.state.seats}</Text>
+                        <Text style={styles.preferenceText}>From: <Text style={styles.preferenceValue}>{this.state.originName}</Text></Text>
+                        <Text style={styles.preferenceText}>To: <Text style={styles.preferenceValue}>{this.state.destinationName}</Text></Text>
+                        <Text style={styles.preferenceText}>Date: <Text style={styles.preferenceValue}>{this.state.date}</Text></Text>
+                        <Text style={styles.preferenceText}>Ride type: <Text style={styles.preferenceValue}>{this.state.isOffer ? 'Offer' : 'Request'}</Text></Text>
+                        <Text style={styles.preferenceText}>Available seats: <Text style={styles.preferenceValue}>{this.state.seats}</Text></Text>
 
-                        <Text style={styles.preferenceText}>Smoking: {this.state.smokingAllow ? 'Allowed' : 'Not allowed'}</Text>
-                        <Text style={styles.preferenceText}>Music: {this.state.musicAllow ? 'Welcome' : 'Not prefered'}</Text>
-                        <Text style={styles.preferenceText}>Pets: {this.state.petsAllow ? 'Welcome' : 'Not welcome'}</Text>
-                        <Text style={styles.preferenceText}>Luggage space: {this.state.luggageAllow ? 'Yes' : 'No'}</Text>
-                        <Text style={styles.preferenceText}>Extra Information: {this.state.extraInf}</Text>
-                </View>
+                        <Text style={styles.preferenceText}>Smoking: <Text style={styles.preferenceValue}>{this.state.smokingAllow ? 'Allowed' : 'Not allowed'}</Text></Text>
+                        <Text style={styles.preferenceText}>Music: <Text style={styles.preferenceValue}>{this.state.musicAllow ? 'Welcome' : 'Not prefered'}</Text></Text>
+                        <Text style={styles.preferenceText}>Pets: <Text style={styles.preferenceValue}>{this.state.petsAllow ? 'Welcome' : 'Not welcome'}</Text></Text>
+                        <Text style={styles.preferenceText}>Luggage space: <Text style={styles.preferenceValue}>{this.state.luggageAllow ? 'Yes' : 'No'}</Text></Text>
+                        <Text style={styles.preferenceText}>Extra Information: <Text style={styles.preferenceValue}>{this.state.extraInf}</Text></Text>
+                </ScrollView>
         </View>
         <TouchableOpacity style={styles.button} onPress={this.uploadRoute}>
                                 <Text style={{ color: "#FFF", fontWeight: "500" }}>Offer Ride</Text>
@@ -151,22 +151,35 @@ uploadRoute = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#f3e1d6',
     height: '100%',
     flex: 1
   },
   containerView: {
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#f3e1d6',
     height: '100%',
     flex: 1
+  },
+  prefView: {
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    backgroundColor: 'white',
+    width: '85%',
+    alignSelf: 'center',
+    marginTop: 15,
+    marginBottom: 15,
+    borderRadius: 10,
+    paddingBottom: 20
   },
   textTitle: {
     textAlignVertical: 'center',
     fontSize: 24,
     paddingVertical: 15,
     paddingLeft: 10,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
     // height: '100%'
+    marginTop: 40
   },
   mapContainer: {
     //height: 50,
@@ -191,14 +204,26 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   textLabel: {
-    paddingLeft: 10,
-    paddingVertical: 15,
-    fontSize: 16,
-    fontWeight: 'bold'
+    // paddingLeft: 10,
+    // paddingVertical: 15,
+    // fontSize: 16,
+    // fontWeight: 'bold'
+    paddingVertical: 10,
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#7D0036'
   },
   preferenceText: {
     paddingLeft: 10,
     paddingVertical: 5,
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#7D0036'
+
+  },
+  preferenceValue: {
+    fontWeight: 'normal',
+    color: '#000000',
     fontSize: 16
   },
   modalText: {

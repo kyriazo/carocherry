@@ -1,5 +1,6 @@
 import React, {useState,  useEffect} from 'react';
 import {TouchableOpacity, View, Text, StyleSheet, SnapshotViewIOS} from 'react-native';
+import { FAB, RadioButton } from 'react-native-paper';
 import * as firebase from "firebase";
 import _ from "lodash";
 
@@ -8,6 +9,7 @@ const ReviewRender = (props) => {
     const [statusMessage, setStatusMessage] = useState('pending');
     const [isAccepted, setIsAccepted] = useState();
     const [buttonStatus, setButtonStatus] = useState(true);
+      
 
     useEffect(()=>{  
               let isMounted = true;
@@ -41,24 +43,29 @@ const ReviewRender = (props) => {
         <View>
         <Text style={{fontWeight: 'bold'}}>Status: {statusMessage}</Text>
                 <View style={styles.choicesContainer}>
-                <TouchableOpacity
-                    onPress={() => {
+                <View style={{ flexDirection: 'row' }}>
+                  <RadioButton
+                      value="first"
+                      onPress={() => {
                         setStatus(true);
                         setStatusMessage('Accepted');
                         setButtonStatus(false);
                     }}
-                  >
+                  /> 
                 <Text style={{padding: 5, fontWeight: 'bold', color: 'green'}}>Accept</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => { 
+                </View>
+      
+                <View style={{ flexDirection: 'row' }}>
+                  <RadioButton
+                      value="second"
+                      onPress={() => {
                         setStatus(false);
                         setStatusMessage('Not Accepted');
                         setButtonStatus(false);
                     }}
-                  >
+                  /> 
                 <Text style={{padding: 5, fontWeight: 'bold', color: 'red'}}>Reject</Text>
-                </TouchableOpacity>
+                </View>
                 </View>
               
                 <TouchableOpacity activeOpacity={buttonStatus ? 1 : 0.2} disabled={buttonStatus} style={styles.saveButton} onPress={()=> {

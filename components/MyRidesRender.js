@@ -117,17 +117,21 @@ const MyRidesRender = (props) => {
           <View style={styles.verticalContainer}>
               <View style={styles.imagetextContainer}>
               <View style={styles.rideDetails}>
-              <TouchableOpacity onPress={() => setModal(true)}>
-              <Text style={styles.rideDetailsText}>Ride Details</Text>
-              </TouchableOpacity>
+              {/* <TouchableOpacity onPress={() => setModal(true)}> */}
+              <Text style={styles.rideDetailsText}></Text>
+              {/* </TouchableOpacity> */}
               </View>
               <TouchableOpacity onPress={() => setRequestsModal(true)}>
               <Text style={styles.requestLabel}>Requests</Text>
               </TouchableOpacity>
+
               <View style={styles.imageContainer}>
+              <TouchableOpacity onPress={() => setModal(true)}>
                 <Image source={{ uri: renderInfo.image }} style={styles.miniCircle} />
                 <Text style={styles.textTitles}>{renderInfo.name}</Text>
+              </TouchableOpacity>
               </View>
+
               </View>
             <View style={styles.dateContainer}>
               {/* <Text style={styles.dateLabel}> Date</Text> */}
@@ -186,8 +190,9 @@ const MyRidesRender = (props) => {
         <Modal visible={requestsModal} animationType="slide" 
         onRequestClose={() => { setModal(false) }}>
             <View style={{justifyContent: 'space-between', backgroundColor: '#f3e1d6', height: '100%'}}> 
-            <View>
-            <Text style={{fontWeight: 'bold'}}>List of incoming requests:</Text>
+            <View style={{padding: 20}}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontWeight: 'bold', fontSize: 24, color:'#7D0036'}}>List of incoming requests</Text>
             {/* Button to fetch new requests with call to firebase */}
             <TouchableOpacity onPress={() => {
                 var state;
@@ -206,9 +211,10 @@ const MyRidesRender = (props) => {
              <FontAwesome style={{marginRight: 10, textAlign: 'right'}} name="refresh" size={30} color="black" /> 
              </TouchableOpacity> 
              </View>
+             </View>
             
-           
-            <Text>Seats left: {seats}</Text>
+           <View style={{paddingHorizontal: 20, alignSelf: 'flex-start', width:'100%',height: '100%'}}>
+            <Text style={{fontSize: 20, color: '#7D0036', fontWeight: 'bold', marginBottom: 30}}>Seats left: <Text style={{color: 'black'}}>{seats}</Text></Text>
             
             <FlatList
                 data={requests}
@@ -228,9 +234,11 @@ const MyRidesRender = (props) => {
                 }); 
                 return (      
                 <View style={styles.requestBox}>
-                <Text><Text style={{fontWeight: 'bold'}}>Name:</Text> {item.name} {item.lastName}</Text>
-                <Text><Text style={{fontWeight: 'bold'}}>Mini Bio:</Text> {item.miniBio}</Text>
-                <Text><Text style={{fontWeight: 'bold'}}>Information:</Text> {item.contactInf}</Text>
+                <View style={{maxWidth: '75%'}}>
+                <Text style={{fontSize: 16, marginBottom: 5}}><Text style={{fontWeight: 'bold',color: '#7D0036'}}>Name:</Text> {item.name} {item.lastName}</Text>
+                <Text style={{fontSize: 16, marginBottom: 5}}><Text style={{fontWeight: 'bold',color: '#7D0036'}}>Information:</Text> {item.contactInf}</Text>
+                <Text style={{fontSize: 16, marginBottom: 5}}><Text style={{fontWeight: 'bold',color: '#7D0036'}}>Mini Bio:</Text> {item.miniBio}</Text>
+                </View>
                 <Image source={{ uri: item.image }} style={styles.profileCircle} />
                 <ReviewRender value={item}/>
                 </View>
@@ -238,6 +246,7 @@ const MyRidesRender = (props) => {
                 }
           }}
         />
+        </View>
             
              <TouchableOpacity style={styles.button} onPress={() => setRequestsModal(false)}>
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Back</Text>
@@ -373,23 +382,22 @@ const styles = StyleSheet.create({
       paddingHorizontal: 9,
       textAlign: 'center',
       borderTopLeftRadius: 10,
-      // borderTopRightRadius: 10,
       fontSize: 18,
       position: 'absolute',
       bottom: 0,
+      minWidth: '35%'
       // shadowRadius: 50,
       // shadowOffset:  {width: 10,height: 10},
       // borderBottomWidth: 2,
       // borderLeftWidth: 2,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: -6,
-      },
-      shadowOpacity: 0.55,
-      shadowRadius: 3.84,
-
-      elevation: 5,
+      // shadowColor: "#000",
+      // shadowOffset: {
+      //   width: 0,
+      //   height: -6,
+      // },
+      // shadowOpacity: 0.55,
+      // shadowRadius: 3.84,
+      // elevation: 5,
           },
     // input: {
     //     paddingHorizontal: 10,
@@ -496,9 +504,9 @@ const styles = StyleSheet.create({
     requestBox: {
         backgroundColor: 'white',
         borderColor: '#E9446A',
-        borderRadius: 1,
-        borderWidth: 1,
-        margin: 10
+        borderRadius: 10,
+        // borderWidth: 1,
+        padding: 5,
     },
     textTitles: {
       textAlign: 'center',
