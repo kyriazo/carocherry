@@ -9,7 +9,7 @@ const ReviewRender = (props) => {
     const [statusMessage, setStatusMessage] = useState('pending');
     const [isAccepted, setIsAccepted] = useState();
     const [buttonStatus, setButtonStatus] = useState(true);
-    const [checked, setChecked] = useState('first');
+    const [checked, setChecked] = useState('');
       
 
     useEffect(()=>{  
@@ -50,7 +50,7 @@ const ReviewRender = (props) => {
                       status={ checked === 'first' ? 'checked' : 'unchecked' }
                       onPress={() => {
                         setStatus(true);
-                        setStatusMessage('Accepted');
+                       // setStatusMessage('Accepted');
                        setChecked('first');
                        setButtonStatus(false);
                     }}
@@ -64,7 +64,7 @@ const ReviewRender = (props) => {
                       status={ checked === 'second' ? 'checked' : 'unchecked' }
                       onPress={() => {
                         setStatus(false);
-                        setStatusMessage('Not Accepted');
+                        //setStatusMessage('Not Accepted');
                         setChecked('second');
                         setButtonStatus(false);
                     }}
@@ -73,6 +73,10 @@ const ReviewRender = (props) => {
                 </View>
                 </View>
                 <TouchableOpacity activeOpacity={buttonStatus ? 1 : 0.2} disabled={buttonStatus} style={styles.saveButton} onPress={()=> {
+                  if (isAccepted) {
+                    setStatusMessage('Accepted')
+                  } else
+                    setStatusMessage('Not Accepted');
                     if (status){
                     var state;
                       if (isAccepted){
