@@ -188,7 +188,7 @@ const MyRidesRender = (props) => {
 
         </Modal>
         <Modal visible={requestsModal} animationType="slide" 
-        onRequestClose={() => { setModal(false) }}>
+        onRequestClose={() => { setRequestsModal(false) }}>
             <View style={{justifyContent: 'space-between', backgroundColor: '#f3e1d6', height: '100%'}}> 
             <View style={{padding: 20}}>
             <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -237,6 +237,7 @@ const MyRidesRender = (props) => {
                 <View style={{maxWidth: '75%'}}>
                 <Text style={{fontSize: 16, marginBottom: 5}}><Text style={{fontWeight: 'bold',color: '#7D0036'}}>Name:</Text> {item.name} {item.lastName}</Text>
                 <Text style={{fontSize: 16, marginBottom: 5}}><Text style={{fontWeight: 'bold',color: '#7D0036'}}>Information:</Text> {item.contactInf}</Text>
+
                 <Text style={{fontSize: 16, marginBottom: 5}}><Text style={{fontWeight: 'bold',color: '#7D0036'}}>Mini Bio:</Text> {item.miniBio}</Text>
                 </View>
                 <Image source={{ uri: item.image }} style={styles.profileCircle} />
