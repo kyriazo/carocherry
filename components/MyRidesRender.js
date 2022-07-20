@@ -508,6 +508,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         // borderWidth: 1,
         padding: 5,
+        marginBottom: 20
     },
     textTitles: {
       textAlign: 'center',
