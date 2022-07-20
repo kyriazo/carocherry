@@ -9,6 +9,7 @@ const ReviewRender = (props) => {
     const [statusMessage, setStatusMessage] = useState('pending');
     const [isAccepted, setIsAccepted] = useState();
     const [buttonStatus, setButtonStatus] = useState(true);
+    const [checked, setChecked] = useState('first');
       
 
     useEffect(()=>{  
@@ -46,10 +47,12 @@ const ReviewRender = (props) => {
                 <View style={{ flexDirection: 'row' }}>
                   <RadioButton
                       value="first"
+                      status={ checked === 'first' ? 'checked' : 'unchecked' }
                       onPress={() => {
                         setStatus(true);
                         setStatusMessage('Accepted');
-                        setButtonStatus(false);
+                       setChecked('first');
+                       setButtonStatus(false);
                     }}
                   /> 
                 <Text style={{padding: 5, fontWeight: 'bold', color: 'green', fontSize: 18, marginRight: 20}}>Accept</Text>
@@ -58,9 +61,11 @@ const ReviewRender = (props) => {
                 <View style={{ flexDirection: 'row' }}>
                   <RadioButton
                       value="second"
+                      status={ checked === 'second' ? 'checked' : 'unchecked' }
                       onPress={() => {
                         setStatus(false);
                         setStatusMessage('Not Accepted');
+                        setChecked('second');
                         setButtonStatus(false);
                     }}
                   /> 
