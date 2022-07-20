@@ -120,7 +120,7 @@ useEffect(() => {
                     }
                     }
                   >
-                   <Text style={styles.deleteText}>Delete Request</Text>
+                   <Text style={styles.deleteText}>Delete</Text>
                   </TouchableOpacity>
                   </View>
             </View>
@@ -178,7 +178,8 @@ const styles = StyleSheet.create({
   deleteText: {
     textAlign: 'center',
     padding: 4,
-    fontSize: 18,
+    paddingHorizontal: 6,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#7D0036",
     backgroundColor: '#efefef',
@@ -187,9 +188,10 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     position: 'absolute',
-    bottom: 31,
+    bottom:31,
     elevation: 5,
-    left: '35%',
+    zIndex:10000,
+    left: '55%',
     borderLeftColor: '#E9446A',
     borderLeftWidth: 1,
     borderTopColor: '#E9446A',
@@ -198,7 +200,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10
-  }
+  },
 });
 
 export default MyRequestsScreen;

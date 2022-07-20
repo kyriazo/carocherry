@@ -365,11 +365,11 @@ const styles = StyleSheet.create({
     },
     statusTextLabel: {
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 15
     },
     statusTextMessage: {
         fontWeight: 'bold',
-        fontSize: 15
+        fontSize: 14
     },
     // rideDetailsText: {
     //   textAlignVertical: 'center',
