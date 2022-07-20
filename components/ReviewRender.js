@@ -67,7 +67,7 @@ const ReviewRender = (props) => {
                 <Text style={{padding: 5, fontWeight: 'bold', color: 'red'}}>Reject</Text>
                 </View>
                 </View>
-              
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center'}}>
                 <TouchableOpacity activeOpacity={buttonStatus ? 1 : 0.2} disabled={buttonStatus} style={styles.saveButton} onPress={()=> {
                     if (status){
                     var state;
@@ -112,6 +112,10 @@ const ReviewRender = (props) => {
                 }}>
                 <Text style={{ color: "#FFF", fontWeight: "500" }}>Save</Text>
                 </TouchableOpacity>  
+                <TouchableOpacity style={styles.saveButton}>
+                <Text style={{ color: "#FFF", fontWeight: "500" }}>Close</Text>
+                </TouchableOpacity>
+                </View>
 
         </View>
     );
@@ -119,12 +123,12 @@ const ReviewRender = (props) => {
 
 const styles = StyleSheet.create({
     saveButton:{
-        marginHorizontal: 90,
         backgroundColor: "#E9446A",
         borderRadius: 4,
         height: 32,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        width: '40%'
       },
     choicesContainer:{
       flexDirection: 'row',
