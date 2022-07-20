@@ -32,6 +32,7 @@ export default class RegisterScreen extends React.Component {
                     birthYear: '',
                     miniBio: '',
                     plate: '',
+                    contactInf: '',
                     make: '',
                     model: '',
                     color: ''
